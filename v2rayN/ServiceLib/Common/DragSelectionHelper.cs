@@ -52,4 +52,28 @@ public static class DragSelectionHelper
         }
         return 0;
     }
+
+    /// <summary>
+    /// Rows to move per auto-scroll tick: 0 inside the viewport, otherwise -1 to -4 above it and 1 to 4 below it.
+    /// One row near the edge, one more for every 40 px further away, capped at 4.
+    /// </summary>
+    public static int GetAutoScrollStep(double y, double top, double bottom)
+    {
+        var direction = GetScrollDirection(y, top, bottom);
+        if (direction == 0)
+        {
+            return 0;
+        }
+        var distance = direction < 0 ? top - y : y - bottom;
+        var rows = Math.Clamp(1 + (int)(distance / 40), 1, 4);
+        return direction * rows;
+    }
+
+    /// <summary>
+    /// Moves an index by step rows, clamped to [0, count - 1].
+    /// </summary>
+    public static int Advance(int current, int step, int count)
+    {
+        return Math.Clamp(current + step, 0, Math.Max(count - 1, 0));
+    }
 }

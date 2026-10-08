@@ -467,6 +467,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
     private int _dragSelectAnchor = -1;
     private int _dragSelectFirst = -1;
     private int _dragSelectLast = -1;
+    private int _dragSelectCurrent = -1; // item index the range currently ends at while the pointer is outside the rows
     private double _dragSelectStartY;
     private double _dragSelectLastY;
     private IPointer? _dragSelectPointer;
@@ -541,7 +542,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
             _dragSelectActive = true;
             _dragSelectPointer = e.Pointer;
             e.Pointer.Capture(lstProfiles);
-            _dragSelectTimer ??= new DispatcherTimer(TimeSpan.FromMilliseconds(60), DispatcherPriority.Background, (_, _) =>
+            _dragSelectTimer ??= new DispatcherTimer(TimeSpan.FromMilliseconds(60), DispatcherPriority.Normal, (_, _) =>
             {
                 if (_dragSelectActive)
                 {
@@ -576,6 +577,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         _dragSelectAnchor = -1;
         _dragSelectFirst = -1;
         _dragSelectLast = -1;
+        _dragSelectCurrent = -1;
     }
 
     // Rows currently drawn in the list, in list coordinates, with the band the rows are drawn in.
@@ -588,9 +590,9 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         Visual? presenter = null;
         foreach (var row in lstProfiles.GetVisualDescendants().OfType<DataGridRow>())
         {
-            if (row.DataContext is not ProfileItemModel rowItem)
+            if (!row.IsVisible || row.DataContext is not ProfileItemModel rowItem)
             {
-                continue;
+                continue; // recycled rows stay in the presenter hidden, with stale geometry
             }
             if (row.TranslatePoint(default, lstProfiles) is not { } origin)
             {
@@ -612,8 +614,9 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         return true;
     }
 
-    // Finds the row under the pointer. While the pointer is above or below the rows, the row just past that edge
-    // is used and the grid scrolls towards it, so the selection keeps growing outside the viewport.
+    // Finds the row under the pointer. While the pointer is above or below the rows, the range keeps growing by
+    // item index (not by realized rows): the first tick outside starts at the visible edge row, every later tick
+    // moves the index by the auto-scroll step, and the grid scrolls to that item so it becomes realized.
     private void UpdateDragSelection()
     {
         var items = ViewModel?.ProfileItems;
@@ -627,10 +630,11 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         }
 
         var y = _dragSelectLastY;
-        var direction = DragSelectionHelper.GetScrollDirection(y, bodyTop, bodyBottom);
+        var step = DragSelectionHelper.GetAutoScrollStep(y, bodyTop, bodyBottom);
         int target;
-        if (direction == 0)
+        if (step == 0)
         {
+            _dragSelectCurrent = -1;
             var rowIndex = DragSelectionHelper.GetRowIndexAt(rows.Select(r => (r.Top, r.Height)).ToList(), y);
             if (rowIndex < 0)
             {
@@ -640,20 +644,25 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         }
         else
         {
-            var candidates = direction < 0
-                ? rows.Where(r => r.Top + r.Height > bodyTop).ToList()
-                : rows.Where(r => r.Top < bodyBottom).ToList();
-            if (candidates.Count == 0)
+            if (_dragSelectCurrent < 0)
             {
-                candidates = rows;
+                var direction = Math.Sign(step);
+                var candidates = direction < 0
+                    ? rows.Where(r => r.Top + r.Height > bodyTop).ToList()
+                    : rows.Where(r => r.Top < bodyBottom).ToList();
+                if (candidates.Count == 0)
+                {
+                    candidates = rows;
+                }
+                var edge = direction < 0 ? candidates.MinBy(r => r.Top) : candidates.MaxBy(r => r.Top);
+                _dragSelectCurrent = items.IndexOf(edge.Item);
+                if (_dragSelectCurrent < 0)
+                {
+                    return;
+                }
             }
-            var edge = direction < 0 ? candidates.MinBy(r => r.Top) : candidates.MaxBy(r => r.Top);
-            var edgeIndex = items.IndexOf(edge.Item);
-            if (edgeIndex < 0)
-            {
-                return;
-            }
-            target = Math.Clamp(edgeIndex + direction, 0, items.Count - 1);
+            _dragSelectCurrent = DragSelectionHelper.Advance(_dragSelectCurrent, step, items.Count);
+            target = _dragSelectCurrent;
         }
         if (target < 0)
         {
@@ -661,7 +670,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         }
 
         ApplyDragSelectRange(_dragSelectAnchor, target);
-        if (direction != 0)
+        if (step != 0)
         {
             lstProfiles.ScrollIntoView(items[target], null);
         }

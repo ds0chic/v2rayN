@@ -101,4 +101,37 @@ public class DragSelectionHelperTests
         await DragSelectionHelper.GetScrollDirection(10, 30, 200).Should().BeEqualTo(-1);
         await DragSelectionHelper.GetScrollDirection(200, 30, 200).Should().BeEqualTo(1);
     }
+
+    [Test]
+    public async Task GetAutoScrollStep_InsideViewport_ReturnsZero()
+    {
+        await DragSelectionHelper.GetAutoScrollStep(50, 30, 200).Should().BeEqualTo(0);
+    }
+
+    [Test]
+    public async Task GetAutoScrollStep_JustOutsideEdge_MovesOneRowTowardsThePointer()
+    {
+        await DragSelectionHelper.GetAutoScrollStep(29, 30, 200).Should().BeEqualTo(-1);
+        await DragSelectionHelper.GetAutoScrollStep(200, 30, 200).Should().BeEqualTo(1);
+        await DragSelectionHelper.GetAutoScrollStep(230, 30, 200).Should().BeEqualTo(1);
+    }
+
+    [Test]
+    public async Task GetAutoScrollStep_FarOutside_AcceleratesAndCapsAtFourRows()
+    {
+        await DragSelectionHelper.GetAutoScrollStep(-10, 30, 200).Should().BeEqualTo(-2);   // 40 px above
+        await DragSelectionHelper.GetAutoScrollStep(-50, 30, 200).Should().BeEqualTo(-3);   // 80 px above
+        await DragSelectionHelper.GetAutoScrollStep(-500, 30, 200).Should().BeEqualTo(-4);  // far above, capped
+        await DragSelectionHelper.GetAutoScrollStep(900, 30, 200).Should().BeEqualTo(4);    // far below, capped
+    }
+
+    [Test]
+    public async Task Advance_MovesByStepAndClampsToList()
+    {
+        await DragSelectionHelper.Advance(5, 4, 20).Should().BeEqualTo(9);
+        await DragSelectionHelper.Advance(5, -4, 20).Should().BeEqualTo(1);
+        await DragSelectionHelper.Advance(2, -4, 20).Should().BeEqualTo(0);
+        await DragSelectionHelper.Advance(18, 4, 20).Should().BeEqualTo(19);
+        await DragSelectionHelper.Advance(0, 0, 0).Should().BeEqualTo(0);
+    }
 }
