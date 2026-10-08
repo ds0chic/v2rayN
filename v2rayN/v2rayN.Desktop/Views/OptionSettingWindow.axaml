@@ -317,7 +317,7 @@
                                     </StackPanel>
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="24,4,0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4RayConcurrency}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxConcurrency}" />
                                     <TextBox
                                         x:Name="txtmux4RayConcurrency"
                                         Grid.Column="1"
@@ -325,7 +325,7 @@
                                         PlaceholderText="8" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="24,4,0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4RayXudpConcurrency}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxXudpConcurrency}" />
                                     <TextBox
                                         x:Name="txtmux4RayXudpConcurrency"
                                         Grid.Column="1"
@@ -333,7 +333,7 @@
                                         PlaceholderText="16" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="24,4,0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4RayXudpProxyUDP443}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxXudpProxyUdp443}" />
                                     <ComboBox
                                         x:Name="cmbmux4RayXudpProxyUDP443"
                                         Grid.Column="1"

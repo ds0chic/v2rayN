@@ -17,7 +17,6 @@
     Design.DataContext="{x:Static dd:DesignData.MainWindow}"
     Background="{DynamicResource SemiColorBackground0}"
     ExtendClientAreaTitleBarHeightHint="44"
-    ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/NotifyIcon1.ico"
     ShowInTaskbar="True"
     WindowStartupLocation="CenterScreen"
@@ -137,9 +136,11 @@
                     Grid.Column="1"
                     Margin="10,0,8,0"
                     VerticalAlignment="Center"
-                    Classes="title"
+                    FontSize="13"
+                    FontWeight="SemiBold"
                     IsHitTestVisible="False"
-                    Text="v2rayN" />
+                    Text="{Binding $parent[Window].Title}"
+                    TextTrimming="CharacterEllipsis" />
                 <Button
                     x:Name="btnNewUpdate"
                     Grid.Column="2"
@@ -153,7 +154,10 @@
                     Grid.Column="3"
                     VerticalAlignment="Center" />
                 <!-- Room for the system caption buttons drawn over the extended client area. -->
-                <Border Grid.Column="4" Width="140" />
+                <Border
+                    Grid.Column="4"
+                    Width="140"
+                    IsVisible="{Binding BlIsWindows}" />
             </Grid>
 
             <ContentControl x:Name="contentStatusBarView" DockPanel.Dock="Bottom" />

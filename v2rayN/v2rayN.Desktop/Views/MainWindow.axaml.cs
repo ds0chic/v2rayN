@@ -22,6 +22,9 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
     {
         InitializeComponent();
 
+        // The unified toolbar replaces the native title bar on Windows only; macOS/Linux keep their native frame.
+        ExtendClientAreaToDecorationsHint = Utils.IsWindows();
+
         _config = AppManager.Instance.Config;
         _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.TopRight };
 

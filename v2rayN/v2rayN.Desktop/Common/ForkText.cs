@@ -16,6 +16,10 @@ public static class ForkText
     public static string TabSpeedSub => Pick("测速与订阅", "測速與訂閱", "Speed test & subscription");
     public static string TabRulesResources => Pick("规则与资源", "規則與資源", "Rules & resources");
 
+    public static string MuxConcurrency => Pick("并发数 (concurrency)", "並行數 (concurrency)", "Xray Mux concurrency");
+    public static string MuxXudpConcurrency => Pick("XUDP 并发数", "XUDP 並行數", "Xray Mux XUDP concurrency");
+    public static string MuxXudpProxyUdp443 => Pick("XUDP 代理 UDP443", "XUDP 代理 UDP443", "Xray Mux XUDP proxy UDP443");
+
     public static string FragmentStateOn => Pick("已启用", "已啟用", "On");
     public static string FragmentStateOff => Pick("已关闭", "已關閉", "Off");
 
