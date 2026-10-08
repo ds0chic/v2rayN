@@ -44,6 +44,8 @@ public static class ForkText
     public static string ThemeDark => Pick("深色", "深色", "Dark");
     public static string ThemeLight => Pick("浅色", "淺色", "Light");
 
+    public static string ShowTrafficColumns => Pick("显示流量统计列", "顯示流量統計欄", "Show traffic statistics columns");
+
     public static string LanShareTitle =>Pick("局域网共享", "區域網路共享", "LAN sharing");
 
     public static string LanShareStatusLabel => Pick("当前状态", "目前狀態", "Current status");

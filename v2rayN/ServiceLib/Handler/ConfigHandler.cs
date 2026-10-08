@@ -103,6 +103,7 @@ public static class ConfigHandler
 
         config.UiItem ??= new();
         config.UiItem.MainColumnItem ??= [];
+        ForkConfigUpgrade.Apply(config.UiItem); //fork: one-time UI defaults (autofit on, traffic columns hidden)
         config.UiItem.WindowSizeItem ??= [];
 
         if (config.UiItem.CurrentLanguage.IsNullOrEmpty())

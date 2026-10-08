@@ -347,6 +347,11 @@ public partial class MainWindowViewModel : MyReactiveObject
         await RefreshServersDispatcherAsync();
 
         await Reload();
+
+        if (_config.UiItem.EnableAutoAdjustMainLvColWidth) //fork: auto-fit columns at startup too, not only after a subscription update
+        {
+            await ProfilesViewModel.AdjustMainLvColWidth();
+        }
     }
 
     #endregion Init

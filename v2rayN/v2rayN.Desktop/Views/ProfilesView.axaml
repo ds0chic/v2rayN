@@ -2,6 +2,7 @@
     x:Class="v2rayN.Desktop.Views.ProfilesView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:conv="using:v2rayN.Desktop.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
@@ -215,10 +216,36 @@
                             <MenuItem x:Name="menuGenGroupAllServer" Header="{x:Static resx:ResUI.menuAllServers}" />
                             <MenuItem x:Name="menuGenGroupRegionServer" Header="{x:Static resx:ResUI.menuGenRegionGroup}" />
                         </MenuItem>
+                        <Separator />
+                        <MenuItem
+                            x:Name="menuShowTrafficColumns"
+                            Header="{x:Static common:ForkText.ShowTrafficColumns}"
+                            ToggleType="CheckBox" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
                 <DataGrid.Columns>
+                    <DataGridTemplateColumn
+                        Width="36"
+                        CanUserReorder="False"
+                        CanUserResize="False"
+                        CanUserSort="False">
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox
+                                x:Name="chkSelectAllProfiles"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Click="RowSelectCheckBox_Click"
+                                    IsChecked="{Binding $parent[DataGridRow].IsSelected, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn
                         Width="80"
                         Binding="{Binding ConfigType}"

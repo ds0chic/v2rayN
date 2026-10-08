@@ -17,6 +17,8 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
         menuSelectAll.Click += menuSelectAll_Click;
         btnAutofitColumnWidth.Click += BtnAutofitColumnWidth_Click;
+        chkSelectAllProfiles.Click += ChkSelectAllProfiles_Click;
+        menuShowTrafficColumns.Click += MenuShowTrafficColumns_Click;
         txtServerFilter.KeyDown += TxtServerFilter_KeyDown;
         lstProfiles.KeyDown += LstProfiles_KeyDown;
         lstProfiles.SelectionChanged += lstProfiles_SelectionChanged;
@@ -193,6 +195,76 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         {
             ViewModel.SelectedProfiles = lstProfiles.SelectedItems.Cast<ProfileItemModel>().ToList();
         }
+        SyncSelectAllCheckBox();
+    }
+
+    // Header checkbox: checked = all rows selected, indeterminate = some selected, unchecked = none.
+    private void SyncSelectAllCheckBox()
+    {
+        var total = ViewModel?.ProfileItems.Count ?? 0;
+        var selected = lstProfiles.SelectedItems.Count;
+        if (selected == 0)
+        {
+            chkSelectAllProfiles.IsChecked = false;
+        }
+        else if (selected >= total)
+        {
+            chkSelectAllProfiles.IsChecked = true;
+        }
+        else
+        {
+            chkSelectAllProfiles.IsChecked = null;
+        }
+    }
+
+    private void ChkSelectAllProfiles_Click(object? sender, RoutedEventArgs e)
+    {
+        if (chkSelectAllProfiles.IsChecked == true)
+        {
+            lstProfiles.SelectAll();
+        }
+        else
+        {
+            lstProfiles.SelectedItems.Clear();
+        }
+    }
+
+    // Row checkbox: adds or removes only this row, so the other selected rows stay selected.
+    private void RowSelectCheckBox_Click(object? sender, RoutedEventArgs e)
+    {
+        if (sender is not CheckBox { DataContext: ProfileItemModel item } checkBox)
+        {
+            return;
+        }
+        if (checkBox.IsChecked == true)
+        {
+            if (!lstProfiles.SelectedItems.Contains(item))
+            {
+                lstProfiles.SelectedItems.Add(item);
+            }
+        }
+        else
+        {
+            lstProfiles.SelectedItems.Remove(item);
+        }
+    }
+
+    private void MenuShowTrafficColumns_Click(object? sender, RoutedEventArgs e)
+    {
+        var visible = !lstProfiles.Columns.Any(t => t.Tag is "TodayUp" && t.IsVisible);
+        SetTrafficColumnsVisible(visible);
+    }
+
+    private void SetTrafficColumnsVisible(bool visible)
+    {
+        foreach (var it in lstProfiles.Columns)
+        {
+            if (it.Tag is "TodayUp" or "TodayDown" or "TotalUp" or "TotalDown")
+            {
+                it.IsVisible = visible;
+            }
+        }
+        menuShowTrafficColumns.IsChecked = visible;
     }
 
     private void LstProfiles_DoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
@@ -201,6 +273,10 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         if (source?.Name == "HeaderBackground")
         {
             return;
+        }
+        if (e.Source is Visual checkSource && checkSource.FindAncestorOfType<CheckBox>(true) != null)
+        {
+            return; //fork: double-clicking a row checkbox only toggles its selection
         }
 
         if (_config.UiItem.DoubleClick2Activate)
@@ -328,6 +404,10 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
             foreach (var it in lstProfiles.Columns)
             {
+                if (it.Tag == null)
+                {
+                    continue; //fork: the checkbox column keeps its fixed width
+                }
                 it.Width = new DataGridLength(1, DataGridLengthUnitType.Auto);
             }
         }
@@ -376,7 +456,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
                         }
                         if (item.Name.StartsWith("to", StringComparison.CurrentCultureIgnoreCase))
                         {
-                            item2.IsVisible = _config.GuiItem.EnableStatistics;
+                            item2.IsVisible = _config.GuiItem.EnableStatistics && item.Width >= 0;
                         }
                         if (item.Name.Equals("IpInfo", StringComparison.CurrentCultureIgnoreCase))
                         {
@@ -385,6 +465,12 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
                     }
                 }
             }
+            if (lstProfiles.Columns.FirstOrDefault(t => t.Header is CheckBox) is { } selectColumn)
+            {
+                selectColumn.DisplayIndex = 0; //fork: the checkbox column stays first
+            }
+            menuShowTrafficColumns.IsEnabled = _config.GuiItem.EnableStatistics;
+            menuShowTrafficColumns.IsChecked = lstProfiles.Columns.Any(t => t.Tag is "TodayUp" && t.IsVisible);
         }
         catch (Exception ex)
         {
