@@ -23,6 +23,14 @@
         <Setter Property="Opacity" Value="0" />
     </Style>
 
+    <!-- The caption fullscreen (expand) button is not wanted; hide it with the other caption buttons intact. -->
+    <Style Selector="WindowDrawnDecorations /template/ Button#PART_FullScreenButton">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="WindowDrawnDecorations /template/ Button#PART_PopoverFullScreenButton">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+
     <!-- Surfaces -->
     <Style Selector="Border.card">
         <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />

@@ -2619,7 +2619,7 @@ public static class ConfigHandler
     /// <returns>0 if successful</returns>
     public static async Task<int> InitBuiltinRouting(Config config, bool blImportAdvancedRules = false)
     {
-        var ver = "V4-";
+        var ver = ForkRoutingUpgrade.Version;
         var items = await AppManager.Instance.RoutingItems();
 
         //TODO Temporary code to be removed later
@@ -2644,6 +2644,7 @@ public static class ConfigHandler
                 config.RoutingBasicItem.RoutingIndexId = string.Empty;
             }
 
+            await ForkRoutingUpgrade.UpgradeAsync(items); //fork: move unmodified V4- sets to V4V6-
             return 0;
         }
 
@@ -2654,6 +2655,7 @@ public static class ConfigHandler
             Remarks = $"{ver}绕过大陆(Whitelist)",
             Url = string.Empty,
             Sort = maxSort + 1,
+            DomainStrategy = ForkRoutingUpgrade.DomainStrategyFor("white"),
         };
         await AddBatchRoutingRules(item2, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "white"));
 
@@ -2663,6 +2665,7 @@ public static class ConfigHandler
             Remarks = $"{ver}黑名单(Blacklist)",
             Url = string.Empty,
             Sort = maxSort + 2,
+            DomainStrategy = ForkRoutingUpgrade.DomainStrategyFor("black"),
         };
         await AddBatchRoutingRules(item3, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "black"));
 
@@ -2672,6 +2675,7 @@ public static class ConfigHandler
             Remarks = $"{ver}全局(Global)",
             Url = string.Empty,
             Sort = maxSort + 3,
+            DomainStrategy = ForkRoutingUpgrade.DomainStrategyFor("global"),
         };
         await AddBatchRoutingRules(item1, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "global"));
 

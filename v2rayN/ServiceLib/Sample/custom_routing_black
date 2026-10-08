@@ -7,27 +7,7 @@
     ]
   },
   {
-    "remarks": "api.ip.sb",
-    "outboundTag": "proxy",
-    "domain": [
-      "api.ip.sb"
-    ]
-  },
-  {
-    "remarks": "阻断udp443",
-    "outboundTag": "block",
-    "port": "443",
-    "network": "udp"
-  },
-  {
-    "remarks": "代理Google",
-    "outboundTag": "proxy",
-    "domain": [
-      "geosite:google"
-    ]
-  },
-  {
-    "remarks": "绕过局域网IP",
+    "remarks": "绕过局域网IP(含IPv6)",
     "outboundTag": "direct",
     "ip": [
       "geoip:private"
@@ -38,6 +18,26 @@
     "outboundTag": "direct",
     "domain": [
       "geosite:private"
+    ]
+  },
+  {
+    "remarks": "阻断udp443",
+    "outboundTag": "block",
+    "port": "443",
+    "network": "udp"
+  },
+  {
+    "remarks": "api.ip.sb",
+    "outboundTag": "proxy",
+    "domain": [
+      "api.ip.sb"
+    ]
+  },
+  {
+    "remarks": "代理Google",
+    "outboundTag": "proxy",
+    "domain": [
+      "geosite:google"
     ]
   },
   {

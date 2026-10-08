@@ -1,19 +1,6 @@
 [
   {
-    "remarks": "阻断udp443",
-    "outboundTag": "block",
-    "port": "443",
-    "network": "udp"
-  },
-  {
-    "remarks": "代理Google",
-    "outboundTag": "proxy",
-    "domain": [
-      "geosite:google"
-    ]
-  },
-  {
-    "remarks": "绕过局域网IP",
+    "remarks": "绕过局域网IP(含IPv6)",
     "outboundTag": "direct",
     "ip": [
       "geoip:private"
@@ -79,17 +66,42 @@
     ]
   },
   {
-    "remarks": "绕过中国IP",
+    "remarks": "绕过国内域名(含苹果/谷歌国内/系统更新)",
     "outboundTag": "direct",
-    "ip": [
-      "geoip:cn"
+    "domain": [
+      "geosite:cn",
+      "geosite:apple-cn",
+      "geosite:google-cn",
+      "geosite:win-update"
     ]
   },
   {
-    "remarks": "绕过中国域名",
-    "outboundTag": "direct",
+    "remarks": "阻断udp443(回落TCP)",
+    "outboundTag": "block",
+    "port": "443",
+    "network": "udp"
+  },
+  {
+    "remarks": "代理Google",
+    "outboundTag": "proxy",
     "domain": [
-      "geosite:cn"
+      "geosite:google"
+    ]
+  },
+  {
+    "remarks": "代理海外域名",
+    "outboundTag": "proxy",
+    "domain": [
+      "geosite:gfw",
+      "geosite:greatfire",
+      "geosite:geolocation-!cn"
+    ]
+  },
+  {
+    "remarks": "绕过中国IP(v4+v6,域名解析后匹配)",
+    "outboundTag": "direct",
+    "ip": [
+      "geoip:cn"
     ]
   }
 ]
