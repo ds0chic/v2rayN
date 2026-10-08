@@ -455,7 +455,7 @@ public partial class MainWindowViewModel : MyReactiveObject
             IsSub = false,
         };
 
-        bool? ret = false;
+        bool? ret;
         if (eConfigType is EConfigType.Custom or EConfigType.Outbound)
         {
             var addServer2ViewModel = new AddServer2ViewModel(item);

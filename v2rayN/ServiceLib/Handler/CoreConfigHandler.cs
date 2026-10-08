@@ -10,7 +10,7 @@ public static class CoreConfigHandler
     public static async Task<RetResult> GenerateClientConfig(CoreConfigContext context, string? fileName)
     {
         var config = AppManager.Instance.Config;
-        var result = new RetResult();
+        RetResult result;
         var node = context.Node;
 
         if (node.ConfigType == EConfigType.Custom)
@@ -127,7 +127,7 @@ public static class CoreConfigHandler
 
     public static async Task<RetResult> GenerateClientSpeedtestConfig(Config config, CoreConfigContext context, ServerTestItem testItem, string fileName)
     {
-        var result = new RetResult();
+        RetResult result;
         var initPort = AppManager.Instance.GetLocalPort(EInboundProtocol.speedtest);
         var port = Utils.GetFreePort(initPort + testItem.QueueNum);
         testItem.Port = port;

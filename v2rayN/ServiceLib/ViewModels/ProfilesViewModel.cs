@@ -472,7 +472,7 @@ public partial class ProfilesViewModel : MyReactiveObject
         }
         var eConfigType = item.ConfigType;
 
-        bool? ret = false;
+        bool? ret;
         if (eConfigType is EConfigType.Custom or EConfigType.Outbound)
         {
             var addServer2ViewModel = new AddServer2ViewModel(item);

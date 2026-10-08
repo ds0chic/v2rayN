@@ -91,7 +91,7 @@ public static class SysProxyHandler
             strExceptions = $"<local>;{strExceptions}";
         }
 
-        var strProxy = string.Empty;
+        string strProxy;
         if (config.SystemProxyItem.SystemProxyAdvancedProtocol.IsNullOrEmpty())
         {
             strProxy = $"{Global.Loopback}:{port}";
