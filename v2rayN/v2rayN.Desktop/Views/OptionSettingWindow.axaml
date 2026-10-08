@@ -71,7 +71,7 @@
                 IsCancel="True" />
         </StackPanel>
 
-        <TabControl Classes="settingsNav" HorizontalContentAlignment="Stretch" TabStripPlacement="Left">
+        <TabControl x:Name="tabSettings" Classes="settingsNav" HorizontalContentAlignment="Stretch" TabStripPlacement="Left">
 
             <!--  Core: local ports, LAN access and authentication  -->
             <TabItem Header="{x:Static common:ForkText.TabLocalPorts}">

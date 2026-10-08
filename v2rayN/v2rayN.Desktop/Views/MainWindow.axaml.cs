@@ -390,7 +390,6 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
     private void UncloakAfterFirstFrame()
     {
-        var sw = System.Diagnostics.Stopwatch.StartNew();
         var done = false;
         void Uncloak()
         {
@@ -399,7 +398,6 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
                 return;
             }
             done = true;
-            Logging.SaveLog($"Tray show: first frame ready after {sw.ElapsedMilliseconds}ms");
             // Fully transparent first, then reveal, so no opaque frame can slip through before the fade starts.
             Opacity = 0;
             WindowCloakHelper.TrySetCloaked(this, false);
