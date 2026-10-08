@@ -15,6 +15,7 @@ public class CoreManager
     private ProcessService? _processService;
     private ProcessService? _processPreService;
     private bool _linuxSudo = false;
+    private bool _tunStarted = false;
     private Func<bool, string, Task>? _updateFunc;
     private const string _tag = "CoreHandler";
 
@@ -85,14 +86,24 @@ public class CoreManager
         await CoreStop();
         await Task.Delay(100);
 
-        if (Utils.IsWindows() && (mainContext?.IsTunEnabled == true || preContext?.IsTunEnabled == true))
+        var tunRequested = mainContext?.IsTunEnabled == true || preContext?.IsTunEnabled == true;
+        if (Utils.IsWindows() && tunRequested)
         {
             await Task.Delay(100);
             await WindowsUtils.RemoveTunDevice();
         }
 
+        // Set before starting so that CoreStop cleans up even if a start fails halfway
+        _tunStarted = tunRequested;
+
         await CoreStart(mainContext);
-        await WaitForProxyPort(preContext);
+        if (!await WaitForProxyPort(preContext))
+        {
+            // The proxy core is running but the TUN front end was not started against a dead upstream
+            AppManager.Instance.RunningCoreType = mainContext.RunCoreType;
+            await UpdateFunc(true, ResUI.MsgTunProxyPortNotReady);
+            return;
+        }
         await CoreStartPreService(preContext);
 
         AppManager.Instance.RunningCoreType = preContext?.RunCoreType ?? mainContext.RunCoreType;
@@ -154,6 +165,13 @@ public class CoreManager
                 _linuxSudo = false;
             }
 
+            if (_processPreService != null)
+            {
+                await _processPreService.StopAsync();
+                _processPreService.Dispose();
+                _processPreService = null;
+            }
+
             if (_processService != null)
             {
                 await _processService.StopAsync();
@@ -161,11 +179,11 @@ public class CoreManager
                 _processService = null;
             }
 
-            if (_processPreService != null)
+            if (_tunStarted && Utils.IsWindows())
             {
-                await _processPreService.StopAsync();
-                _processPreService.Dispose();
-                _processPreService = null;
+                await Task.Delay(100);
+                await WindowsUtils.RemoveTunDevice();
+                _tunStarted = false;
             }
         }
         catch (Exception ex)
@@ -216,15 +234,15 @@ public class CoreManager
         await _updateFunc?.Invoke(notify, msg);
     }
 
-    private static async Task WaitForProxyPort(CoreConfigContext? preContext)
+    private async Task<bool> WaitForProxyPort(CoreConfigContext? preContext)
     {
         if (preContext is null)
         {
-            return;
+            return true;
         }
         if (!preContext.IsTunEnabled)
         {
-            return;
+            return true;
         }
 
         using var rootCts = new CancellationTokenSource(Global.LocalFetch);
@@ -253,8 +271,11 @@ public class CoreManager
                 // Server selection: VER=5, METHOD=0x00 — proxy is fully ready
                 if (read == 2 && buf[0] == 0x05)
                 {
-                    return;
+                    return true;
                 }
+
+                // Connection closed or unexpected reply: back off instead of spinning
+                await Task.Delay(50, linkedToken);
             }
             catch (OperationCanceledException)
             {
@@ -263,7 +284,7 @@ public class CoreManager
                     continue;
                 }
                 Logging.SaveLog($"WaitForProxyPort Timeout waiting for proxy port {port} to be ready.");
-                return;
+                return false;
             }
             catch (SocketException ex) when (ex.SocketErrorCode == SocketError.ConnectionRefused)
             {
@@ -275,14 +296,26 @@ public class CoreManager
                 catch (OperationCanceledException)
                 {
                     Logging.SaveLog($"WaitForProxyPort Timeout waiting for proxy port {port} to be ready.");
-                    return;
+                    return false;
                 }
             }
             catch
             {
                 // Ignore other exceptions and continue
+                try
+                {
+                    await Task.Delay(50, rootToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    Logging.SaveLog($"WaitForProxyPort Timeout waiting for proxy port {port} to be ready.");
+                    return false;
+                }
             }
         }
+
+        Logging.SaveLog($"WaitForProxyPort Timeout waiting for proxy port {port} to be ready.");
+        return false;
     }
 
     #endregion Private

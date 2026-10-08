@@ -112,14 +112,11 @@ public partial class StatusBarViewModel : MyReactiveObject
         BlSystemProxyPacVisible = Utils.IsWindows();
         BlIsNonWindows = Utils.IsNonWindows();
 
-        if (_config.TunModeItem.EnableTun && AllowEnableTun())
-        {
-            EnableTun = true;
-        }
-        else
-        {
-            _config.TunModeItem.EnableTun = EnableTun = false;
-        }
+        // Restore the TUN state of the last session; configs from older versions only have EnableTun.
+        var tunItem = _config.TunModeItem;
+        (tunItem.EnableTun, tunItem.LastEnableTun) =
+            ResolveTunOnStartup(tunItem.EnableTun, tunItem.LastEnableTun, AllowEnableTun());
+        EnableTun = tunItem.EnableTun;
 
         #region WhenAnyValue && ReactiveCommand
 
@@ -441,8 +438,17 @@ public partial class StatusBarViewModel : MyReactiveObject
             // When running as a non-administrator, reboot to administrator mode
             if (Utils.IsWindows())
             {
+                // The elevated instance restores TUN from LastEnableTun on startup
                 _config.TunModeItem.EnableTun = false;
-                await AppManager.Instance.RebootAsAdmin();
+                _config.TunModeItem.LastEnableTun = true;
+                await ConfigHandler.SaveConfig(_config);
+                if (!await AppManager.Instance.RebootAsAdmin())
+                {
+                    // Elevation was declined: keep running and put the toggle back
+                    _config.TunModeItem.LastEnableTun = false;
+                    await ConfigHandler.SaveConfig(_config);
+                    EnableTun = false;
+                }
                 return;
             }
             else
@@ -451,13 +457,26 @@ public partial class StatusBarViewModel : MyReactiveObject
                 if (password.IsNullOrEmpty())
                 {
                     _config.TunModeItem.EnableTun = false;
+                    EnableTun = false;
                     return;
                 }
             }
         }
 
+        _config.TunModeItem.LastEnableTun = EnableTun;
         await ConfigHandler.SaveConfig(_config);
         ReloadRequested.Publish();
+    }
+
+    /// <summary>
+    ///     Decides the TUN state at startup. The last choice is restored when the process may enable TUN;
+    ///     otherwise TUN stays off but the choice is kept, so a later privileged start can restore it.
+    ///     Configs from older versions only have <paramref name="enableTun" />.
+    /// </summary>
+    public static (bool Enable, bool Remembered) ResolveTunOnStartup(bool enableTun, bool lastEnableTun, bool allowed)
+    {
+        var wanted = enableTun || lastEnableTun;
+        return (wanted && allowed, wanted);
     }
 
     private bool AllowEnableTun()

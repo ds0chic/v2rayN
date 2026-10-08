@@ -52,6 +52,28 @@ internal static class WindowsUtils
         }
     }
 
+    public static Guid GetTunDeviceGuid(string deviceName)
+    {
+        return new Guid(MD5.HashData(Encoding.UTF8.GetBytes(deviceName)));
+    }
+
+    public static async Task<bool> IsTunDevicePresent(string tunName)
+    {
+        try
+        {
+            var guid = GetTunDeviceGuid(tunName);
+            var pnpUtilPath = @"C:\Windows\System32\pnputil.exe";
+            var arg = $$""" /enum-devices /instanceid "SWD\Wintun\{{{guid}}}" """;
+
+            var output = await Utils.GetCliWrapOutput(pnpUtilPath, arg);
+            return output?.Contains(guid.ToString(), StringComparison.OrdinalIgnoreCase) ?? false;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public static async Task RemoveTunDevice()
     {
         var tunNameList = new List<string> { "wintunsingbox_tun", "xray_tun" };
@@ -59,13 +81,31 @@ internal static class WindowsUtils
         {
             try
             {
-                var sum = MD5.HashData(Encoding.UTF8.GetBytes(tunName));
-                var guid = new Guid(sum);
+                if (!await IsTunDevicePresent(tunName))
+                {
+                    continue;
+                }
+
+                var guid = GetTunDeviceGuid(tunName);
                 var pnpUtilPath = @"C:\Windows\System32\pnputil.exe";
                 var arg = $$""" /remove-device  "SWD\Wintun\{{{guid}}}" """;
 
-                // Try to remove the device
                 _ = await Utils.GetCliWrapOutput(pnpUtilPath, arg);
+
+                var stopTime = DateTime.UtcNow.AddSeconds(3);
+                while (DateTime.UtcNow < stopTime)
+                {
+                    if (!await IsTunDevicePresent(tunName))
+                    {
+                        break;
+                    }
+                    await Task.Delay(200);
+                }
+
+                if (await IsTunDevicePresent(tunName))
+                {
+                    Logging.SaveLog($"TUN device {tunName} still present after removal");
+                }
             }
             catch (Exception ex)
             {

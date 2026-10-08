@@ -152,10 +152,16 @@ public sealed class AppManager
         AppEvents.ShutdownRequested.Publish(byUser);
     }
 
-    public async Task RebootAsAdmin()
+    /// <returns>false when the elevated instance was not started (e.g. UAC declined); the app keeps running.</returns>
+    public async Task<bool> RebootAsAdmin()
     {
-        ProcUtils.RebootAsAdmin();
+        if (!ProcUtils.RebootAsAdmin())
+        {
+            return false;
+        }
+
         await AppManager.Instance.AppExitAsync(true);
+        return true;
     }
 
     #endregion App

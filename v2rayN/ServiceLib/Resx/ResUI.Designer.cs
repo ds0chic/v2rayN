@@ -2327,7 +2327,16 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("MsgTunRouteExcludeInvalidAddress", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 The proxy core did not become ready in time; TUN was not started. 的本地化字符串。
+        /// </summary>
+        public static string MsgTunProxyPortNotReady {
+            get {
+                return ResourceManager.GetString("MsgTunProxyPortNotReady", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 Unpacking... 的本地化字符串。
         /// </summary>
