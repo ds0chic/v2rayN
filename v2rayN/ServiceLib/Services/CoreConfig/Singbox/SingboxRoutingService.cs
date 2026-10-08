@@ -117,7 +117,8 @@ public partial class CoreConfigSingboxService
             {
                 _coreConfig.route.rules.Add(new()
                 {
-                    action = "sniff"
+                    action = "sniff",
+                    sniffer = BuildSniffers(_config.Inbound.First().DestOverride)
                 });
                 _coreConfig.route.rules.Add(new()
                 {
@@ -605,5 +606,20 @@ public partial class CoreConfigSingboxService
         FillRangeProxy(proxyOutbounds, _coreConfig, false);
 
         return tag;
+    }
+
+    private static List<string>? BuildSniffers(List<string>? destOverride)
+    {
+        if (destOverride is not { Count: > 0 })
+        {
+            return null;
+        }
+        var list = destOverride.Where(p => p is "http" or "tls" or "quic").Distinct().ToList();
+        if (list.Count == 0)
+        {
+            return null;
+        }
+        list.Add("dns");
+        return list;
     }
 }
