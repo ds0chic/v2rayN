@@ -16,6 +16,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        ActualThemeVariantChanged += (_, _) => DarkTitleBarHelper.ApplyToAllWindows();
+
         var viewLocator = SimpleViewLocator.Instance;
         DataTemplates.Add(viewLocator);
 
