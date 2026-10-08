@@ -79,7 +79,7 @@ public partial class LanShareCard : UserControl
 
     private void RefreshStatus()
     {
-        var state = LanShareHelper.GetState(_vm!.AllowLANConn, _vm.NewPort4LAN, _vm.User, _vm.Pass);
+        var state = LanShare.GetState(_vm!.AllowLANConn, _vm.NewPort4LAN, _vm.User, _vm.Pass);
         string text;
         string? warn;
         string statusClass;
@@ -126,15 +126,15 @@ public partial class LanShareCard : UserControl
 
         var index = Math.Clamp(cmbLanIp.SelectedIndex, 0, _addresses.Count - 1);
         var ip = _addresses[index].Ip;
-        var port = LanShareHelper.GetLanPort(_vm.LocalPort, _vm.NewPort4LAN);
-        var withAuth = LanShareHelper.AuthApplies(allow, _vm.NewPort4LAN, _vm.User, _vm.Pass);
+        var port = LanShare.GetLanPort(_vm.LocalPort, _vm.NewPort4LAN);
+        var withAuth = LanShare.AuthApplies(allow, _vm.NewPort4LAN, _vm.User, _vm.Pass);
 
-        _httpUrl = LanShareHelper.BuildProxyUrl("http", ip, port, _vm.User, _vm.Pass, withAuth);
-        _socksUrl = LanShareHelper.BuildProxyUrl("socks5", ip, port, _vm.User, _vm.Pass, withAuth);
+        _httpUrl = LanShare.BuildProxyUrl("http", ip, port, _vm.User, _vm.Pass, withAuth);
+        _socksUrl = LanShare.BuildProxyUrl("socks5", ip, port, _vm.User, _vm.Pass, withAuth);
 
         txtLanPort.Text = port.ToString();
-        txtLanHttpProxy.Text = LanShareHelper.BuildProxyUrl("http", ip, port, _vm.User, _vm.Pass, withAuth, !_showPassword);
-        txtLanSocksProxy.Text = LanShareHelper.BuildProxyUrl("socks5", ip, port, _vm.User, _vm.Pass, withAuth, !_showPassword);
+        txtLanHttpProxy.Text = LanShare.BuildProxyUrl("http", ip, port, _vm.User, _vm.Pass, withAuth, !_showPassword);
+        txtLanSocksProxy.Text = LanShare.BuildProxyUrl("socks5", ip, port, _vm.User, _vm.Pass, withAuth, !_showPassword);
 
         btnToggleLanPassword.IsVisible = withAuth;
         btnToggleLanPassword.Content = _showPassword ? ForkText.LanShareHidePassword : ForkText.LanShareShowPassword;
@@ -161,12 +161,12 @@ public partial class LanShareCard : UserControl
         _vm.NewPort4LAN = true;
         if (_vm.User.IsNullOrEmpty())
         {
-            _vm.User = LanShareHelper.GenerateRandomUser();
+            _vm.User = LanShare.GenerateRandomUser();
         }
 
         if (_vm.Pass.IsNullOrEmpty())
         {
-            _vm.Pass = LanShareHelper.GenerateRandomPass();
+            _vm.Pass = LanShare.GenerateRandomPass();
         }
 
         txtLanShareApplied.Text = ForkText.LanShareApplied;
@@ -186,7 +186,7 @@ public partial class LanShareCard : UserControl
             return;
         }
 
-        var port = LanShareHelper.GetLanPort(_vm.LocalPort, _vm.NewPort4LAN);
+        var port = LanShare.GetLanPort(_vm.LocalPort, _vm.NewPort4LAN);
         var confirm = await UI.ShowYesNo($"{ForkText.LanFirewallConfirm}\nTCP {port}");
         if (confirm != ButtonResult.Yes)
         {
