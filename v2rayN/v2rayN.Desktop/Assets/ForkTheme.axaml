@@ -111,6 +111,13 @@
         </Setter>
     </Style>
 
+    <!-- Pages cross-fade briefly instead of snapping, so switching tabs never feels like a cut. -->
+    <Style Selector="TabControl">
+        <Setter Property="PageTransition">
+            <CrossFade Duration="0:0:0.16" />
+        </Setter>
+    </Style>
+
     <!-- Controls: a little more compact and rounded than the Semi default. -->
     <Style Selector="Button">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />

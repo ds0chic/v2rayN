@@ -882,7 +882,7 @@
                                     <TextBox
                                         x:Name="txtCustomSystemProxyScriptPath"
                                         Grid.Column="1"
-                                        Width="500"
+                                        Width="380"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         PlaceholderText="proxy_set.sh"
@@ -917,7 +917,7 @@
                                     <TextBox
                                         x:Name="txtCustomSystemProxyPacPath"
                                         Grid.Column="1"
-                                        Width="500"
+                                        Width="380"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         PlaceholderText="pac.txt"
