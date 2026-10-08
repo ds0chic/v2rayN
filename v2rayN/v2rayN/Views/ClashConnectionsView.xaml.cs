@@ -60,11 +60,6 @@ public partial class ClashConnectionsView
         }
     }
 
-    private void btnClose_Click(object sender, System.Windows.RoutedEventArgs e)
-    {
-        ViewModel?.ClashConnectionClose(false);
-    }
-
     #region UI
 
     private void RestoreUI()

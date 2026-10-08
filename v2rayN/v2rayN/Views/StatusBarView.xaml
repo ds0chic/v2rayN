@@ -46,7 +46,6 @@
                 </StackPanel>
 
                 <StackPanel
-                    x:Name="spEnableTun"
                     Width="Auto"
                     Margin="{StaticResource MarginLeftRight8}"
                     VerticalAlignment="Center"

@@ -2,13 +2,9 @@ namespace v2rayN.Views;
 
 public partial class FullConfigTemplateWindow
 {
-    private static Config _config;
-
     public FullConfigTemplateWindow()
     {
         InitializeComponent();
-
-        _config = AppManager.Instance.Config;
 
         this.WhenActivated(disposables =>
         {

@@ -1,6 +1,3 @@
-using System.Drawing;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 
 namespace v2rayN.Common;
@@ -41,14 +38,6 @@ internal static partial class WindowsUtils
 
     [LibraryImport("dwmapi.dll")]
     public static partial int DwmSetWindowAttribute(nint hwnd, DWMWINDOWATTRIBUTE attribute, ref int attributeValue, uint attributeSize);
-
-    public static ImageSource IconToImageSource(Icon icon)
-    {
-        return Imaging.CreateBitmapSourceFromHIcon(
-            icon.Handle,
-            new Int32Rect(0, 0, icon.Width, icon.Height),
-            BitmapSizeOptions.FromEmptyOptions());
-    }
 
     public static void SetDarkBorder(Window window, string? theme)
     {

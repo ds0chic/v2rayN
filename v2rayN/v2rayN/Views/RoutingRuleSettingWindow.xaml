@@ -240,7 +240,7 @@
                 Style="{StaticResource DefButton}" />
         </Grid>
 
-        <TabControl x:Name="tabAdvanced">
+        <TabControl>
             <TabItem HorizontalAlignment="Left" Header="{x:Static resx:ResUI.menuRuleList}">
                 <DataGrid
                     x:Name="lstRules"

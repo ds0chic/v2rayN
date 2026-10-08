@@ -2,13 +2,9 @@ namespace v2rayN.Views;
 
 public partial class DNSSettingWindow
 {
-    private static Config _config;
-
     public DNSSettingWindow()
     {
         InitializeComponent();
-
-        _config = AppManager.Instance.Config;
 
         cmbDirectDNSStrategy.ItemsSource = Global.DomainStrategy;
         cmbRemoteDNSStrategy.ItemsSource = Global.DomainStrategy;
