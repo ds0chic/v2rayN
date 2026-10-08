@@ -20,6 +20,7 @@
         <semi:SemiTheme />
         <semi:AvaloniaEditSemiTheme />
         <StyleInclude Source="Assets/GlobalStyles.axaml" />
+        <StyleInclude Source="Assets/ForkTheme.axaml" />
         <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
         <dialogHost:DialogHostStyles />
 

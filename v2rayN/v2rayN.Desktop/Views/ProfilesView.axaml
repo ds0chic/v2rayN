@@ -17,9 +17,16 @@
     <UserControl.Resources>
         <conv:DelayColorConverter x:Key="DelayColorConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Border
+        Margin="0"
+        Padding="0"
+        ClipToBounds="True"
+        Classes="card">
         <DockPanel>
-            <WrapPanel Margin="2" DockPanel.Dock="Top">
+            <Grid
+                Margin="12,10,12,8"
+                ColumnDefinitions="*,Auto"
+                DockPanel.Dock="Top">
                 <ListBox
                     x:Name="lstGroup"
                     Margin="{StaticResource MarginLr4}"
@@ -41,11 +48,15 @@
                     </ListBox.ContextMenu>
                 </ListBox>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="2">
                     <Button
                         x:Name="btnEditSub"
-                        Margin="{StaticResource MarginLr4}"
-                        Classes="IconButton Success"
+                        Margin="2,0"
+                        Classes="IconButton"
                         ToolTip.Tip="{x:Static resx:ResUI.menuSubEdit}">
                         <Button.Content>
                             <PathIcon Data="{StaticResource SemiIconEdit}" />
@@ -53,8 +64,8 @@
                     </Button>
                     <Button
                         x:Name="btnAddSub"
-                        Margin="{StaticResource MarginLr4}"
-                        Classes="IconButton Success"
+                        Margin="2,0"
+                        Classes="IconButton"
                         ToolTip.Tip="{x:Static resx:ResUI.menuSubAdd}">
                         <Button.Content>
                             <PathIcon Data="{StaticResource SemiIconPlus}" />
@@ -71,8 +82,8 @@
 
                     <Button
                         x:Name="btnAutofitColumnWidth"
-                        Margin="{StaticResource MarginLr4}"
-                        Classes="IconButton Success"
+                        Margin="2,0"
+                        Classes="IconButton"
                         ToolTip.Tip="{x:Static resx:ResUI.menuProfileAutofitColumnWidth}">
                         <Button.Content>
                             <PathIcon Data="{StaticResource SemiIconExpand}" />
@@ -81,8 +92,8 @@
 
                     <Button
                         x:Name="btnFastRealPing"
-                        Margin="{StaticResource MarginLr4}"
-                        Classes="IconButton Success"
+                        Margin="2,0"
+                        Classes="IconButton"
                         ToolTip.Tip="{x:Static resx:ResUI.menuFastRealPing}">
                         <Button.Content>
                             <PathIcon Data="{StaticResource SemiIconBolt}" />
@@ -90,8 +101,8 @@
                     </Button>
                     <Button
                         x:Name="menuMixedTestServer"
-                        Margin="{StaticResource MarginLr4}"
-                        Classes="IconButton Success"
+                        Margin="2,0"
+                        Classes="IconButton"
                         ToolTip.Tip="{x:Static resx:ResUI.menuMixedTestServer}">
                         <Button.Content>
                             <PathIcon Data="{StaticResource building_ping}" />
@@ -99,25 +110,19 @@
                     </Button>
                 </StackPanel>
 
-            </WrapPanel>
+            </Grid>
             <DataGrid
                 x:Name="lstProfiles"
                 AutoGenerateColumns="False"
-                BorderThickness="1"
+                BorderThickness="0"
                 CanUserReorderColumns="True"
                 CanUserResizeColumns="True"
                 Classes.InsetContent="True"
-                GridLinesVisibility="All"
-                HeadersVisibility="All"
+                GridLinesVisibility="Horizontal"
+                HeadersVisibility="Column"
                 IsReadOnly="True"
                 ItemsSource="{Binding ProfileItems}"
-                RowHeight="26">
-                <DataGrid.Styles>
-                    <Style Selector="DataGridColumnHeader">
-                        <Setter Property="Foreground" Value="{DynamicResource SemiColorText1}" />
-                        <Setter Property="FontWeight" Value="SemiBold" />
-                    </Style>
-                </DataGrid.Styles>
+                RowHeight="30">
                 <DataGrid.KeyBindings>
                     <KeyBinding Command="{Binding Export2ShareUrlCmd}" Gesture="Ctrl+C" />
                     <KeyBinding Command="{Binding SetDefaultServerCmd}" Gesture="Enter" />
@@ -330,5 +335,5 @@
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
-    </Grid>
+    </Border>
 </UserControl>
