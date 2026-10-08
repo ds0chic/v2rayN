@@ -105,7 +105,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
             ViewModel.BrowseImageFileInteraction.RegisterHandler(async interaction =>
             {
-                var result = await UI.OpenFileDialog(null);
+                var result = await UI.OpenFileDialog();
                 interaction.SetOutput(result);
             }).DisposeWith(disposables);
 

@@ -32,7 +32,7 @@ public partial class AddServer2Window : WindowBase<AddServer2ViewModel>
 
             ViewModel.BrowseConfigFileInteraction.RegisterHandler(async interaction =>
             {
-                var fileName = await UI.OpenFileDialog(null);
+                var fileName = await UI.OpenFileDialog();
                 interaction.SetOutput(fileName);
             }).DisposeWith(disposables);
         });

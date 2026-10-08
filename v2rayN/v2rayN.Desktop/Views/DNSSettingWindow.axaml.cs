@@ -4,13 +4,10 @@ namespace v2rayN.Desktop.Views;
 
 public partial class DNSSettingWindow : WindowBase<DNSSettingViewModel>
 {
-    private static Config _config;
-
     public DNSSettingWindow()
     {
         InitializeComponent();
 
-        _config = AppManager.Instance.Config;
         Loaded += Window_Loaded;
         btnCancel.Click += (s, e) => Close();
 

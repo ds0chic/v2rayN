@@ -207,7 +207,7 @@ public partial class OptionSettingWindow : WindowBase<OptionSettingViewModel>
 
     private async void BtnBrowseCustomSystemProxyPacPath_Click(object? sender, RoutedEventArgs e)
     {
-        var fileName = await UI.OpenFileDialog(null);
+        var fileName = await UI.OpenFileDialog();
         if (fileName.IsNullOrEmpty())
         {
             return;
@@ -218,7 +218,7 @@ public partial class OptionSettingWindow : WindowBase<OptionSettingViewModel>
 
     private async void BtnBrowseCustomSystemProxyScriptPath_Click(object? sender, RoutedEventArgs e)
     {
-        var fileName = await UI.OpenFileDialog(null);
+        var fileName = await UI.OpenFileDialog();
         if (fileName.IsNullOrEmpty())
         {
             return;

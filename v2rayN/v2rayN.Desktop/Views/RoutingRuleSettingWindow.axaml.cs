@@ -72,7 +72,7 @@ public partial class RoutingRuleSettingWindow : WindowBase<RoutingRuleSettingVie
 
             ViewModel.BrowseRulesFileInteraction.RegisterHandler(async interaction =>
             {
-                var fileName = await UI.OpenFileDialog(null);
+                var fileName = await UI.OpenFileDialog();
                 interaction.SetOutput(fileName);
             }).DisposeWith(disposables);
         });
@@ -155,7 +155,7 @@ public partial class RoutingRuleSettingWindow : WindowBase<RoutingRuleSettingVie
 
     private async void btnBrowseCustomRulesetPath4Singbox_ClickAsync(object? sender, RoutedEventArgs e)
     {
-        var fileName = await UI.OpenFileDialog(null);
+        var fileName = await UI.OpenFileDialog();
         if (fileName.IsNullOrEmpty())
         {
             return;

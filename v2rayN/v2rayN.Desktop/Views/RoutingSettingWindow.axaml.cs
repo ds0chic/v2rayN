@@ -9,7 +9,6 @@ public partial class RoutingSettingWindow : WindowBase<RoutingSettingViewModel>
     {
         InitializeComponent();
 
-        Loaded += Window_Loaded;
         Closing += RoutingSettingWindow_Closing;
         KeyDown += RoutingSettingWindow_KeyDown;
         lstRoutings.SelectionChanged += lstRoutings_SelectionChanged;
@@ -117,7 +116,4 @@ public partial class RoutingSettingWindow : WindowBase<RoutingSettingViewModel>
         ProcUtils.ProcessStart("https://sing-box.sagernet.org/zh/configuration/route/rule_action/#strategy");
     }
 
-    private void Window_Loaded(object? sender, RoutedEventArgs e)
-    {
-    }
 }
