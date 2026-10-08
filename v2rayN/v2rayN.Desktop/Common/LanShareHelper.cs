@@ -135,44 +135,57 @@ public static class LanShareHelper
     {
         try
         {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = "netsh",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true,
-            };
-            foreach (var arg in new[]
-                     {
-                         "advfirewall", "firewall", "add", "rule", "name=v2rayN LAN proxy",
-                         "dir=in", "action=allow", "protocol=TCP", $"localport={port}",
-                     })
-            {
-                startInfo.ArgumentList.Add(arg);
-            }
+            // Replace an existing rule with the same name instead of stacking duplicates.
+            // Delete fails when no rule exists yet; that is expected, so its result is ignored.
+            await RunNetshAsync("advfirewall", "firewall", "delete", "rule", "name=v2rayN LAN proxy");
 
-            using var process = Process.Start(startInfo);
-            if (process is null)
+            var result = await RunNetshAsync(
+                "advfirewall", "firewall", "add", "rule", "name=v2rayN LAN proxy",
+                "dir=in", "action=allow", "protocol=TCP", $"localport={port}");
+            if (result is null)
             {
                 return ForkText.LanFirewallFailed;
             }
 
-            var stderrTask = process.StandardError.ReadToEndAsync();
-            var stdout = await process.StandardOutput.ReadToEndAsync();
-            var stderr = await stderrTask;
-            await process.WaitForExitAsync();
-
-            var output = (stdout + stderr).Trim();
-            return process.ExitCode == 0
+            var (exitCode, output) = result.Value;
+            return exitCode == 0
                 ? $"{ForkText.LanFirewallSuccess}\n{output}"
-                : $"{ForkText.LanFirewallFailed} (exit {process.ExitCode})\n{output}";
+                : $"{ForkText.LanFirewallFailed} (exit {exitCode})\n{output}";
         }
         catch (Exception ex)
         {
             Logging.SaveLog("AddFirewallRuleAsync", ex);
             return $"{ForkText.LanFirewallFailed}\n{ex.Message}";
         }
+    }
+
+    private static async Task<(int ExitCode, string Output)?> RunNetshAsync(params string[] args)
+    {
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "netsh",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true,
+        };
+        foreach (var arg in args)
+        {
+            startInfo.ArgumentList.Add(arg);
+        }
+
+        using var process = Process.Start(startInfo);
+        if (process is null)
+        {
+            return null;
+        }
+
+        var stderrTask = process.StandardError.ReadToEndAsync();
+        var stdout = await process.StandardOutput.ReadToEndAsync();
+        var stderr = await stderrTask;
+        await process.WaitForExitAsync();
+
+        return (process.ExitCode, (stdout + stderr).Trim());
     }
 
     private static bool IsVirtualName(string? name)

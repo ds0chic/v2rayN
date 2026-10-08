@@ -103,9 +103,9 @@ public static class ForkText
     public static string LanFirewallButton => Pick("添加防火墙放行规则", "新增防火牆放行規則", "Add firewall allow rule");
 
     public static string LanFirewallTip => Pick(
-        "仅放行该端口的 TCP 入站流量。可在 Windows 防火墙中删除名为 \"v2rayN LAN proxy\" 的规则。重复添加会产生多条同名规则。",
-        "僅放行該連接埠的 TCP 入站流量。可於 Windows 防火牆中刪除名為 \"v2rayN LAN proxy\" 的規則。重複新增會產生多條同名規則。",
-        "Allows inbound TCP on this port only. Remove the rule named \"v2rayN LAN proxy\" in Windows Firewall to undo. Adding again creates duplicate rules.");
+        "仅放行该端口的 TCP 入站流量。可在 Windows 防火墙中删除名为 \"v2rayN LAN proxy\" 的规则。重复点击会替换同名规则。",
+        "僅放行該連接埠的 TCP 入站流量。可於 Windows 防火牆中刪除名為 \"v2rayN LAN proxy\" 的規則。重複點擊會替換同名規則。",
+        "Allows inbound TCP on this port only. Remove the rule named \"v2rayN LAN proxy\" in Windows Firewall to undo. Clicking again replaces the rule with the same name.");
 
     public static string LanFirewallConfirm => Pick(
         "将添加一条仅 TCP 的 Windows 防火墙入站放行规则,端口如下。确定继续吗?",
