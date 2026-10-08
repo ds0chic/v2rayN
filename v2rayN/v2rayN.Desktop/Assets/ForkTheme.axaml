@@ -121,4 +121,33 @@
     <Style Selector="ComboBox">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
     </Style>
+
+    <!--
+        Corner radii follow two tiers only: surfaces (cards, dialogs, popups) use ForkRadius, controls and
+        their inner items (buttons, inputs, list/menu items, tooltips) use ForkRadiusSm.
+    -->
+    <Style Selector="NumericUpDown">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
+    <Style Selector="ListBoxItem">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
+    <Style Selector="ComboBoxItem">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
+    <Style Selector="MenuItem">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
+    <Style Selector="ToolTip">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
+    <Style Selector="ContextMenu">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadius}" />
+    </Style>
+    <Style Selector="MenuFlyoutPresenter">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadius}" />
+    </Style>
+    <Style Selector="Expander">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
 </Styles>
