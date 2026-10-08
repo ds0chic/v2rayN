@@ -1,4 +1,5 @@
 using v2rayN.Desktop.Common;
+using v2rayN.Desktop.Manager;
 using v2rayN.Desktop.Views;
 
 namespace v2rayN.Desktop;
@@ -24,6 +25,10 @@ public partial class App : Application
             {
                 AppManager.Instance.InitComponents();
                 DataContext = StatusBarViewModel.Instance;
+                if (TrayIcon.GetIcons(this)?.FirstOrDefault()?.Menu is { } trayMenu)
+                {
+                    TrayMenuManager.Attach(StatusBarViewModel.Instance, trayMenu);
+                }
             }
 
             var mainWindowViewModel = new MainWindowViewModel();
