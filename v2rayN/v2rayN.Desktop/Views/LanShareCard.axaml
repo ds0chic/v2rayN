@@ -23,60 +23,63 @@
         <StackPanel>
             <TextBlock Classes="settingsGroupTitle" Text="{x:Static common:ForkText.LanShareTitle}" />
 
-            <Grid ColumnDefinitions="260,*" Margin="0,4">
-                <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.LanShareStatusLabel}" />
-                <TextBlock
-                    x:Name="txtLanShareStatus"
+            <!-- Status and the one-click recommended setup share a row. -->
+            <Grid Margin="0,2" ColumnDefinitions="*,Auto" MinHeight="40">
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="8">
+                    <TextBlock
+                        x:Name="txtLanShareStatus"
+                        VerticalAlignment="Center"
+                        FontWeight="SemiBold" />
+                </StackPanel>
+                <StackPanel
                     Grid.Column="1"
-                    FontWeight="SemiBold"
-                    TextWrapping="Wrap"
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.LanShareApplyTip}">
+                        <TextBlock Text="i" />
+                    </Border>
+                    <Button x:Name="btnApplyLanRecommended" Content="{x:Static common:ForkText.LanShareApplyRecommended}" />
+                </StackPanel>
             </Grid>
             <TextBlock
                 x:Name="txtLanShareStatusTip"
-                Margin="0,2,0,0"
-                Classes="settingsTip" />
-
-            <Button
-                x:Name="btnApplyLanRecommended"
-                MinWidth="160"
-                Margin="0,8,0,0"
-                HorizontalAlignment="Left"
-                Content="{x:Static common:ForkText.LanShareApplyRecommended}" />
-            <TextBlock
-                Margin="0,4,0,0"
-                Classes="settingsTip"
-                Text="{x:Static common:ForkText.LanShareApplyTip}" />
+                Margin="0,0,0,4"
+                Classes="secondary"
+                IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                TextWrapping="Wrap" />
             <TextBlock
                 x:Name="txtLanShareApplied"
-                Margin="0,4,0,0"
-                Classes="settingsTip lanStatusOk" />
+                Margin="0,0,0,4"
+                Classes="secondary lanStatusOk"
+                IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                TextWrapping="Wrap" />
 
-            <TextBlock
-                Margin="0,16,0,4"
-                Classes="settingsGroupTitle"
-                Text="{x:Static common:ForkText.LanShareAddressTitle}" />
+            <Border Classes="divider" Margin="0,6" />
+
             <TextBlock
                 x:Name="txtLanAddressHint"
-                Classes="settingsTip" />
+                Margin="0,4"
+                Classes="secondary" />
 
             <StackPanel x:Name="pnlLanAddress">
-                <Grid ColumnDefinitions="260,*,Auto" Margin="0,4">
+                <Grid Margin="0,4" ColumnDefinitions="90,*,Auto" MinHeight="36">
                     <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.LanShareInterface}" />
                     <ComboBox
                         x:Name="cmbLanIp"
                         Grid.Column="1"
-                        MinWidth="300"
+                        MinWidth="240"
                         HorizontalAlignment="Left" />
+                    <StackPanel
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="6">
+                        <TextBlock Classes="secondary" Text="{x:Static common:ForkText.LanShareLanPort}" />
+                        <TextBlock x:Name="txtLanPort" VerticalAlignment="Center" />
+                    </StackPanel>
                 </Grid>
-                <Grid ColumnDefinitions="260,*" Margin="0,4">
-                    <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.LanShareLanPort}" />
-                    <TextBlock
-                        x:Name="txtLanPort"
-                        Grid.Column="1"
-                        VerticalAlignment="Center" />
-                </Grid>
-                <Grid ColumnDefinitions="260,*,Auto" Margin="0,4">
+                <Grid Margin="0,4" ColumnDefinitions="90,*,Auto" MinHeight="36">
                     <TextBlock VerticalAlignment="Center" Text="HTTP" />
                     <TextBox
                         x:Name="txtLanHttpProxy"
@@ -88,7 +91,7 @@
                         Margin="8,0,0,0"
                         Content="{x:Static common:ForkText.LanShareCopy}" />
                 </Grid>
-                <Grid ColumnDefinitions="260,*,Auto" Margin="0,4">
+                <Grid Margin="0,4" ColumnDefinitions="90,*,Auto" MinHeight="36">
                     <TextBlock VerticalAlignment="Center" Text="SOCKS5" />
                     <TextBox
                         x:Name="txtLanSocksProxy"
@@ -102,31 +105,37 @@
                 </Grid>
                 <Button
                     x:Name="btnToggleLanPassword"
-                    Margin="260,4,0,0"
+                    Margin="90,2,0,0"
                     HorizontalAlignment="Left"
-                    MinWidth="120"
+                    Classes="IconButton"
+                    Padding="10,0"
                     Content="{x:Static common:ForkText.LanShareShowPassword}" />
             </StackPanel>
 
             <StackPanel x:Name="pnlFirewall">
-                <TextBlock
-                    Margin="0,16,0,4"
-                    Classes="settingsGroupTitle"
-                    Text="{x:Static common:ForkText.LanFirewallTitle}" />
-                <Button
-                    x:Name="btnAddFirewallRule"
-                    MinWidth="160"
-                    IsEnabled="False"
-                    HorizontalAlignment="Left"
-                    Content="{x:Static common:ForkText.LanFirewallButton}" />
-                <TextBlock
-                    Margin="0,4,0,0"
-                    Classes="settingsTip"
-                    Text="{x:Static common:ForkText.LanFirewallTip}" />
+                <Border Classes="divider" Margin="0,6" />
+                <Grid Margin="0,2" ColumnDefinitions="Auto,Auto,Auto,*" MinHeight="40">
+                    <TextBlock
+                        Margin="0,0,16,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Static common:ForkText.LanFirewallTitle}" />
+                    <Button
+                        x:Name="btnAddFirewallRule"
+                        Grid.Column="1"
+                        IsEnabled="False"
+                        Content="{x:Static common:ForkText.LanFirewallButton}" />
+                    <Border
+                        Grid.Column="2"
+                        Margin="8,0,0,0"
+                        Classes="infoDot"
+                        ToolTip.Tip="{x:Static common:ForkText.LanFirewallTip}">
+                        <TextBlock Text="i" />
+                    </Border>
+                </Grid>
                 <TextBlock
                     x:Name="txtFirewallResult"
-                    Margin="0,4,0,0"
-                    Classes="settingsTip"
+                    Classes="secondary"
+                    IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </StackPanel>

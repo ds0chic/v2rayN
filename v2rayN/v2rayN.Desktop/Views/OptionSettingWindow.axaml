@@ -24,15 +24,43 @@
             <Setter Property="HorizontalContentAlignment" Value="Left" />
         </Style>
         <Style Selector="Border.settingsGroup">
-            <Setter Property="Padding" Value="12" />
+            <Setter Property="Padding" Value="16,8,16,12" />
             <Setter Property="Margin" Value="0,0,0,12" />
-            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="CornerRadius" Value="{StaticResource ForkRadius}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="{DynamicResource SemiColorBorder}" />
+            <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
         </Style>
         <Style Selector="TextBlock.settingsGroupTitle">
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Margin" Value="0,0,0,4" />
+            <Setter Property="Foreground" Value="{DynamicResource SemiColorText2}" />
+            <Setter Property="Margin" Value="0,2,0,6" />
+        </Style>
+        <Style Selector="Border.infoDot">
+            <Setter Property="Width" Value="15" />
+            <Setter Property="Height" Value="15" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SemiColorText3}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Help" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Easing="CubicEaseOut" Property="BorderBrush" Duration="0:0:0.14" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="Border.infoDot:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource SemiColorPrimary}" />
+        </Style>
+        <Style Selector="Border.infoDot > TextBlock">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource SemiColorText2}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         <Style Selector="TextBlock.settingsTip">
             <Setter Property="Foreground" Value="{DynamicResource SemiColorText2}" />
@@ -83,18 +111,19 @@
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbPort}" />
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSocksPort}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSocksPort}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsSocksPortTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtlocalPort"
                                         Grid.Column="1"
                                         Width="200" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbSettingsSocksPortTip}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSecondLocalPortEnabled}" />
@@ -108,7 +137,6 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsAllowLAN}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAllowLAN}" />
                                     <ToggleSwitch
@@ -149,7 +177,6 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsDestOverride}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSniffingEnabled}" />
                                     <ToggleSwitch
@@ -198,35 +225,36 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsSendThrough}" />
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSendThrough}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSendThrough}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsSendThroughTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtsendThrough"
                                         Grid.Column="1"
                                         Width="200"
                                         PlaceholderText="0.0.0.0" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbSettingsSendThroughTip}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsBindInterface}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsBindInterface}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsBindInterfaceTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtbindInterface"
                                         Grid.Column="1"
                                         Width="200" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbSettingsBindInterfaceTip}" />
                                 </Grid>
                             </StackPanel>
                         </Border>
@@ -240,20 +268,20 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsDefUserAgent}" />
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDefUserAgent}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDefUserAgent}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsDefUserAgentTips}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbdefUserAgent"
                                         Grid.Column="1"
                                         Width="200" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbSettingsDefUserAgentTips}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDefFingerprint}" />
@@ -316,7 +344,6 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsHysteriaBandwidth}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsHysteriaBandwidth}" />
                                     <StackPanel
@@ -362,7 +389,15 @@
                                             HorizontalAlignment="Left" />
                                         <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentPackets}" />
+                                                <StackPanel
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal"
+                                                    Spacing="6">
+                                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentPackets}" />
+                                                    <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsFragmentPacketsTip}">
+                                                        <TextBlock Text="i" />
+                                                    </Border>
+                                                </StackPanel>
                                                 <Border Classes="coreBadge">
                                                     <TextBlock Text="Xray" />
                                                 </Border>
@@ -372,17 +407,18 @@
                                                 Grid.Column="1"
                                                 Width="120"
                                                 HorizontalAlignment="Left" />
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="1"
-                                                Grid.ColumnSpan="2"
-                                                Margin="0,4,0,0"
-                                                Classes="settingsTip"
-                                                Text="{x:Static resx:ResUI.TbSettingsFragmentPacketsTip}" />
                                         </Grid>
                                         <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentLength}" />
+                                                <StackPanel
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal"
+                                                    Spacing="6">
+                                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentLength}" />
+                                                    <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsFragmentLengthTip}">
+                                                        <TextBlock Text="i" />
+                                                    </Border>
+                                                </StackPanel>
                                                 <Border Classes="coreBadge">
                                                     <TextBlock Text="Xray" />
                                                 </Border>
@@ -393,17 +429,18 @@
                                                 Width="120"
                                                 HorizontalAlignment="Left"
                                                 PlaceholderText="50-100" />
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="1"
-                                                Grid.ColumnSpan="2"
-                                                Margin="0,4,0,0"
-                                                Classes="settingsTip"
-                                                Text="{x:Static resx:ResUI.TbSettingsFragmentLengthTip}" />
                                         </Grid>
                                         <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentInterval}" />
+                                                <StackPanel
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal"
+                                                    Spacing="6">
+                                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentInterval}" />
+                                                    <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsFragmentIntervalTip}">
+                                                        <TextBlock Text="i" />
+                                                    </Border>
+                                                </StackPanel>
                                                 <Border Classes="coreBadge">
                                                     <TextBlock Text="Xray" />
                                                 </Border>
@@ -414,17 +451,18 @@
                                                 Width="120"
                                                 HorizontalAlignment="Left"
                                                 PlaceholderText="10-20" />
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="1"
-                                                Grid.ColumnSpan="2"
-                                                Margin="0,4,0,0"
-                                                Classes="settingsTip"
-                                                Text="{x:Static resx:ResUI.TbSettingsFragmentIntervalTip}" />
                                         </Grid>
                                         <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentMaxSplit}" />
+                                                <StackPanel
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal"
+                                                    Spacing="6">
+                                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentMaxSplit}" />
+                                                    <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsFragmentMaxSplitTip}">
+                                                        <TextBlock Text="i" />
+                                                    </Border>
+                                                </StackPanel>
                                                 <Border Classes="coreBadge">
                                                     <TextBlock Text="Xray" />
                                                 </Border>
@@ -435,29 +473,23 @@
                                                 Width="120"
                                                 HorizontalAlignment="Left"
                                                 PlaceholderText="0" />
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Grid.Column="1"
-                                                Grid.ColumnSpan="2"
-                                                Margin="0,4,0,0"
-                                                Classes="settingsTip"
-                                                Text="{x:Static resx:ResUI.TbSettingsFragmentMaxSplitTip}" />
                                         </Grid>
                                     </StackPanel>
                                 </Expander>
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,8,0,0">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbEnableFinalFragment}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbEnableFinalFragment}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbEnableFinalFragmentTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togenableFinalFragment"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbEnableFinalFragmentTip}" />
                                 </Grid>
                             </StackPanel>
                         </Border>
@@ -491,7 +523,6 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsEnableCacheFile4Sbox}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableCacheFile4Sbox}" />
@@ -516,7 +547,6 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsStartBoot}" />
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsStartBoot}" />
                                     <ToggleSwitch
@@ -574,26 +604,26 @@
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCurrentFontFamily}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCurrentFontFamily}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsCurrentFontFamilyLinuxTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbcurrentFontFamily"
                                         Grid.Column="1"
                                         Width="300"
                                         IsEditable="True" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbSettingsCurrentFontFamilyLinuxTip}" />
                                 </Grid>
                             </StackPanel>
                         </Border>
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsTrayMenuServersLimit}" />
                                 <Grid
                                     ColumnDefinitions="260,Auto,*"
                                     RowDefinitions="Auto,Auto"
@@ -644,7 +674,6 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsEnableDragDropSort}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableDragDropSort}" />
                                     <ToggleSwitch
@@ -664,7 +693,6 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsStatistics}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsStatistics}" />
                                     <ToggleSwitch
@@ -684,7 +712,6 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsSpeedTestUrl}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedTestUrl}" />
                                     <ComboBox
@@ -736,7 +763,6 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsSubConvert}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSubConvert}" />
                                     <ComboBox
@@ -772,71 +798,73 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsGeoFilesSource}" />
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsGeoFilesSource}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsGeoFilesSource}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsChinaUserTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbGetFilesSourceUrl"
                                         Grid.Column="1"
                                         Width="300"
                                         IsEditable="True" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbSettingsChinaUserTip}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSrsFilesSource}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSrsFilesSource}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsChinaUserTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbSrsFilesSourceUrl"
                                         Grid.Column="1"
                                         Width="300"
                                         IsEditable="True" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbSettingsChinaUserTip}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsRoutingRulesSource}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsRoutingRulesSource}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsChinaUserTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbRoutingRulesSourceUrl"
                                         Grid.Column="1"
                                         Width="300"
                                         IsEditable="True" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbSettingsChinaUserTip}" />
                                 </Grid>
                             </StackPanel>
                         </Border>
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbRootCertificateProvider}" />
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbRootCertificateProvider}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbRootCertificateProvider}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbRootCertificateProviderTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbRootCertificateProvider"
                                         Grid.Column="1"
                                         Width="300" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbRootCertificateProviderTip}" />
                                 </Grid>
                             </StackPanel>
                         </Border>
@@ -849,7 +877,6 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup" IsVisible="{Binding BlIsNonWindows}">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsCustomSystemProxyScriptPath}" />
                                 <Grid ColumnDefinitions="260,Auto,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCustomSystemProxyScriptPath}" />
                                     <TextBox
@@ -871,7 +898,6 @@
 
                         <Border Classes="settingsGroup" IsVisible="{Binding BlIsWindows}">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsNotProxyLocalAddress}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsNotProxyLocalAddress}" />
                                     <ToggleSwitch
@@ -933,7 +959,6 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsTunAutoRoute}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunAutoRoute}" />
@@ -996,7 +1021,6 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsEnableIPv6Address}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableIPv6Address}" />
                                     <ToggleSwitch
@@ -1025,29 +1049,36 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbLegacyProtect}" />
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbLegacyProtect}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbLegacyProtect}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbLegacyProtectTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togEnableLegacyProtect"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbLegacyProtectTip}" />
                                 </Grid>
                             </StackPanel>
                         </Border>
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbRouteExcludeAddress}" />
                                 <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbRouteExcludeAddress}" />
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbRouteExcludeAddress}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbRouteExcludeAddressTip}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtRouteExcludeAddress"
                                         Grid.Column="1"
@@ -1055,13 +1086,6 @@
                                         HorizontalAlignment="Left"
                                         Classes="TextArea"
                                         TextWrapping="Wrap" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="2"
-                                        Margin="0,4,0,0"
-                                        Classes="settingsTip"
-                                        Text="{x:Static resx:ResUI.TbRouteExcludeAddressTip}" />
                                 </Grid>
                             </StackPanel>
                         </Border>
