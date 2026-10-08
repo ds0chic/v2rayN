@@ -2,8 +2,9 @@
 
 - 审计对象：`master` @ `0043892`。这是只保留 Avalonia 前端的 fork：WPF 已删除，唯一的 UI 项目是 `v2rayN.Desktop`，fork 补丁登记在 `FORK_PATCHES.md`。
 - 范围：ServiceLib 核心路径（ViewModels、Manager、SpeedtestService、ConfigHandler、Statistics、PAC、Clash API）、`v2rayN.Desktop` 视图，以及 fork 新增或修改的代码（TUN、LAN 共享、路由升级、sing-box 嗅探、AI 自动化、托盘）。
-- 关注点：① 前端性能热点 ② 正确性与稳定性 ③ 安全 ④ 对 Flutter 重构的影响
+- 关注点：① 前端性能热点 ② 正确性与稳定性 ③ 安全 ④ fork 同步的可维护性
 - 方法：人工读代码。**本环境没有 .NET SDK，未编译、未运行测试**；每条结论都给出了代码位置和触发路径，可直接复核。
+- 前提：现有 Avalonia 版 `master` 是主维护线，所有修复都直接在 `master` 上做，按 `FORK_PATCHES.md` 的规则登记。（曾考虑用 Flutter 重写前端，已放弃。）
 - 历史：初版基于上游 `5ea8ae6`（当时还有 WPF）。本版在 fork `master` 上逐条复核：H1 已被 fork 补丁修复，其余问题仍然存在（相关文件在 fork 中只删除了注释）；另外新增了针对 fork 代码的 F 系列发现。
 
 ## 总览
@@ -129,7 +130,7 @@
 
 ---
 
-## 四、前端性能热点（Flutter 重构要解决的核心）
+## 四、前端性能热点
 
 fork 的重新设计只改了样式和布局，没有改数据流，下面的问题在 `v2rayN.Desktop` 中仍然存在。主题里没有给 DataGrid 行加过渡动画，这一点没问题。
 
@@ -169,18 +170,22 @@ fork 的重新设计只改了样式和布局，没有改数据流，下面的问
   建议今后不再做这类删除；已删除的部分，冲突时按登记表的规则以上游为准即可。
 - 本报告里 ServiceLib 自身的 bug（H2、H3、M1–M8、P1），按 fork 规则修复时应：补丁尽量小、在 `FORK_PATCHES.md` 中登记意图和「上游修复后删除」的条件、附带测试。
 
-## 六、对 Flutter 重构方案的影响
+## 六、在 `master` 上修复性能问题的方式
 
-1. **Host 必须设置 `AppManager.Instance.ShowInTaskbar = true`**，否则日志不会 flush（`MsgViewModel.FlushQueueToView`），
-   统计事件也会被丢弃（`MainWindowViewModel.UpdateStatisticsHandler`）。
-2. **Host 不要直接复用 `ProfilesViewModel` 和 `MainWindowViewModel`**：它们自带 P2、P3 的问题。
-   建议 Host 直接调用 `AppManager`、`ConfigHandler`、`SpeedtestService`、`CoreManager`，
-   自己维护 `indexId → 行` 的映射，WebSocket 只推增量，测速结果按 100ms 批量推送。这样 ServiceLib 不用改，符合 fork「优先新增文件」的原则。
-3. UI 耦合点：9 个 ViewModel 共 24 个 `Interaction<>`，19 处 `WindowDialog.ShowDialogAsync`。
-   第一阶段（节点列表、状态栏、日志）只需要实现其中约 6 个。
-4. **fork 的 Desktop 专属功能需要在 Flutter 里重做**：LAN 共享卡片（`LanShareCard`、`LanShareHelper`）、右下角 toast、托盘菜单（`TrayMenuManager`）、
-   窗口防闪白（`WindowCloakHelper`）、UWP 回环、设置项悬停说明（`ForkText.Tip*`）。其中纯逻辑（`ServiceLib/Common/LanShare.cs`）可以直接经 Host 复用。
-   界面文字除了 `ResUI.*.resx`，还要导出 `ForkText.cs` 里的中、繁、英字符串。
+P2–P4 只能改上游文件来修。为了让每次合并 `upstream/master` 时冲突尽量少，建议每项只做最小改动，并各自在 `FORK_PATCHES.md` 登记一行（写明「上游修复后删除」的条件）。
+
+1. **P1（`ProfileExManager`）**：内部改为 `ConcurrentDictionary<string, ProfileExItem>` 加一个脏标记集合，单独维护 maxSort。
+   对外方法签名不变，改动集中在一个文件内，同时修复 H3。
+2. **P2（测速结果）**：在 `ProfilesViewModel` 里维护 `indexId → ProfileItemModel` 字典，在 `RefreshServersBiz` 的 `ReplaceRange` 之后重建；
+   `SetSpeedTestResult` 和 `UpdateStatistics` 改为查字典。测速回调先进并发队列，由 UI 线程每 100ms 取一次、批量应用，不再逐条调度。
+3. **P3（全量刷新）**：先处理最常用的两个操作，其余保持现状。
+   - 设为活动节点：把 `ProfileItemModel.IsActive` 改为 `[Reactive]`（目前是普通属性，`ProfilesView.axaml` 第 243 行绑定了它），
+     只翻转新旧两行，再单独更新状态栏的运行节点显示，不调用 `RefreshServers`。
+   - 上移、下移、置顶、置底：`SetSort` 之后直接用 `ProfileItems.Move(old, new)`（`ObservableCollection` 自带），
+     DataGrid 只移动一行，滚动位置和选中项都能保留。
+4. **P4（日志）**：`MsgView.axaml.cs` 是 fork 重做的视图，修改不会产生上游冲突。超过上限时从文档开头删掉多余行，而不是整段清空（上游原本有一段被注释掉的同类代码）。
+   在 `MsgViewModel` 中，过滤条件变化时编译一次 `Regex`（带超时）；非法正则只提示一次并停用过滤，同时修复 M5。
+5. **P5（统计）**：优先级低，可以和 P2 共用同一个字典；节流改为基于上次刷新时间，不再看墙钟秒数。
 
 ## 七、建议的处理顺序
 
@@ -191,5 +196,5 @@ fork 的重新设计只改了样式和布局，没有改数据流，下面的问
 3. M1、M3、M5、M7：功能错误或偶发的数据丢失。
 4. F2、F1（fork 引入）：影响面较窄。F2 涉及「sing-box 内核 + protocol 规则」，F1 涉及「改过内置规则的进程、入站或类型字段，且还没完成 V4V6 迁移」。F1 的迁移只运行一次，所以应在大部分用户升级前修复。
 5. M6、M8、P1：安全加固和性能。
-6. P2、P3、P4：在 Flutter Host 里绕开，不改 ServiceLib。
+6. P2、P3、P4：按第六节的方式在 `master` 上做最小改动，逐项登记为 fork 补丁。
 7. F3–F5：顺手加固。
