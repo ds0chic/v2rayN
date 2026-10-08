@@ -26,6 +26,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.TopRight };
 
         KeyDown += MainWindow_KeyDown;
+        menuRebootAsAdmin.IsVisible = Utils.IsWindows() && !Utils.IsAdministrator();
         menuSettingsSetUWP.Click += MenuSettingsSetUWP_Click;
         menuPromotion.Click += MenuPromotion_Click;
         menuCheckUpdate.Click += MenuCheckUpdate_Click;
@@ -252,7 +253,14 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
     private void MenuSettingsSetUWP_Click(object? sender, RoutedEventArgs e)
     {
-        ProcUtils.ProcessStart(Utils.GetBinPath("EnableLoopback.exe"));
+        var path = Utils.GetBinPath("EnableLoopback.exe");
+        if (!File.Exists(path))
+        {
+            _manager?.Show(new Avalonia.Controls.Notifications.Notification(null, ForkText.UwpLoopbackMissing, NotificationType.Warning));
+            return;
+        }
+
+        ProcUtils.ProcessStart(path);
     }
 
     public async Task AddServerViaClipboardAsync()

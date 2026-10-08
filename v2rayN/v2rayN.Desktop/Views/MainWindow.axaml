@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
     xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -85,12 +86,12 @@
                         <Separator />
                         <MenuItem
                             x:Name="menuRebootAsAdmin"
-                            Header="{x:Static resx:ResUI.menuRebootAsAdmin}"
-                            IsVisible="{Binding BlIsWindows}" />
+                            Header="{x:Static resx:ResUI.menuRebootAsAdmin}" />
                         <MenuItem
                             x:Name="menuSettingsSetUWP"
                             Header="{x:Static resx:ResUI.TbSettingsSetUWP}"
-                            IsVisible="{Binding BlIsWindows}" />
+                            IsVisible="{Binding BlIsWindows}"
+                            ToolTip.Tip="{x:Static common:ForkText.UwpLoopbackTip}" />
                         <MenuItem x:Name="menuClearServerStatistics" Header="{x:Static resx:ResUI.menuClearServerStatistics}" />
                         <Separator />
                         <MenuItem Header="{x:Static resx:ResUI.menuRegionalPresets}">

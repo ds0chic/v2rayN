@@ -19,6 +19,16 @@ public static class ForkText
     public static string FragmentStateOn => Pick("已启用", "已啟用", "On");
     public static string FragmentStateOff => Pick("已关闭", "已關閉", "Off");
 
+    public static string UwpLoopbackTip => Pick(
+        "仅对 Microsoft Store/UWP 应用走本地代理有用;会打开一个小工具,需要在其中勾选应用",
+        "僅對 Microsoft Store/UWP 應用走本地代理有用；會開啟一個小工具，需要在其中勾選應用",
+        "Only useful for Microsoft Store/UWP apps going through the local proxy. Opens a small tool where you tick the apps.");
+
+    public static string UwpLoopbackMissing => Pick(
+        "未找到 EnableLoopback.exe,发布包才附带",
+        "未找到 EnableLoopback.exe，發布包才附帶",
+        "EnableLoopback.exe not found; only release packages include it.");
+
     private static string Resolve(CultureInfo culture)
     {
         var name = culture.Name;

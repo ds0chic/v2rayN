@@ -224,7 +224,10 @@ public partial class MainWindowViewModel : MyReactiveObject
         });
         RebootAsAdminCmd = ReactiveCommand.CreateFromTask(async () =>
         {
-            await AppManager.Instance.RebootAsAdmin();
+            if (!await AppManager.Instance.RebootAsAdmin())
+            {
+                NoticeManager.Instance.Enqueue(ResUI.OperationFailed);
+            }
         });
         ClearServerStatisticsCmd = ReactiveCommand.CreateFromTask(async () =>
         {
