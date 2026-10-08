@@ -16,6 +16,9 @@ public static class ForkText
     public static string TabSpeedSub => Pick("测速与订阅", "測速與訂閱", "Speed test & subscription");
     public static string TabRulesResources => Pick("规则与资源", "規則與資源", "Rules & resources");
 
+    public static string FragmentStateOn => Pick("已启用", "已啟用", "On");
+    public static string FragmentStateOff => Pick("已关闭", "已關閉", "Off");
+
     private static string Resolve(CultureInfo culture)
     {
         var name = culture.Name;
