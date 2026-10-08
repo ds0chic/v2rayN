@@ -28,6 +28,33 @@ Upstream: https://github.com/2dust/v2rayN (remote `upstream`).
 - New UI text added by this fork goes there, never into `ResUI.resx` (or the generated `ResUI.Designer.cs`), so upstream resource merges stay conflict-free.
 - Languages: Simplified Chinese (zh-Hans), Traditional Chinese (zh-Hant, used for zh-TW/zh-HK/zh-MO), and English as the fallback for every other language. Use the existing `Pick(hans, hant, en)` pattern.
 
+## AI UI automation
+
+Opt-in test-only pipe that lets scripts open windows, click controls, read text and take screenshots. Lives in new files; the only upstream-file change is one line in `App.axaml.cs` (`AiAutomation.Start();` after `Dispatcher.UIThread.Post(StartupTiming.Flush, ...)`).
+
+- Files: `v2rayN/v2rayN.Desktop/Common/AiAutomation.cs` (pipe host, enable check), `v2rayN/v2rayN.Desktop/Common/AiAutomationCommands.cs` (commands), `tools/ai-ui.ps1` (client).
+- Enable: start the app with environment variable `V2RAYN_AI_AUTOMATION=1`. Without it, `Start()` returns immediately and no thread or pipe is created. Windows only; other platforms return without effect.
+- Pipe: `v2rayN-ai-<process id>`, local named pipe only (no network listener). Access is granted to the current Windows user SID; the network SID is denied.
+- Protocol: one command per line, UTF-8. Each response is one JSON line: `{"ok":true,...}` or `{"ok":false,"error":"..."}`. Every control access runs on the UI thread (with a 10 second timeout).
+- Commands:
+  - `windows`: list open windows (title, type, width, height, visible, active, main).
+  - `tree [title text] [depth]`: logical tree of a window (plus item and content children) (default main window, default depth 12, at most 2000 nodes). Each node has type, name, visible, enabled, and text/checked/selectedIndex/selected where applicable.
+  - `click <x:Name>`: Button and MenuItem raise Click, then run Command if the event was not handled. ToggleButton (ToggleSwitch/CheckBox) toggles. TabItem and ComboBoxItem are selected.
+  - `set <x:Name> <value>`: TextBox sets text; toggles take true/false/1/0/on/off/yes/no; ComboBox and TabControl match item text first, then a plain integer index.
+  - `text <x:Name>`: current state of a control (same fields as a tree node, `ok` added).
+  - `shot <output.png> [title text]`: renders a visible window at its render scaling to PNG (creates the directory). Returns pixel size.
+  - `close <title text>`: closes a non-main window. The main window cannot be closed.
+  - `wait <ms>`: waits 0 to 10000 ms on the pipe thread.
+  - `exit`: replies, then `Environment.Exit(0)`. Bypasses `AppExitAsync`, so cores and the tray icon may not be cleaned up; use only on test instances.
+- Tokenizing: whitespace separates tokens; double quotes group words. Backslashes are literal. `set` joins the remaining tokens with single spaces.
+- Safety:
+  - `click` and `set` refuse names containing (case-insensitive) `firewall`, `rebootasadmin`, `uwp`, `sudo`, `pass`, `startboot`, `autorun`. `pass` is broader than the spec's `password` because `txtpass` is a real control name; `autorun` covers the start-on-boot toggle `togAutoRun`.
+  - `tree` and `text` print `***` for any TextBox with a PasswordChar, and for controls whose name contains `pass` or `user`.
+  - Command names are logged through `Logging.SaveLog`; set values are not logged.
+- Known limits: popups and menus opened as separate top-level windows are not in `shot`. `exit` skips normal shutdown. `set` joins multi-space values into single spaces.
+- Client: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\ai-ui.ps1 -ProcessId <pid> -Command "windows"`. It connects with a 5 second deadline, prints one JSON line, and exits 1 on failure. Compatible with Windows PowerShell 5.1.
+- Convention: use this only on test instances (for example a copy under a scratch directory with its own config), never on the instance you use day to day.
+
 ## Sync checklist
 1. `git fetch upstream`
 2. `git log --oneline HEAD..upstream/master` and read it for fixes overlapping the table above.
