@@ -448,6 +448,7 @@ public partial class StatusBarViewModel : MyReactiveObject
                     _config.TunModeItem.LastEnableTun = false;
                     await ConfigHandler.SaveConfig(_config);
                     EnableTun = false;
+                    NoticeManager.Instance.Enqueue(ResUI.OperationFailed);
                 }
                 return;
             }
