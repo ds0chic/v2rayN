@@ -29,6 +29,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         btnNewUpdate.Click += MenuCheckUpdate_Click;
         menuBackupAndRestore.Click += MenuBackupAndRestore_Click;
         menuClose.Click += MenuClose_Click;
+        menuExit.Click += MenuExit_Click;
 
         conTheme.Content ??= new ThemeSettingView();
 
@@ -288,7 +289,13 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         DialogHost.Show(_backupAndRestoreView);
     }
 
-    private async void MenuClose_Click(object? sender, RoutedEventArgs e)
+    private void MenuClose_Click(object? sender, RoutedEventArgs e)
+    {
+        StorageUI();
+        ShowHideWindow(false);
+    }
+
+    private async void MenuExit_Click(object? sender, RoutedEventArgs e)
     {
         try
         {
