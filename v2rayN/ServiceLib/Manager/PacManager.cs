@@ -20,7 +20,7 @@ public class PacManager
 
         Stop();
         var cts = new CancellationTokenSource();
-        var listener = TcpListener.Create(pacPort);
+        var listener = new TcpListener(IPAddress.Loopback, pacPort);
         listener.Start();
 
         _cts = cts;
@@ -58,18 +58,19 @@ public class PacManager
         return Encoding.UTF8.GetBytes(sb.ToString());
     }
 
-    private async Task ListenLoopAsync(TcpListener listener, CancellationToken token)
+    internal void SetContent(byte[] content)
     {
-        var buffer = new byte[1024];
+        _writeContent = content;
+    }
+
+    internal async Task ListenLoopAsync(TcpListener listener, CancellationToken token)
+    {
         try
         {
             while (!token.IsCancellationRequested)
             {
-                using var client = await listener.AcceptTcpClientAsync(token).ConfigureAwait(false);
-                await using var stream = client.GetStream();
-                _ = await stream.ReadAsync(buffer, token).ConfigureAwait(false);
-                await stream.WriteAsync(_writeContent, token).ConfigureAwait(false);
-                await stream.FlushAsync(token).ConfigureAwait(false);
+                var client = await listener.AcceptTcpClientAsync(token).ConfigureAwait(false);
+                _ = HandleClientAsync(client, token);
             }
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -82,6 +83,30 @@ public class PacManager
         finally
         {
             listener.Stop();
+        }
+    }
+
+    private async Task HandleClientAsync(TcpClient client, CancellationToken token)
+    {
+        try
+        {
+            using (client)
+            {
+                await using var stream = client.GetStream();
+                var buffer = new byte[1024];
+                using var readCts = CancellationTokenSource.CreateLinkedTokenSource(token);
+                readCts.CancelAfter(TimeSpan.FromSeconds(5));
+                _ = await stream.ReadAsync(buffer, readCts.Token).ConfigureAwait(false);
+                await stream.WriteAsync(_writeContent, token).ConfigureAwait(false);
+                await stream.FlushAsync(token).ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            Logging.SaveLog(Tag, ex);
         }
     }
 

@@ -5,6 +5,7 @@ public class ProfileExManager
     private static readonly Lazy<ProfileExManager> _instance = new(() => new());
     private ConcurrentBag<ProfileExItem> _lstProfileEx = [];
     private readonly Queue<string> _queIndexIds = new();
+    private readonly Lock _queLock = new();
     public static ProfileExManager Instance => _instance.Value;
     private static readonly string _tag = "ProfileExHandler";
 
@@ -31,15 +32,36 @@ public class ProfileExManager
 
     private void IndexIdEnqueue(string indexId)
     {
-        if (indexId.IsNotEmpty() && !_queIndexIds.Contains(indexId))
+        if (indexId.IsNotEmpty())
         {
-            _queIndexIds.Enqueue(indexId);
+            lock (_queLock)
+            {
+                if (!_queIndexIds.Contains(indexId))
+                {
+                    _queIndexIds.Enqueue(indexId);
+                }
+            }
+        }
+    }
+
+    internal int PendingIndexIdCount
+    {
+        get
+        {
+            lock (_queLock)
+            {
+                return _queIndexIds.Count;
+            }
         }
     }
 
     private async Task SaveQueueIndexIds()
     {
-        var cnt = _queIndexIds.Count;
+        int cnt;
+        lock (_queLock)
+        {
+            cnt = _queIndexIds.Count;
+        }
         if (cnt > 0)
         {
             var lstExists = await SQLiteHelper.Instance.TableAsync<ProfileExItem>().ToListAsync();
@@ -48,7 +70,14 @@ public class ProfileExManager
 
             for (var i = 0; i < cnt; i++)
             {
-                var id = _queIndexIds.Dequeue();
+                string? id;
+                lock (_queLock)
+                {
+                    if (!_queIndexIds.TryDequeue(out id))
+                    {
+                        break;
+                    }
+                }
                 var item = lstExists.FirstOrDefault(t => t.IndexId == id);
                 var itemNew = _lstProfileEx?.FirstOrDefault(t => t.IndexId == id);
                 if (itemNew is null)

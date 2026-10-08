@@ -202,7 +202,7 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
         ConcurrentDictionary<string, byte> completedIds, CancellationToken ct = default)
     {
         var pageSize = Math.Min(selecteds.Count, _speedTestPageSize);
-        var lstBatch = GetTestBatchItem(selecteds, pageSize);
+        var lstBatch = GetTestBatchItem(selecteds, pageSize, true);
 
         foreach (var lst in lstBatch)
         {
@@ -241,6 +241,7 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
     private async Task RunRealPingBatchAsync(List<ServerTestItem> lstSelected,
         ConcurrentDictionary<string, byte> completedIds, int pageSize = 0, CancellationToken ct = default)
     {
+        await MarkUnsupportedCoreAsync(lstSelected, completedIds);
         if (pageSize <= 0)
         {
             pageSize = Math.Min(lstSelected.Count, _speedTestPageSize);
@@ -272,7 +273,7 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
             }
             else
             {
-                await RunMixedTestAsync(lstSelected, completedIds, _config.SpeedTestItem.MixedConcurrencyCount, false, ct);
+                await RunMixedTestAsync(lstFailed, completedIds, _config.SpeedTestItem.MixedConcurrencyCount, false, ct);
             }
         }
     }
@@ -340,6 +341,7 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
     private async Task RunUdpTestBatchAsync(List<ServerTestItem> lstSelected,
         ConcurrentDictionary<string, byte> completedIds, int pageSize = 0, CancellationToken ct = default)
     {
+        await MarkUnsupportedCoreAsync(lstSelected, completedIds);
         if (pageSize <= 0)
         {
             pageSize = Math.Min(lstSelected.Count, _speedTestPageSize);
@@ -558,8 +560,11 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
 
         if (!IPAddress.TryParse(url, out var ipAddress))
         {
-            var ipHostInfo = await Dns.GetHostEntryAsync(url, ct);
-            ipAddress = ipHostInfo.AddressList.First();
+            ipAddress = await ResolveIPAddressAsync(url, ct);
+            if (ipAddress is null)
+            {
+                return responseTime;
+            }
         }
 
         IPEndPoint endPoint = new(ipAddress, port);
@@ -584,11 +589,45 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
         return responseTime;
     }
 
-    private List<List<ServerTestItem>> GetTestBatchItem(List<ServerTestItem> lstSelected, int pageSize)
+    internal static async Task<IPAddress?> ResolveIPAddressAsync(string host, CancellationToken ct)
+    {
+        try
+        {
+            var ipHostInfo = await Dns.GetHostEntryAsync(host, ct).WaitAsync(TimeSpan.FromSeconds(5), ct);
+            return PickPreferredAddress(ipHostInfo.AddressList);
+        }
+        catch (Exception ex) when (!ct.IsCancellationRequested)
+        {
+            Logging.SaveLog(_tag, ex);
+            return null;
+        }
+    }
+
+    internal static IPAddress? PickPreferredAddress(IPAddress[] addresses)
+    {
+        return addresses.FirstOrDefault(t => t.AddressFamily == AddressFamily.InterNetwork) ?? addresses.FirstOrDefault();
+    }
+
+    internal static bool IsCoreSupported(ECoreType coreType)
+    {
+        return coreType is ECoreType.Xray or ECoreType.sing_box;
+    }
+
+    private async Task MarkUnsupportedCoreAsync(List<ServerTestItem> lstSelected, ConcurrentDictionary<string, byte> completedIds)
+    {
+        foreach (var it in lstSelected.Where(t => !IsCoreSupported(t.CoreType)))
+        {
+            ProfileExManager.Instance.SetTestDelay(it.IndexId, -1);
+            await UpdateFunc(it.IndexId, "-1");
+            completedIds.TryAdd(it.IndexId, 0);
+        }
+    }
+
+    internal static List<List<ServerTestItem>> GetTestBatchItem(List<ServerTestItem> lstSelected, int pageSize, bool allCores = false)
     {
         List<List<ServerTestItem>> lstTest = [];
-        var lst1 = lstSelected.Where(t => t.CoreType == ECoreType.Xray).ToList();
-        var lst2 = lstSelected.Where(t => t.CoreType == ECoreType.sing_box).ToList();
+        var lst1 = lstSelected.Where(t => allCores || t.CoreType == ECoreType.Xray).ToList();
+        var lst2 = lstSelected.Where(t => !allCores && t.CoreType == ECoreType.sing_box).ToList();
 
         for (var num = 0; num < (int)Math.Ceiling(lst1.Count * 1.0 / pageSize); num++)
         {
