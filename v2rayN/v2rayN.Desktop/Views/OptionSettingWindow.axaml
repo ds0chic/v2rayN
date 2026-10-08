@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:ServiceLib.Resx;assembly=ServiceLib"
@@ -71,7 +72,7 @@
         <TabControl Classes="settingsNav" HorizontalContentAlignment="Stretch" TabStripPlacement="Left">
 
             <!--  Core: local ports, LAN access and authentication  -->
-            <TabItem Header="{x:Static resx:ResUI.TbSettingsCore}">
+            <TabItem Header="{x:Static common:ForkText.TabLocalPorts}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
@@ -137,7 +138,7 @@
             </TabItem>
 
             <!--  Core: traffic sniffing, outbound binding  -->
-            <TabItem Header="{x:Static resx:ResUI.TbSettingsCore}">
+            <TabItem Header="{x:Static common:ForkText.TabSniffingOutbound}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
@@ -224,7 +225,7 @@
             </TabItem>
 
             <!--  Core: client identity, Mux, Hysteria, Fragment  -->
-            <TabItem Header="{x:Static resx:ResUI.TbSettingsCore}">
+            <TabItem Header="{x:Static common:ForkText.TabConnection}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
@@ -426,7 +427,7 @@
             </TabItem>
 
             <!--  Core: logging and sing-box cache  -->
-            <TabItem Header="{x:Static resx:ResUI.TbSettingsCore}">
+            <TabItem Header="{x:Static common:ForkText.TabLogCache}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
@@ -471,7 +472,7 @@
             </TabItem>
 
             <!--  v2rayN: startup, main window, tray, lists  -->
-            <TabItem Header="{x:Static resx:ResUI.TbSettingsN}">
+            <TabItem Header="{x:Static common:ForkText.TabGeneral}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
@@ -632,7 +633,7 @@
             </TabItem>
 
             <!--  v2rayN: speed test, subscriptions, IP info  -->
-            <TabItem Header="{x:Static resx:ResUI.TbSettingsN}">
+            <TabItem Header="{x:Static common:ForkText.TabSpeedSub}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
@@ -720,7 +721,7 @@
             </TabItem>
 
             <!--  v2rayN: geo/srs/routing resource sources, root certificate  -->
-            <TabItem Header="{x:Static resx:ResUI.TbSettingsN}">
+            <TabItem Header="{x:Static common:ForkText.TabRulesResources}">
                 <ScrollViewer VerticalScrollBarVisibility="Visible">
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
