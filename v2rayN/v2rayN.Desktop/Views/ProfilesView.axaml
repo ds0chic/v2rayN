@@ -149,7 +149,6 @@
                         <MenuItem x:Name="menuSortServerResult" Header="{x:Static resx:ResUI.menuSortServerResult}" />
                         <Separator />
                         <MenuItem
-                            x:Name="menuMoveToGroup"
                             Header="{x:Static resx:ResUI.menuMoveToGroup}"
                             ItemsSource="{Binding DataContext.SubItems, ElementName=Root}">
                             <MenuItem.ItemTemplate>

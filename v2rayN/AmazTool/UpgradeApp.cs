@@ -92,12 +92,10 @@ internal class UpgradeApp
         catch (Exception ex)
         {
             Console.WriteLine(Resx.Resource.FailedUpgrade + ex.StackTrace);
-            //return;
         }
         if (sb.Length > 0)
         {
             Console.WriteLine(Resx.Resource.FailedUpgrade + sb.ToString());
-            //return;
         }
 
         Console.WriteLine(Resx.Resource.Restartv2rayN);

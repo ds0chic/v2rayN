@@ -213,7 +213,6 @@
             </TabItem>
             <TabItem HorizontalAlignment="Left" Header="{x:Static resx:ResUI.menuServerListPreview}">
                 <DataGrid
-                    x:Name="lstPreviewChild"
                     AutoGenerateColumns="False"
                     Background="Transparent"
                     BorderThickness="1"

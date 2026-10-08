@@ -7,7 +7,6 @@ public partial class QrcodeView : UserControl
         InitializeComponent();
         if (Design.IsDesignMode)
         {
-            //const string url = Global.AppName;
             const string url = Global.SystemProxyExceptionsWindows;
             txtContent.Text = url;
             imgQrcode.Source = GetQRCode(url);
