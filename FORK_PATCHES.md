@@ -4,7 +4,7 @@ This fork (ds0chic/v2rayN) is maintained independently and is not submitted upst
 Upstream: https://github.com/2dust/v2rayN (remote `upstream`).
 
 ## Sync policy
-- Sync by rebasing the fork patches onto `upstream/master` (`git rerere` is enabled).
+- `master` of this fork is the maintained branch (Avalonia-only). Sync by merging `upstream/master` into `master` (`git rerere` is enabled); never force-push `master`. On conflicts in redesigned views keep OUR file (see "Redesigned views").
 - Keep every patch small and as isolated as possible; prefer new files over editing upstream files.
 - When upstream fixes the same problem, drop the fork patch and adopt the upstream fix.
   Check the "Drop when" column of each patch below on every sync.
