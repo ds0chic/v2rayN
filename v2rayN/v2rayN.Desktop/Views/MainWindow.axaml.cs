@@ -153,7 +153,10 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
         if (_config.UiItem.AutoHideStartup && Utils.IsWindows())
         {
+            // Keep the first paint invisible; OnLoaded still runs and hides the window.
             WindowState = WindowState.Minimized;
+            Opacity = 0;
+            ShowInTaskbar = false;
         }
 
         AddHelpMenuItem();
@@ -341,6 +344,12 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
                     : !AppManager.Instance.ShowInTaskbar);
         if (bl)
         {
+            // Avoid a white flash on re-show: paint transparent, then fade in after the first frame.
+            var wasHidden = !IsVisible;
+            if (wasHidden)
+            {
+                Opacity = 0;
+            }
             Show();
             if (WindowState == WindowState.Minimized)
             {
@@ -348,6 +357,10 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
             }
             Activate();
             Focus();
+            if (wasHidden)
+            {
+                Dispatcher.UIThread.Post(() => Opacity = 1, DispatcherPriority.Render);
+            }
         }
         else
         {
@@ -373,7 +386,9 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         if (_config.UiItem.AutoHideStartup)
         {
             ShowHideWindow(false);
+            ShowInTaskbar = true;
         }
+        Opacity = 1;
         RestoreUI();
     }
 
