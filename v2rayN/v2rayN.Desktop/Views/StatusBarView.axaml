@@ -10,52 +10,53 @@
     x:DataType="vms:StatusBarViewModel"
     Design.DataContext="{x:Static dd:DesignData.StatusBar}"
     mc:Ignorable="d">
-    <Grid>
-        <DockPanel Margin="{StaticResource Margin8}">
+    <Border
+        Padding="12,10"
+        BorderBrush="{DynamicResource SemiColorBorder}"
+        BorderThickness="0,1,0,0">
+        <Grid ColumnDefinitions="Auto,Auto,*">
+            <!--  Left: local listening addresses  -->
             <StackPanel
-                Margin="{StaticResource MarginLr8}"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Right">
-                <TextBlock x:Name="txtSpeedProxyDisplay" HorizontalAlignment="Right" />
-                <Border Margin="1" />
-                <TextBlock x:Name="txtSpeedDirectDisplay" HorizontalAlignment="Right" />
-            </StackPanel>
-
-            <StackPanel
-                Margin="{StaticResource MarginLr8}"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Left">
-                <TextBlock x:Name="txtInboundDisplay" />
-                <Border Margin="1" />
-                <TextBlock x:Name="txtInboundLanDisplay" />
-            </StackPanel>
-
-            <StackPanel
-                x:Name="spEnableTun"
-                Margin="{StaticResource MarginLr8}"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Left"
-                Orientation="Horizontal">
+                Grid.Column="0"
+                Margin="0,0,16,0"
+                VerticalAlignment="Center">
                 <TextBlock
-                    Margin="{StaticResource MarginLr8}"
-                    VerticalAlignment="Center"
-                    Text="{x:Static resx:ResUI.TbEnableTunAs}" />
-                <ToggleSwitch
-                    x:Name="togEnableTun"
-                    Margin="{StaticResource Margin4}"
-                    HorizontalAlignment="Center"
-                    Theme="{DynamicResource SimpleToggleSwitch}" />
+                    x:Name="txtInboundDisplay"
+                    FontSize="12"
+                    Foreground="{DynamicResource SemiColorText2}" />
+                <TextBlock
+                    x:Name="txtInboundLanDisplay"
+                    FontSize="12"
+                    Foreground="{DynamicResource SemiColorText2}" />
             </StackPanel>
 
+            <!--  Middle: TUN, system proxy, routing  -->
             <StackPanel
-                Margin="{StaticResource MarginLr8}"
+                Grid.Column="1"
+                Margin="0,0,16,0"
                 VerticalAlignment="Center"
-                DockPanel.Dock="Left"
                 Orientation="Horizontal">
+                <StackPanel
+                    x:Name="spEnableTun"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Static resx:ResUI.TbEnableTunAs}" />
+                    <ToggleSwitch
+                        x:Name="togEnableTun"
+                        VerticalAlignment="Center"
+                        Theme="{DynamicResource SimpleToggleSwitch}" />
+                </StackPanel>
+
                 <ComboBox
                     x:Name="cmbSystemProxy"
-                    Width="160"
-                    Margin="{StaticResource MarginLr8}"
+                    Height="32"
+                    MinWidth="160"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
                     ToolTip.Tip="{x:Static resx:ResUI.menuSystemproxy}">
                     <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxyClear}" />
                     <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxySet}" />
@@ -65,18 +66,61 @@
 
                 <ComboBox
                     x:Name="cmbRoutings2"
-                    Width="160"
-                    Margin="{StaticResource MarginLr8}"
+                    Height="32"
+                    MinWidth="160"
+                    MaxWidth="240"
+                    VerticalAlignment="Center"
                     DisplayMemberBinding="{Binding Remarks}"
                     ItemsSource="{Binding RoutingItems}"
                     ToolTip.Tip="{x:Static resx:ResUI.menuRouting}" />
             </StackPanel>
 
-            <StackPanel Margin="{StaticResource MarginLr8}" VerticalAlignment="Center">
-                <TextBlock x:Name="txtRunningServerDisplay" />
-                <Border Margin="1" />
-                <TextBlock x:Name="txtRunningInfoDisplay" />
-            </StackPanel>
-        </DockPanel>
-    </Grid>
+            <!--  Right: running node (truncated) and speeds (fixed width, tabular digits)  -->
+            <Grid
+                Grid.Column="2"
+                Margin="8,0,0,0"
+                ColumnDefinitions="*,Auto"
+                RowDefinitions="Auto,Auto"
+                VerticalAlignment="Center">
+                <TextBlock
+                    x:Name="txtRunningServerDisplay"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontSize="13"
+                    TextTrimming="CharacterEllipsis"
+                    ToolTip.Tip="{Binding $self.Text}" />
+                <TextBlock
+                    x:Name="txtRunningInfoDisplay"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontSize="12"
+                    Foreground="{DynamicResource SemiColorText2}"
+                    TextTrimming="CharacterEllipsis"
+                    ToolTip.Tip="{Binding $self.Text}" />
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    MinWidth="150"
+                    Margin="16,0,0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                    <TextBlock
+                        x:Name="txtSpeedProxyDisplay"
+                        HorizontalAlignment="Right"
+                        FontFamily="Consolas,Menlo,Monospace"
+                        FontSize="12"
+                        TextAlignment="Right" />
+                    <TextBlock
+                        x:Name="txtSpeedDirectDisplay"
+                        HorizontalAlignment="Right"
+                        FontFamily="Consolas,Menlo,Monospace"
+                        FontSize="12"
+                        Foreground="{DynamicResource SemiColorText2}"
+                        TextAlignment="Right" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
 </UserControl>
