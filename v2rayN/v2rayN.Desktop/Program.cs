@@ -72,6 +72,12 @@ internal class Program
             builder = builder.With(new MacOSPlatformOptions { ShowInDock = showInDock });
         }
 
+        // Hardware acceleration off => software rendering; on => Avalonia's default GPU modes.
+        if (!Design.IsDesignMode && Utils.IsWindows() && !AppManager.Instance.Config.GuiItem.EnableHWA)
+        {
+            builder = builder.With(new Win32PlatformOptions { RenderingMode = [Win32RenderingMode.Software] });
+        }
+
         return builder;
     }
 }
