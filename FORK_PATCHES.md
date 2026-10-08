@@ -67,6 +67,7 @@ The Avalonia view layer was restyled with a fork design system (`v2rayN.Desktop/
 - Rewritten or restructured views: `MainWindow` (unified title-bar toolbar with a single menu button; all former menus live inside it), `ProfilesView`, `MsgView`, `StatusBarView`, `OptionSettingWindow` (10 pages, left navigation), `LanShareCard`, `AddServerWindow` (sections become cards that follow the visibility of the named section the code-behind toggles).
 - Shared styles: `Assets/GlobalStyles.axaml` (confirm button `Button#btnSave` accent) and `Assets/ForkTheme.axaml`.
 - Sync rule: when upstream edits one of the views above, keep OUR file and port the new upstream controls by hand. Then check the `x:Name` set against upstream's version of the file (every upstream name must still exist) and that new bindings are present. The AI UI automation tool below makes the visual check cheap.
+- Title bar: the toolbar draws its own title, so `ForkTheme.axaml` fades Semi's drawn title (`PART_TitleTextPanel`, Opacity because the template binds IsVisible). Re-check the name after Semi upgrades; the toolbar must not set a Background (it would swallow title-bar drag).
 - Do not remove named elements the code-behind toggles (for example `sepa2` in `AddServerWindow` is kept at opacity 0).
 
 ## Sync checklist
