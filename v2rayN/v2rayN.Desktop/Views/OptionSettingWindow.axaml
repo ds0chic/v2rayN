@@ -83,6 +83,7 @@
                             Text="{x:Static resx:ResUI.TbSettingsUdpEnabled}" />
                         <ToggleSwitch
                             x:Name="togudpEnabled"
+                            ToolTip.Tip="{x:Static resx:ResUI.TipSingboxIneffective}"
                             Grid.Row="3"
                             Grid.Column="1"
                             Margin="{StaticResource Margin4}"
@@ -125,6 +126,7 @@
                             Text="{x:Static resx:ResUI.TbSettingsRouteOnly}" />
                         <ToggleSwitch
                             x:Name="togrouteOnly"
+                            ToolTip.Tip="{x:Static resx:ResUI.TipSingboxIneffective}"
                             Grid.Row="6"
                             Grid.Column="1"
                             Margin="{StaticResource Margin4}"
@@ -1040,6 +1042,7 @@
                             Text="{x:Static resx:ResUI.TbSettingsTunAutoRoute}" />
                         <ToggleSwitch
                             x:Name="togAutoRoute"
+                            ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}"
                             Grid.Row="2"
                             Grid.Column="1"
                             Margin="{StaticResource Margin4}"
@@ -1066,6 +1069,7 @@
                             Text="{x:Static resx:ResUI.TbSettingsTunStack}" />
                         <ComboBox
                             x:Name="cmbStack"
+                            ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}"
                             Grid.Row="4"
                             Grid.Column="1"
                             Width="200"
@@ -1095,6 +1099,7 @@
                             Text="{x:Static resx:ResUI.TbIcmpRoutingPolicy}" />
                         <ComboBox
                             x:Name="cmbIcmpRoutingPolicy"
+                            ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}"
                             Grid.Row="6"
                             Grid.Column="1"
                             Width="200"

@@ -906,6 +906,12 @@
   <data name="TbSettingsNewPort4LAN" xml:space="preserve">
     <value>为局域网开启新的端口</value>
   </data>
+  <data name="TipSingboxIneffective" xml:space="preserve">
+    <value>sing-box 核心下无效。</value>
+  </data>
+  <data name="TipXrayTunIneffective" xml:space="preserve">
+    <value>Xray 原生 TUN 下无效。</value>
+  </data>
   <data name="TbSettingsTunMode" xml:space="preserve">
     <value>Tun 模式设置</value>
   </data>

@@ -906,6 +906,12 @@
   <data name="TbSettingsNewPort4LAN" xml:space="preserve">
     <value>New Port for LAN</value>
   </data>
+  <data name="TipSingboxIneffective" xml:space="preserve">
+    <value>Has no effect with the sing-box core.</value>
+  </data>
+  <data name="TipXrayTunIneffective" xml:space="preserve">
+    <value>Has no effect with Xray native TUN.</value>
+  </data>
   <data name="TbSettingsTunMode" xml:space="preserve">
     <value>Tun Mode settings</value>
   </data>

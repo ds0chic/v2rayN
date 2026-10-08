@@ -4879,6 +4879,24 @@ namespace ServiceLib.Resx {
         }
         
         /// <summary>
+        ///   查找类似 Has no effect with the sing-box core. 的本地化字符串。
+        /// </summary>
+        public static string TipSingboxIneffective {
+            get {
+                return ResourceManager.GetString("TipSingboxIneffective", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Has no effect with Xray native TUN. 的本地化字符串。
+        /// </summary>
+        public static string TipXrayTunIneffective {
+            get {
+                return ResourceManager.GetString("TipXrayTunIneffective", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 Tun Mode settings 的本地化字符串。
         /// </summary>
         public static string TbSettingsTunMode {
