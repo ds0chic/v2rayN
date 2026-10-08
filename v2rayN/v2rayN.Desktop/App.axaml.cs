@@ -17,6 +17,7 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         ActualThemeVariantChanged += (_, _) => DarkTitleBarHelper.ApplyToAllWindows();
+        StartupTiming.Mark("FrameworkInitialize");
 
         var viewLocator = SimpleViewLocator.Instance;
         DataTemplates.Add(viewLocator);
@@ -26,6 +27,7 @@ public partial class App : Application
             if (!Design.IsDesignMode)
             {
                 AppManager.Instance.InitComponents();
+                StartupTiming.Mark("InitComponents");
                 DataContext = StatusBarViewModel.Instance;
                 if (TrayIcon.GetIcons(this)?.FirstOrDefault()?.Menu is { } trayMenu)
                 {
@@ -37,6 +39,8 @@ public partial class App : Application
             var mainWindow = (MainWindow)viewLocator.Build(mainWindowViewModel);
             mainWindow.ViewModel = mainWindowViewModel;
             desktop.MainWindow = mainWindow;
+            StartupTiming.Mark("MainWindowCreated");
+            Dispatcher.UIThread.Post(StartupTiming.Flush, DispatcherPriority.ApplicationIdle);
 
             if (OperatingSystem.IsMacOS())
             {

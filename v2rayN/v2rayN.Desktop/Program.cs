@@ -16,14 +16,17 @@ internal class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        StartupTiming.Mark("Main");
         if (OnStartup(args) == false)
         {
             Environment.Exit(0);
             return;
         }
+        StartupTiming.Mark("OnStartup");
 
-        BuildAvaloniaApp()
-            .StartWithClassicDesktopLifetime(args);
+        var builder = BuildAvaloniaApp();
+        StartupTiming.Mark("BuildAvaloniaApp");
+        builder.StartWithClassicDesktopLifetime(args);
     }
 
     private static bool OnStartup(string[]? Args)
