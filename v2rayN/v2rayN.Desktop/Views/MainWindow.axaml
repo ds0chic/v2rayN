@@ -14,7 +14,7 @@
     MinWidth="600"
     x:DataType="vms:MainWindowViewModel"
     Design.DataContext="{x:Static dd:DesignData.MainWindow}"
-    Background="{DynamicResource SemiColorBackground}"
+    Background="{DynamicResource SemiColorBackground0}"
     Icon="/Assets/NotifyIcon1.ico"
     ShowInTaskbar="True"
     WindowStartupLocation="CenterScreen"
