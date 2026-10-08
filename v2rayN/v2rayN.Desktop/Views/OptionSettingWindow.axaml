@@ -121,7 +121,7 @@
                                         Orientation="Horizontal"
                                         Spacing="6">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSocksPort}" />
-                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsSocksPortTip}">
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipSocksPort}">
                                             <TextBlock Text="i" />
                                         </Border>
                                     </StackPanel>
@@ -131,7 +131,12 @@
                                         Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSecondLocalPortEnabled}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSecondLocalPortEnabled}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipSecondLocalPort}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togSecondLocalPortEnabled"
                                         Grid.Column="1"
@@ -143,28 +148,48 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAllowLAN}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAllowLAN}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipAllowLan}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togAllowLANConn"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsNewPort4LAN}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsNewPort4LAN}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipNewPort4Lan}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togNewPort4LAN"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUser}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUser}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipLanUser}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtuser"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsPass}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsPass}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipLanPass}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtpass"
                                         Grid.Column="1"
@@ -183,14 +208,24 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSniffingEnabled}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSniffingEnabled}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipSniffing}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togsniffingEnabled"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDestOverride}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDestOverride}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipDestOverride}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ListBox
                                         x:Name="clbdestOverride"
                                         Grid.Column="1"
@@ -201,7 +236,12 @@
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsRouteOnly}" />
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsRouteOnly}" />
+                                            <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipRouteOnly}">
+                                                <TextBlock Text="i" />
+                                            </Border>
+                                        </StackPanel>
                                         <Border Classes="coreBadge">
                                             <TextBlock Text="Xray" />
                                         </Border>
@@ -214,7 +254,12 @@
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUdpEnabled}" />
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUdpEnabled}" />
+                                            <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipUdpEnabled}">
+                                                <TextBlock Text="i" />
+                                            </Border>
+                                        </StackPanel>
                                         <Border Classes="coreBadge">
                                             <TextBlock Text="Xray" />
                                         </Border>
@@ -279,7 +324,7 @@
                                         Orientation="Horizontal"
                                         Spacing="6">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDefUserAgent}" />
-                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsDefUserAgentTips}">
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipDefUserAgent}">
                                             <TextBlock Text="i" />
                                         </Border>
                                     </StackPanel>
@@ -289,7 +334,12 @@
                                         Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDefFingerprint}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDefFingerprint}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipDefFingerprint}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbdefFingerprint"
                                         Grid.Column="1"
@@ -303,7 +353,12 @@
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsMuxEnabled}" />
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4SboxProtocol}" />
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4SboxProtocol}" />
+                                            <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipMux4Sbox}">
+                                                <TextBlock Text="i" />
+                                            </Border>
+                                        </StackPanel>
                                         <Border Classes="coreBadge">
                                             <TextBlock Text="sing-box" />
                                         </Border>
@@ -322,7 +377,12 @@
                                     </StackPanel>
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="24,4,0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxConcurrency}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxConcurrency}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipMux4RayConcurrency}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtmux4RayConcurrency"
                                         Grid.Column="1"
@@ -330,7 +390,12 @@
                                         PlaceholderText="8" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="24,4,0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxXudpConcurrency}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxXudpConcurrency}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipMux4RayXudpConcurrency}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtmux4RayXudpConcurrency"
                                         Grid.Column="1"
@@ -350,7 +415,12 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsHysteriaBandwidth}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsHysteriaBandwidth}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipHysteriaBandwidth}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <StackPanel
                                         Grid.Column="1"
                                         Orientation="Horizontal">
@@ -373,7 +443,12 @@
                                 <Expander IsExpanded="False">
                                     <Expander.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableFragment}" />
+                                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableFragment}" />
+                                                <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipEnableFragment}">
+                                                    <TextBlock Text="i" />
+                                                </Border>
+                                            </StackPanel>
                                             <TextBlock
                                                 Margin="8,0,0,0"
                                                 VerticalAlignment="Center"
@@ -442,7 +517,7 @@
                                                     Orientation="Horizontal"
                                                     Spacing="6">
                                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentInterval}" />
-                                                    <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsFragmentIntervalTip}">
+                                                    <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipFragmentDelays}">
                                                         <TextBlock Text="i" />
                                                     </Border>
                                                 </StackPanel>
@@ -510,14 +585,24 @@
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsLogEnabled}" />
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsLogEnabledToFile}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsLogEnabledToFile}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipLogToFile}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="toglogEnabled"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsLogLevel}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsLogLevel}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipLogLevel}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbloglevel"
                                         Grid.Column="1"
@@ -528,9 +613,14 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="350,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableCacheFile4Sbox}" />
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableCacheFile4Sbox}" />
+                                            <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCacheFile4Sbox}">
+                                                <TextBlock Text="i" />
+                                            </Border>
+                                        </StackPanel>
                                         <Border Classes="coreBadge">
                                             <TextBlock Text="sing-box" />
                                         </Border>
@@ -553,7 +643,12 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsStartBoot}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsStartBoot}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipAutoRun}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togAutoRun"
                                         Grid.Column="1"
@@ -568,7 +663,12 @@
                                         Text="{x:Static resx:ResUI.TbSettingsStartBootTip}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAutoHideStartup}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAutoHideStartup}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipAutoHide}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togAutoHideStartup"
                                         Grid.Column="1"
@@ -581,28 +681,48 @@
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbDisplayGUI}" />
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDoubleClick2Activate}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDoubleClick2Activate}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipDoubleClick}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togDoubleClick2Activate"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMainGirdOrientation}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMainGirdOrientation}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipOrientation}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbMainGirdOrientation"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDisplayRealTimeSpeed}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDisplayRealTimeSpeed}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipRealtimeSpeed}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togDisplayRealTimeSpeed"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableHWA}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableHWA}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipHwa}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togEnableHWA"
                                         Grid.Column="1"
@@ -614,7 +734,7 @@
                                         Orientation="Horizontal"
                                         Spacing="6">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCurrentFontFamily}" />
-                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsCurrentFontFamilyLinuxTip}">
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipFontFamily}">
                                             <TextBlock Text="i" />
                                         </Border>
                                     </StackPanel>
@@ -634,10 +754,18 @@
                                     RowDefinitions="Auto,Auto"
                                     Margin="0,4"
                                     IsVisible="{Binding BlIsLinux}">
-                                    <TextBlock
+                                    <StackPanel
                                         VerticalAlignment="Center"
                                         IsVisible="{Binding BlIsLinux}"
-                                        Text="{x:Static resx:ResUI.TbSettingsHide2TrayWhenClose}" />
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="{x:Static resx:ResUI.TbSettingsHide2TrayWhenClose}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipHide2Tray}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togHide2TrayWhenClose"
                                         Grid.Column="1"
@@ -656,10 +784,18 @@
                                     ColumnDefinitions="300,Auto,*"
                                     Margin="0,4"
                                     IsVisible="{Binding BlIsIsMacOS}">
-                                    <TextBlock
+                                    <StackPanel
                                         VerticalAlignment="Center"
                                         IsVisible="{Binding BlIsIsMacOS}"
-                                        Text="{x:Static resx:ResUI.TbSettingsMacOSShowInDock}" />
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="{x:Static resx:ResUI.TbSettingsMacOSShowInDock}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipMacDock}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togMacOSShowInDock"
                                         Grid.Column="1"
@@ -667,7 +803,12 @@
                                         IsVisible="{Binding BlIsIsMacOS}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTrayMenuServersLimit}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTrayMenuServersLimit}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTrayLimit}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txttrayMenuServersLimit"
                                         Grid.Column="1"
@@ -680,14 +821,24 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableDragDropSort}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableDragDropSort}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipDragDrop}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togEnableDragDropSort"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableAutoAdjustMainLvColWidth}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableAutoAdjustMainLvColWidth}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipAutoAdjust}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togEnableAutoAdjustMainLvColWidth"
                                         Grid.Column="1"
@@ -699,7 +850,12 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsStatistics}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsStatistics}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipStatistics}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togEnableStatistics"
                                         Grid.Column="1"
@@ -718,7 +874,12 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedTestUrl}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedTestUrl}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipSpeedTestUrl}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         Name="cmbSpeedTestUrl"
                                         Grid.Column="1"
@@ -726,7 +887,12 @@
                                         IsEditable="True" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedPingTestUrl}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedPingTestUrl}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipSpeedPingUrl}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbSpeedPingTestUrl"
                                         Grid.Column="1"
@@ -734,7 +900,12 @@
                                         IsEditable="True" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUdpTestUrl}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUdpTestUrl}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipUdpTest}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbUdpTestTarget"
                                         Grid.Column="1"
@@ -742,21 +913,36 @@
                                         IsEditable="True" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedTestTimeout}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedTestTimeout}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipSpeedTestTimeout}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbSpeedTestTimeout"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMixedConcurrencyCount}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMixedConcurrencyCount}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipMixedConcurrency}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbMixedConcurrencyCount"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsIPAPIUrl}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsIPAPIUrl}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipIpApi}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbIPAPIUrl"
                                         Grid.Column="1"
@@ -769,7 +955,12 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSubConvert}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSubConvert}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipSubConvert}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbSubConvertUrl"
                                         Grid.Column="1"
@@ -777,7 +968,12 @@
                                         IsEditable="True" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAutoUpdateInterval}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAutoUpdateInterval}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipAutoUpdate}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtautoUpdateInterval"
                                         Grid.Column="1"
@@ -785,7 +981,12 @@
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsKeepOlderDedupl}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsKeepOlderDedupl}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipKeepOlder}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togKeepOlderDedupl"
                                         Grid.Column="1"
@@ -809,7 +1010,7 @@
                                         Orientation="Horizontal"
                                         Spacing="6">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsGeoFilesSource}" />
-                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsChinaUserTip}">
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipGeoSource}">
                                             <TextBlock Text="i" />
                                         </Border>
                                     </StackPanel>
@@ -825,7 +1026,7 @@
                                         Orientation="Horizontal"
                                         Spacing="6">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSrsFilesSource}" />
-                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsChinaUserTip}">
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipSrsSource}">
                                             <TextBlock Text="i" />
                                         </Border>
                                     </StackPanel>
@@ -841,7 +1042,7 @@
                                         Orientation="Horizontal"
                                         Spacing="6">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsRoutingRulesSource}" />
-                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbSettingsChinaUserTip}">
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipRoutingSource}">
                                             <TextBlock Text="i" />
                                         </Border>
                                     </StackPanel>
@@ -883,7 +1084,12 @@
                         <Border Classes="settingsGroup" IsVisible="{Binding BlIsNonWindows}">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCustomSystemProxyScriptPath}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCustomSystemProxyScriptPath}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipScriptPath}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtCustomSystemProxyScriptPath"
                                         Grid.Column="1"
@@ -904,21 +1110,36 @@
                         <Border Classes="settingsGroup" IsVisible="{Binding BlIsWindows}">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsNotProxyLocalAddress}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsNotProxyLocalAddress}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipNotProxyLocal}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="tognotProxyLocalAddress"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAdvancedProtocol}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAdvancedProtocol}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipAdvancedProtocol}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbsystemProxyAdvancedProtocol"
                                         Grid.Column="1"
                                         MinWidth="400" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCustomSystemProxyPacPath}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCustomSystemProxyPacPath}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipPacPath}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <TextBox
                                         x:Name="txtCustomSystemProxyPacPath"
                                         Grid.Column="1"
@@ -966,7 +1187,12 @@
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunAutoRoute}" />
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunAutoRoute}" />
+                                            <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTunAutoRoute}">
+                                                <TextBlock Text="i" />
+                                            </Border>
+                                        </StackPanel>
                                         <Border Classes="coreBadge">
                                             <TextBlock Text="sing-box" />
                                         </Border>
@@ -978,7 +1204,12 @@
                                         ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunStrictRoute}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunStrictRoute}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTunStrictRoute}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togStrictRoute"
                                         Grid.Column="1"
@@ -986,7 +1217,12 @@
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunStack}" />
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunStack}" />
+                                            <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTunStack}">
+                                                <TextBlock Text="i" />
+                                            </Border>
+                                        </StackPanel>
                                         <Border Classes="coreBadge">
                                             <TextBlock Text="sing-box" />
                                         </Border>
@@ -999,7 +1235,12 @@
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbMtu}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbMtu}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTunMtu}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbMtu"
                                         Grid.Column="1"
@@ -1009,7 +1250,12 @@
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIcmpRoutingPolicy}" />
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIcmpRoutingPolicy}" />
+                                            <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTunIcmp}">
+                                                <TextBlock Text="i" />
+                                            </Border>
+                                        </StackPanel>
                                         <Border Classes="coreBadge">
                                             <TextBlock Text="sing-box" />
                                         </Border>
@@ -1027,14 +1273,24 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableIPv6Address}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableIPv6Address}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTunEnableIpv6}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togEnableIPv6Address"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIpv4Address}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIpv4Address}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTunIpv4}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbIpv4Address"
                                         Grid.Column="1"
@@ -1042,7 +1298,12 @@
                                         HorizontalAlignment="Left" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIpv6Address}" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIpv6Address}" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipTunIpv6}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbIpv6Address"
                                         Grid.Column="1"
@@ -1060,7 +1321,7 @@
                                         Orientation="Horizontal"
                                         Spacing="6">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbLegacyProtect}" />
-                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbLegacyProtectTip}">
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipLegacyProtect}">
                                             <TextBlock Text="i" />
                                         </Border>
                                     </StackPanel>
@@ -1080,7 +1341,7 @@
                                         Orientation="Horizontal"
                                         Spacing="6">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbRouteExcludeAddress}" />
-                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static resx:ResUI.TbRouteExcludeAddressTip}">
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipRouteExclude}">
                                             <TextBlock Text="i" />
                                         </Border>
                                     </StackPanel>
@@ -1105,39 +1366,84 @@
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsCoreType}" />
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="VMess" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="VMess" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreVmess}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType1" Grid.Column="1" Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="Custom Pre" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="Custom Pre" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreCustom}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType2" Grid.Column="1" Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="Shadowsocks" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="Shadowsocks" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreShadowsocks}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType3" Grid.Column="1" Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="Socks" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="Socks" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreSocks}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType4" Grid.Column="1" Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="VLESS" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="VLESS" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreVless}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType5" Grid.Column="1" Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="Trojan" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="Trojan" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreTrojan}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType6" Grid.Column="1" Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="Hysteria2" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="Hysteria2" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreHysteria2}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType7" Grid.Column="1" Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="Wireguard" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="Wireguard" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreWireguard}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType9" Grid.Column="1" Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="300,Auto" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="MASQUE" />
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="6">
+                                        <TextBlock VerticalAlignment="Center" Text="MASQUE" />
+                                        <Border Classes="infoDot" ToolTip.Tip="{x:Static common:ForkText.TipCoreMasque}">
+                                            <TextBlock Text="i" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox x:Name="cmbCoreType14" Grid.Column="1" Width="200" />
                                 </Grid>
                             </StackPanel>

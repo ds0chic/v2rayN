@@ -160,6 +160,11 @@
     </Style>
     <Style Selector="ToolTip">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="MaxWidth" Value="360" />
+    </Style>
+    <!-- A plain string tip is shown in an implicit TextBlock; wrap it so long hints stay inside MaxWidth. -->
+    <Style Selector="ToolTip TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
     <Style Selector="ContextMenu">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadius}" />

@@ -1,6 +1,8 @@
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Avalonia.Controls.Presenters;
+using Avalonia.Media;
 using Avalonia.VisualTree;
 using System.Text.Json.Nodes;
 
@@ -91,6 +93,7 @@ internal static class AiAutomationCommands
             "text" => Text(tokens),
             "shot" => Shot(tokens),
             "close" => Close(tokens),
+            "radii" => Radii(tokens),
             _ => Error($"unknown command: {cmd}"),
         };
     }
@@ -366,6 +369,145 @@ internal static class AiAutomationCommands
 
         target.Close();
         return Ok(new JsonObject { ["closed"] = target.Title ?? string.Empty });
+    }
+
+    // Lists visuals (Border, ContentPresenter, TemplatedControl) that paint a fill or stroke and have square corners.
+    // "items": all four corners zero (the test list). "partial": some corners zero and some rounded, which still shows
+    // a square corner (for example split spinner buttons). Walks the window's visual tree plus open popup content.
+    private static JsonObject Radii(List<string> tokens)
+    {
+        var window = FindWindow(string.Join(' ', tokens.Skip(1)));
+        if (window is null)
+        {
+            return Error("window not found");
+        }
+
+        var roots = new List<Visual> { window };
+        var popups = window.GetSelfAndVisualDescendants().OfType<Popup>()
+            .Concat(window.GetLogicalDescendants().OfType<Popup>())
+            .Distinct();
+        foreach (var popup in popups)
+        {
+            if (popup.IsOpen && popup.Child is { } popupChild)
+            {
+                roots.Add(popupChild);
+            }
+        }
+
+        var items = new JsonArray();
+        var partial = new JsonArray();
+        var seen = new HashSet<Visual>();
+        foreach (var root in roots)
+        {
+            foreach (var visual in root.GetSelfAndVisualDescendants())
+            {
+                if (!seen.Add(visual))
+                {
+                    continue;
+                }
+
+                var (node, zeroCorners) = SquareItem(visual);
+                if (node is null)
+                {
+                    continue;
+                }
+
+                if (zeroCorners == 4)
+                {
+                    items.Add(node);
+                }
+                else
+                {
+                    partial.Add(node);
+                }
+            }
+        }
+
+        return Ok(new JsonObject
+        {
+            ["window"] = window.Title ?? string.Empty,
+            ["count"] = items.Count,
+            ["items"] = items,
+            ["partialCount"] = partial.Count,
+            ["partial"] = partial,
+        });
+    }
+
+    // Returns the node for a painted, visible, larger-than-12px visual with at least one zero corner; zeroCorners is 0-4.
+    private static (JsonObject? Node, int ZeroCorners) SquareItem(Visual visual)
+    {
+        CornerRadius radius;
+        IBrush? fill;
+        IBrush? stroke;
+        Thickness strokeWidth;
+        if (visual is Border border)
+        {
+            radius = border.CornerRadius;
+            fill = border.Background;
+            stroke = border.BorderBrush;
+            strokeWidth = border.BorderThickness;
+        }
+        else if (visual is ContentPresenter presenter)
+        {
+            radius = presenter.CornerRadius;
+            fill = presenter.Background;
+            stroke = presenter.BorderBrush;
+            strokeWidth = presenter.BorderThickness;
+        }
+        else if (visual is TemplatedControl templated)
+        {
+            radius = templated.CornerRadius;
+            fill = templated.Background;
+            stroke = templated.BorderBrush;
+            strokeWidth = templated.BorderThickness;
+        }
+        else
+        {
+            return (null, 0);
+        }
+
+        var zeroCorners = (radius.TopLeft == 0 ? 1 : 0) + (radius.TopRight == 0 ? 1 : 0)
+                          + (radius.BottomRight == 0 ? 1 : 0) + (radius.BottomLeft == 0 ? 1 : 0);
+        if (zeroCorners == 0)
+        {
+            return (null, 0);
+        }
+
+        var bounds = visual.Bounds;
+        if (!visual.IsEffectivelyVisible || bounds.Width <= 12 || bounds.Height <= 12)
+        {
+            return (null, 0);
+        }
+
+        var hasFill = PaintsSomething(fill);
+        var hasStroke = PaintsSomething(stroke) && strokeWidth.Left + strokeWidth.Top + strokeWidth.Right + strokeWidth.Bottom > 0;
+        if (!hasFill && !hasStroke)
+        {
+            return (null, 0);
+        }
+
+        var name = (visual as Control)?.Name;
+        var node = new JsonObject
+        {
+            ["type"] = visual.GetType().Name,
+            ["name"] = string.IsNullOrEmpty(name) ? null : name,
+            ["templatedParentType"] = (visual as StyledElement)?.TemplatedParent?.GetType().Name,
+            ["bounds"] = $"{bounds.X:0.#},{bounds.Y:0.#} {bounds.Width:0.#}x{bounds.Height:0.#}",
+            ["corners"] = $"{radius.TopLeft:0.#} {radius.TopRight:0.#} {radius.BottomRight:0.#} {radius.BottomLeft:0.#}",
+            ["fill"] = hasFill,
+            ["stroke"] = hasStroke,
+        };
+        return (node, zeroCorners);
+    }
+
+    private static bool PaintsSomething(IBrush? brush)
+    {
+        return brush switch
+        {
+            null => false,
+            ISolidColorBrush solid => solid.Color.A > 0 && solid.Opacity > 0,
+            _ => brush.Opacity > 0,
+        };
     }
 
     #endregion Commands
