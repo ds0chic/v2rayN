@@ -7,6 +7,9 @@ internal class Program
 {
     public static EventWaitHandle ProgramStarted;
 
+    // Held for the process lifetime; an unreferenced Mutex can be finalized and release single-instance protection.
+    private static Mutex? _singleInstanceMutex;
+
     // Initialization code. Don't use any Avalonia, third-party APIs or any
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     // yet and stuff might break.
@@ -38,7 +41,7 @@ internal class Program
         }
         else
         {
-            _ = new Mutex(true, "v2rayN", out var bOnlyOneInstance);
+            _singleInstanceMutex = new Mutex(true, "v2rayN", out var bOnlyOneInstance);
             if (!bOnlyOneInstance)
             {
                 return false;
@@ -47,6 +50,7 @@ internal class Program
 
         if (!AppManager.Instance.InitApp())
         {
+            StartupErrorDialog.Show($"Loading GUI configuration file is abnormal,please restart the application{Environment.NewLine}加载GUI配置文件异常,请重启应用");
             return false;
         }
 
