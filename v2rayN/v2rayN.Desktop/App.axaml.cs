@@ -42,6 +42,7 @@ public partial class App : Application
             desktop.MainWindow = mainWindow;
             StartupTiming.Mark("MainWindowCreated");
             Dispatcher.UIThread.Post(StartupTiming.Flush, DispatcherPriority.ApplicationIdle);
+            AiAutomation.Start();
 
             if (OperatingSystem.IsMacOS())
             {
