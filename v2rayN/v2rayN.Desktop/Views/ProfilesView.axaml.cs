@@ -17,7 +17,6 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
         menuSelectAll.Click += menuSelectAll_Click;
         btnAutofitColumnWidth.Click += BtnAutofitColumnWidth_Click;
-        chkSelectAllProfiles.Click += ChkSelectAllProfiles_Click;
         menuShowTrafficColumns.Click += MenuShowTrafficColumns_Click;
         txtServerFilter.KeyDown += TxtServerFilter_KeyDown;
         lstProfiles.KeyDown += LstProfiles_KeyDown;
@@ -25,6 +24,13 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         lstProfiles.DoubleTapped += LstProfiles_DoubleTapped;
         lstProfiles.LoadingRow += LstProfiles_LoadingRow;
         lstProfiles.Sorting += LstProfiles_Sorting;
+
+        // fork: press on a row and drag up or down to select the rows in between
+        lstProfiles.AddHandler(PointerPressedEvent, LstProfiles_DragSelectPressed, RoutingStrategies.Tunnel, true);
+        lstProfiles.AddHandler(PointerMovedEvent, LstProfiles_DragSelectMoved, RoutingStrategies.Bubble, true);
+        lstProfiles.AddHandler(PointerReleasedEvent, LstProfiles_DragSelectReleased, RoutingStrategies.Bubble, true);
+        lstProfiles.PointerCaptureLost += LstProfiles_DragSelectCaptureLost;
+
         if (_config.UiItem.EnableDragDropSort)
         {
             lstProfiles.SetValue(DragDrop.AllowDropProperty, true);
@@ -191,61 +197,18 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
     private void lstProfiles_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (ViewModel != null)
-        {
-            ViewModel.SelectedProfiles = lstProfiles.SelectedItems.Cast<ProfileItemModel>().ToList();
-        }
-        SyncSelectAllCheckBox();
-    }
-
-    // Header checkbox: checked = all rows selected, indeterminate = some selected, unchecked = none.
-    private void SyncSelectAllCheckBox()
-    {
-        var total = ViewModel?.ProfileItems.Count ?? 0;
-        var selected = lstProfiles.SelectedItems.Count;
-        if (selected == 0)
-        {
-            chkSelectAllProfiles.IsChecked = false;
-        }
-        else if (selected >= total)
-        {
-            chkSelectAllProfiles.IsChecked = true;
-        }
-        else
-        {
-            chkSelectAllProfiles.IsChecked = null;
-        }
-    }
-
-    private void ChkSelectAllProfiles_Click(object? sender, RoutedEventArgs e)
-    {
-        if (chkSelectAllProfiles.IsChecked == true)
-        {
-            lstProfiles.SelectAll();
-        }
-        else
-        {
-            lstProfiles.SelectedItems.Clear();
-        }
-    }
-
-    // Row checkbox: adds or removes only this row, so the other selected rows stay selected.
-    private void RowSelectCheckBox_Click(object? sender, RoutedEventArgs e)
-    {
-        if (sender is not CheckBox { DataContext: ProfileItemModel item } checkBox)
+        if (_suppressSelectionSync)
         {
             return;
         }
-        if (checkBox.IsChecked == true)
+        SyncSelectedProfiles();
+    }
+
+    private void SyncSelectedProfiles()
+    {
+        if (ViewModel != null)
         {
-            if (!lstProfiles.SelectedItems.Contains(item))
-            {
-                lstProfiles.SelectedItems.Add(item);
-            }
-        }
-        else
-        {
-            lstProfiles.SelectedItems.Remove(item);
+            ViewModel.SelectedProfiles = lstProfiles.SelectedItems.Cast<ProfileItemModel>().ToList();
         }
     }
 
@@ -273,10 +236,6 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         if (source?.Name == "HeaderBackground")
         {
             return;
-        }
-        if (e.Source is Visual checkSource && checkSource.FindAncestorOfType<CheckBox>(true) != null)
-        {
-            return; //fork: double-clicking a row checkbox only toggles its selection
         }
 
         if (_config.UiItem.DoubleClick2Activate)
@@ -404,10 +363,6 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
             foreach (var it in lstProfiles.Columns)
             {
-                if (it.Tag == null)
-                {
-                    continue; //fork: the checkbox column keeps its fixed width
-                }
                 it.Width = new DataGridLength(1, DataGridLengthUnitType.Auto);
             }
         }
@@ -465,10 +420,6 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
                     }
                 }
             }
-            if (lstProfiles.Columns.FirstOrDefault(t => t.Header is CheckBox) is { } selectColumn)
-            {
-                selectColumn.DisplayIndex = 0; //fork: the checkbox column stays first
-            }
             menuShowTrafficColumns.IsEnabled = _config.GuiItem.EnableStatistics;
             menuShowTrafficColumns.IsChecked = lstProfiles.Columns.Any(t => t.Tag is "TodayUp" && t.IsVisible);
         }
@@ -506,6 +457,267 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
     #endregion UI
 
+    #region Drag select
+
+    private const double DragSelectThreshold = 4;
+
+    private bool _suppressSelectionSync;
+    private bool _dragSelectPressArmed; // the press started on a row and may become a drag selection
+    private bool _dragSelectActive; // the pointer moved past the threshold, the range follows the pointer
+    private int _dragSelectAnchor = -1;
+    private int _dragSelectFirst = -1;
+    private int _dragSelectLast = -1;
+    private double _dragSelectStartY;
+    private double _dragSelectLastY;
+    private IPointer? _dragSelectPointer;
+    private DispatcherTimer? _dragSelectTimer;
+
+    // Tunnel, so it runs before the DataGrid changes the selection for this press.
+    private void LstProfiles_DragSelectPressed(object? sender, PointerPressedEventArgs e)
+    {
+        ResetDragSelect();
+
+        if (!e.GetCurrentPoint(lstProfiles).Properties.IsLeftButtonPressed)
+        {
+            return;
+        }
+        if ((e.KeyModifiers & (KeyModifiers.Control | KeyModifiers.Shift | KeyModifiers.Meta)) != 0)
+        {
+            return;
+        }
+        // Only presses inside the rows (not the scroll bar or headers) start a drag selection.
+        if (e.Source is not Visual source || source.FindAncestorOfType<DataGridRow>(true) == null)
+        {
+            return;
+        }
+        // The anchor is the row drawn under the press, the same geometry UpdateDragSelection uses for the current row.
+        // e.Source is not used for the row, because its hit-tested row can differ from the drawn row (off by one).
+        var startY = e.GetPosition(lstProfiles).Y;
+        if (!TryGetRowLayout(out var rows, out _, out _))
+        {
+            return;
+        }
+        var rowIndex = DragSelectionHelper.GetRowIndexAt(rows.Select(r => (r.Top, r.Height)).ToList(), startY);
+        if (rowIndex < 0)
+        {
+            return;
+        }
+        var item = rows[rowIndex].Item;
+        var index = ViewModel?.ProfileItems.IndexOf(item) ?? -1;
+        if (index < 0)
+        {
+            return;
+        }
+        // Drag and drop sort on: a press on an already selected row keeps starting a row drag.
+        if (_config.UiItem.EnableDragDropSort && lstProfiles.SelectedItems.Contains(item))
+        {
+            return;
+        }
+
+        _dragSelectAnchor = index;
+        _dragSelectStartY = startY;
+        _dragSelectPressArmed = true;
+    }
+
+    private void LstProfiles_DragSelectMoved(object? sender, PointerEventArgs e)
+    {
+        if (!_dragSelectPressArmed)
+        {
+            return;
+        }
+        if (!e.GetCurrentPoint(lstProfiles).Properties.IsLeftButtonPressed)
+        {
+            ResetDragSelect();
+            return;
+        }
+
+        _dragSelectLastY = e.GetPosition(lstProfiles).Y;
+        if (!_dragSelectActive)
+        {
+            if (Math.Abs(_dragSelectLastY - _dragSelectStartY) <= DragSelectThreshold)
+            {
+                return;
+            }
+            _dragSelectActive = true;
+            _dragSelectPointer = e.Pointer;
+            e.Pointer.Capture(lstProfiles);
+            _dragSelectTimer ??= new DispatcherTimer(TimeSpan.FromMilliseconds(60), DispatcherPriority.Background, (_, _) =>
+            {
+                if (_dragSelectActive)
+                {
+                    UpdateDragSelection();
+                }
+            });
+            _dragSelectTimer.Start();
+        }
+        UpdateDragSelection();
+    }
+
+    private void LstProfiles_DragSelectReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        ResetDragSelect();
+    }
+
+    private void LstProfiles_DragSelectCaptureLost(object? sender, PointerCaptureLostEventArgs e)
+    {
+        _dragSelectPointer = null; // capture is already gone, so ResetDragSelect must not release it again
+        ResetDragSelect();
+    }
+
+    private void ResetDragSelect()
+    {
+        _dragSelectTimer?.Stop();
+        var pointer = _dragSelectPointer;
+        _dragSelectPointer = null;
+        pointer?.Capture(null);
+
+        _dragSelectPressArmed = false;
+        _dragSelectActive = false;
+        _dragSelectAnchor = -1;
+        _dragSelectFirst = -1;
+        _dragSelectLast = -1;
+    }
+
+    // Rows currently drawn in the list, in list coordinates, with the band the rows are drawn in.
+    private bool TryGetRowLayout(out List<(ProfileItemModel Item, double Top, double Height)> rows, out double bodyTop, out double bodyBottom)
+    {
+        rows = new List<(ProfileItemModel Item, double Top, double Height)>();
+        bodyTop = 0;
+        bodyBottom = 0;
+
+        Visual? presenter = null;
+        foreach (var row in lstProfiles.GetVisualDescendants().OfType<DataGridRow>())
+        {
+            if (row.DataContext is not ProfileItemModel rowItem)
+            {
+                continue;
+            }
+            if (row.TranslatePoint(default, lstProfiles) is not { } origin)
+            {
+                continue;
+            }
+            rows.Add((rowItem, origin.Y, row.Bounds.Height));
+            presenter ??= row.GetVisualParent();
+        }
+        if (rows.Count == 0 || presenter == null)
+        {
+            return false;
+        }
+        if (presenter.TranslatePoint(default, lstProfiles) is not { } bodyOrigin)
+        {
+            return false;
+        }
+        bodyTop = bodyOrigin.Y;
+        bodyBottom = bodyTop + presenter.Bounds.Height;
+        return true;
+    }
+
+    // Finds the row under the pointer. While the pointer is above or below the rows, the row just past that edge
+    // is used and the grid scrolls towards it, so the selection keeps growing outside the viewport.
+    private void UpdateDragSelection()
+    {
+        var items = ViewModel?.ProfileItems;
+        if (items == null || items.Count == 0 || _dragSelectAnchor < 0)
+        {
+            return;
+        }
+        if (!TryGetRowLayout(out var rows, out var bodyTop, out var bodyBottom))
+        {
+            return;
+        }
+
+        var y = _dragSelectLastY;
+        var direction = DragSelectionHelper.GetScrollDirection(y, bodyTop, bodyBottom);
+        int target;
+        if (direction == 0)
+        {
+            var rowIndex = DragSelectionHelper.GetRowIndexAt(rows.Select(r => (r.Top, r.Height)).ToList(), y);
+            if (rowIndex < 0)
+            {
+                return;
+            }
+            target = items.IndexOf(rows[rowIndex].Item);
+        }
+        else
+        {
+            var candidates = direction < 0
+                ? rows.Where(r => r.Top + r.Height > bodyTop).ToList()
+                : rows.Where(r => r.Top < bodyBottom).ToList();
+            if (candidates.Count == 0)
+            {
+                candidates = rows;
+            }
+            var edge = direction < 0 ? candidates.MinBy(r => r.Top) : candidates.MaxBy(r => r.Top);
+            var edgeIndex = items.IndexOf(edge.Item);
+            if (edgeIndex < 0)
+            {
+                return;
+            }
+            target = Math.Clamp(edgeIndex + direction, 0, items.Count - 1);
+        }
+        if (target < 0)
+        {
+            return;
+        }
+
+        ApplyDragSelectRange(_dragSelectAnchor, target);
+        if (direction != 0)
+        {
+            lstProfiles.ScrollIntoView(items[target], null);
+        }
+    }
+
+    // Changes only the rows that differ from the current range, and publishes the selection once at the end.
+    private void ApplyDragSelectRange(int anchor, int current)
+    {
+        var items = ViewModel?.ProfileItems;
+        if (items == null)
+        {
+            return;
+        }
+        var range = DragSelectionHelper.GetRange(anchor, current, items.Count);
+        if (range == null)
+        {
+            return;
+        }
+        var first = range.Value.First;
+        var last = range.Value.Last;
+        if (first == _dragSelectFirst && last == _dragSelectLast)
+        {
+            return;
+        }
+        _dragSelectFirst = first;
+        _dragSelectLast = last;
+
+        var selected = lstProfiles.SelectedItems;
+        _suppressSelectionSync = true;
+        try
+        {
+            for (var i = selected.Count - 1; i >= 0; i--)
+            {
+                var index = selected[i] is ProfileItemModel selectedItem ? items.IndexOf(selectedItem) : -1;
+                if (index < first || index > last)
+                {
+                    selected.RemoveAt(i);
+                }
+            }
+            for (var i = first; i <= last; i++)
+            {
+                if (!selected.Contains(items[i]))
+                {
+                    selected.Add(items[i]);
+                }
+            }
+        }
+        finally
+        {
+            _suppressSelectionSync = false;
+        }
+        SyncSelectedProfiles();
+    }
+
+    #endregion Drag select
+
     #region Drag and Drop
 
     private static readonly DataFormat<ProfileItemModel> LstProfilesRowFormat =
@@ -515,6 +727,10 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
     private void LstProfiles_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
+        if (_dragSelectPressArmed)
+        {
+            return; //fork: this press drag-selects rows, so it must not start a row drag
+        }
         var properties = e.GetCurrentPoint(this).Properties;
         if (properties.IsLeftButtonPressed)
         {

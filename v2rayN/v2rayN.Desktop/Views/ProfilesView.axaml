@@ -225,27 +225,6 @@
                 </DataGrid.ContextMenu>
 
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn
-                        Width="36"
-                        CanUserReorder="False"
-                        CanUserResize="False"
-                        CanUserSort="False">
-                        <DataGridTemplateColumn.Header>
-                            <CheckBox
-                                x:Name="chkSelectAllProfiles"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Click="RowSelectCheckBox_Click"
-                                    IsChecked="{Binding $parent[DataGridRow].IsSelected, Mode=OneWay}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
                     <DataGridTextColumn
                         Width="80"
                         Binding="{Binding ConfigType}"
