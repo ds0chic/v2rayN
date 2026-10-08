@@ -111,7 +111,7 @@
                 HeadersVisibility="All"
                 IsReadOnly="True"
                 ItemsSource="{Binding ProfileItems}"
-                RowHeight="28">
+                RowHeight="26">
                 <DataGrid.Styles>
                     <Style Selector="DataGridColumnHeader">
                         <Setter Property="Foreground" Value="{DynamicResource SemiColorText1}" />
