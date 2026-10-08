@@ -16,7 +16,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        ActualThemeVariantChanged += (_, _) => DarkTitleBarHelper.ApplyToAllWindows();
+        // Posted so each window has already updated its ActualThemeVariant when the title bar is read.
+        ActualThemeVariantChanged += (_, _) => Dispatcher.UIThread.Post(DarkTitleBarHelper.ApplyToAllWindows, DispatcherPriority.Background);
         StartupTiming.Mark("FrameworkInitialize");
 
         var viewLocator = SimpleViewLocator.Instance;
