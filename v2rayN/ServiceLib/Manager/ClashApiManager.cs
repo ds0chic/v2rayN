@@ -13,10 +13,10 @@ public sealed class ClashApiManager
         for (var i = 0; i < 3; i++)
         {
             var url = $"{ApiUrl}/proxies";
-            var resultTask = HttpClientHelper.Instance.TryGetAsync(url);
+            var resultTask = ClashApiHttpHelper.Instance.TryGetAsync(url);
 
             var url2 = $"{ApiUrl}/providers/proxies";
-            var result2Task = HttpClientHelper.Instance.TryGetAsync(url2);
+            var result2Task = ClashApiHttpHelper.Instance.TryGetAsync(url2);
 
             await Task.WhenAll(resultTask, result2Task);
 
@@ -84,7 +84,7 @@ public sealed class ClashApiManager
 
     private async Task<int> SendTestRequest(string url)
     {
-        var result = await HttpClientHelper.Instance.TryGetAsync(url);
+        var result = await ClashApiHttpHelper.Instance.TryGetAsync(url);
         var jsonObject = JsonUtils.ParseJson(result) as JsonObject;
         return jsonObject?["delay"] is { } n && n.GetValueKind() == JsonValueKind.Number &&
                n.GetValue<JsonElement>().TryGetInt32(out var v)
@@ -99,7 +99,7 @@ public sealed class ClashApiManager
             var url = $"{ApiUrl}/proxies/{Utils.UrlEncode(groupName)}";
             var headers = new Dictionary<string, string>();
             headers.Add("name", nodeName);
-            await HttpClientHelper.Instance.PutAsync(url, headers);
+            await ClashApiHttpHelper.Instance.PutAsync(url, headers);
         }
         catch (Exception ex)
         {
@@ -120,7 +120,7 @@ public sealed class ClashApiManager
     {
         var urlBase = $"{ApiUrl}/configs";
 
-        await HttpClientHelper.Instance.PatchAsync(urlBase, headers);
+        await ClashApiHttpHelper.Instance.PatchAsync(urlBase, headers);
     }
 
     public async Task<List<string>> GetClashModes()
@@ -154,7 +154,7 @@ public sealed class ClashApiManager
     public async Task<JsonObject> GetConfig()
     {
         var url = $"{ApiUrl}/configs";
-        var result = await HttpClientHelper.Instance.TryGetAsync(url);
+        var result = await ClashApiHttpHelper.Instance.TryGetAsync(url);
         var jsonNode = JsonUtils.ParseJson(result);
         if (jsonNode is not JsonObject jsonObject)
         {
@@ -168,7 +168,7 @@ public sealed class ClashApiManager
         try
         {
             var url = $"{ApiUrl}/connections";
-            var result = await HttpClientHelper.Instance.TryGetAsync(url);
+            var result = await ClashApiHttpHelper.Instance.TryGetAsync(url);
             var clashConnections = JsonUtils.Deserialize<ClashConnections>(result);
 
             return clashConnections;
@@ -186,7 +186,7 @@ public sealed class ClashApiManager
         try
         {
             var url = $"{ApiUrl}/connections/{id}";
-            await HttpClientHelper.Instance.DeleteAsync(url);
+            await ClashApiHttpHelper.Instance.DeleteAsync(url);
         }
         catch (Exception ex)
         {

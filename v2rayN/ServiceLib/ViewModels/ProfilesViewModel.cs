@@ -33,6 +33,9 @@ public partial class ProfilesViewModel : MyReactiveObject
 
     public IList<ProfileItemModel> SelectedProfiles { get; set; }
 
+    // Statistics arrive about once a second; 2.5 s lets every third tick through (about a 3 s cadence) without drift issues.
+    private readonly IntervalGate _statisticsGate = new(2500);
+
     [Reactive]
     public partial SubItem SelectedSub { get; set; }
 
@@ -304,7 +307,7 @@ public partial class ProfilesViewModel : MyReactiveObject
     {
         if (!_config.GuiItem.EnableStatistics
             || (update.ProxyUp + update.ProxyDown) <= 0
-            || DateTime.Now.Second % 3 != 0)
+            || !_statisticsGate.TryPass(Environment.TickCount64))
         {
             return;
         }

@@ -498,9 +498,11 @@ public static class ConfigHandler
             return -1;
         }
 
+        // Work on a virtual 10,20,30... ordering of the visible list only; hidden servers are never touched.
+        var virtualSort = new Dictionary<string, int>();
         for (var i = 0; i < lstProfile.Count; i++)
         {
-            ProfileExManager.Instance.SetSort(lstProfile[i], (i + 1) * 10);
+            virtualSort[lstProfile[i]] = (i + 1) * 10;
         }
 
         var sort = 0;
@@ -512,7 +514,7 @@ public static class ConfigHandler
                     {
                         return 0;
                     }
-                    sort = ProfileExManager.Instance.GetSort(lstProfile.First()) - 1;
+                    sort = virtualSort[lstProfile.First()] - 1;
 
                     break;
                 }
@@ -522,7 +524,7 @@ public static class ConfigHandler
                     {
                         return 0;
                     }
-                    sort = ProfileExManager.Instance.GetSort(lstProfile[index - 1]) - 1;
+                    sort = virtualSort[lstProfile[index - 1]] - 1;
 
                     break;
                 }
@@ -533,7 +535,7 @@ public static class ConfigHandler
                     {
                         return 0;
                     }
-                    sort = ProfileExManager.Instance.GetSort(lstProfile[index + 1]) + 1;
+                    sort = virtualSort[lstProfile[index + 1]] + 1;
 
                     break;
                 }
@@ -543,7 +545,7 @@ public static class ConfigHandler
                     {
                         return 0;
                     }
-                    sort = ProfileExManager.Instance.GetSort(lstProfile[^1]) + 1;
+                    sort = virtualSort[lstProfile[^1]] + 1;
 
                     break;
                 }
@@ -552,7 +554,16 @@ public static class ConfigHandler
                 break;
         }
 
-        ProfileExManager.Instance.SetSort(lstProfile[index], sort);
+        virtualSort[lstProfile[index]] = sort;
+
+        // Visible servers take over the Sort slots they already occupied, in their new order,
+        // so no hidden server's Sort value is reused or shifted.
+        var slots = lstProfile.Select(ProfileExManager.Instance.GetSort).OrderBy(s => s).ToList();
+        var newOrder = lstProfile.OrderBy(id => virtualSort[id]).ToList();
+        for (var i = 0; i < newOrder.Count; i++)
+        {
+            ProfileExManager.Instance.SetSort(newOrder[i], slots[i]);
+        }
         return await Task.FromResult(0);
     }
 

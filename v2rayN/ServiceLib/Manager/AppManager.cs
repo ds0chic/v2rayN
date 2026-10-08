@@ -214,9 +214,11 @@ public sealed class AppManager
                         from ProfileItem a
                         left join SubItem b on a.subid = b.id
                         where 1=1 ";
+        var args = new List<object>();
         if (subid.IsNotEmpty())
         {
-            sql += $" and a.subid = '{subid}'";
+            sql += " and a.subid = ?";
+            args.Add(subid);
         }
         if (filter.IsNotEmpty())
         {
@@ -224,10 +226,13 @@ public sealed class AppManager
             {
                 filter = filter.Replace("'", "");
             }
-            sql += string.Format(" and (a.remarks like '%{0}%' or a.address like '%{0}%') ", filter);
+            var likeArg = "%" + filter.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_") + "%";
+            sql += " and (a.remarks like ? escape '\\' or a.address like ? escape '\\') ";
+            args.Add(likeArg);
+            args.Add(likeArg);
         }
 
-        return await SQLiteHelper.Instance.QueryAsync<ProfileItemModel>(sql);
+        return await SQLiteHelper.Instance.QueryAsync<ProfileItemModel>(sql, args.ToArray());
     }
 
     public async Task<ProfileItem?> GetProfileItem(string indexId)

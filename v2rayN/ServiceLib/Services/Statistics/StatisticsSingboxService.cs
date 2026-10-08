@@ -48,6 +48,7 @@ public class StatisticsSingboxService
                     continue;
                 }
                 using var ws = new ClientWebSocket();
+                ws.Options.SetRequestHeader("Authorization", $"Bearer {ClashApiSecret.Active}");
                 await ws.ConnectAsync(new Uri(Url), token).ConfigureAwait(false);
 
                 var buffer = new byte[1024];
@@ -78,8 +79,8 @@ public class StatisticsSingboxService
                     {
                         await _updateFunc.Invoke(new ServerSpeedItem
                         {
-                            ProxyUp = (long)(up / 1000),
-                            ProxyDown = (long)(down / 1000),
+                            ProxyUp = (long)(up / 1024),
+                            ProxyDown = (long)(down / 1024),
                         }).ConfigureAwait(false);
                     }
                 }

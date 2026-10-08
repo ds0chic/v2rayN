@@ -78,7 +78,7 @@ public class CoreConfigClashService(Config config, bool isTunEnabled)
 
             //external-controller
             fileContent["external-controller"] = $"{Global.Loopback}:{AppManager.Instance.StatePort2}";
-            fileContent.Remove("secret");
+            fileContent["secret"] = ClashApiSecret.Apply(fileContent.TryGetValue("secret", out var userSecret) ? userSecret?.ToString() : null);
             //allow-lan
             if (config.Inbound.First().AllowLANConn)
             {
