@@ -19,7 +19,6 @@ public class Global
     public const string V2raySampleClient = NamespaceSample + "SampleClientConfig";
     public const string SingboxSampleClient = NamespaceSample + "SingboxSampleClientConfig";
     public const string V2raySampleHttpRequestFileName = NamespaceSample + "SampleHttpRequest";
-    public const string V2raySampleHttpResponseFileName = NamespaceSample + "SampleHttpResponse";
     public const string V2raySampleInbound = NamespaceSample + "SampleInbound";
     public const string V2raySampleOutbound = NamespaceSample + "SampleOutbound";
     public const string V2raySampleTunInbound = NamespaceSample + "SampleTunInbound";
@@ -62,10 +61,8 @@ public class Global
     public const string StreamSecurity = "tls";
     public const string StreamSecurityReality = "reality";
     public const string Loopback = "127.0.0.1";
-    public const string InboundAPIProtocol = "dokodemo-door";
     public const string HttpProtocol = "http://";
     public const string HttpsProtocol = "https://";
-    public const string SocksProtocol = "socks://";
     public const string Socks5Protocol = "socks5://";
     public const string InnerUriProtocol = "v2rayn://";
     public const string AsIs = "AsIs";
@@ -393,8 +390,6 @@ public class Global
         EConfigType.HTTP,
     ];
 
-    public static readonly HashSet<EConfigType> SingboxOnlyConfigType = SingboxSupportConfigType.Except(XraySupportConfigType).ToHashSet();
-
     public static readonly List<string> DomainStrategies =
     [
         AsIs,
@@ -629,24 +624,6 @@ public class Global
         "urltest",
         "loadbalance",
         "fallback"
-    ];
-
-    public static readonly List<string> notAllowTestType =
-    [
-        "selector",
-        "urltest",
-        "direct",
-        "reject",
-        "compatible",
-        "pass",
-        "loadbalance",
-        "fallback"
-    ];
-
-    public static readonly List<string> proxyVehicleType =
-    [
-        "file",
-        "http"
     ];
 
     public static readonly Dictionary<ECoreType, string> CoreUrls = new()
