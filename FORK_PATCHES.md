@@ -22,6 +22,12 @@ Upstream: https://github.com/2dust/v2rayN (remote `upstream`).
 | Dead-code cleanup | removal of unused members/resources/commented code (ResUI key removal was reverted to limit merge conflicts) | many | n/a (resolve conflicts in favor of upstream) |
 | Avalonia-only frontend | WPF frontend removed; only v2rayN.Desktop is built. Deleted: `v2rayN/v2rayN/**`, WPF-only packages (H.NotifyIcon.Wpf, MaterialDesignThemes, ReactiveUI.WPF) in Directory.Packages.props, sln/slnx entries, `*_wpftmp.csproj` ignore rule, `build-windows.yml` (and its dispatch in build-all.yml). CI asset names kept: Avalonia Windows builds use package-zip.yml target `windows`, producing `v2rayN-windows-64.zip` / `v2rayN-windows-arm64.zip` (winget-publish.yml unchanged) and x86 `v2rayN-windows-86.zip` | v2rayN/v2rayN/** (deleted), sln/slnx, Directory.Packages.props, .gitignore, workflows | n/a; on modify/delete conflicts in v2rayN/v2rayN/** run `git rm` (keep it deleted) |
 
+## ForkText
+
+- `v2rayN/v2rayN.Desktop/Common/ForkText.cs` holds fork-only UI strings as static properties, selected by UI culture.
+- New UI text added by this fork goes there, never into `ResUI.resx` (or the generated `ResUI.Designer.cs`), so upstream resource merges stay conflict-free.
+- Languages: Simplified Chinese (zh-Hans), Traditional Chinese (zh-Hant, used for zh-TW/zh-HK/zh-MO), and English as the fallback for every other language. Use the existing `Pick(hans, hant, en)` pattern.
+
 ## Sync checklist
 1. `git fetch upstream`
 2. `git log --oneline HEAD..upstream/master` and read it for fixes overlapping the table above.
