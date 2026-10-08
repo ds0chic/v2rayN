@@ -20,6 +20,7 @@
         <semi:SemiTheme />
         <semi:AvaloniaEditSemiTheme />
         <StyleInclude Source="Assets/GlobalStyles.axaml" />
+        <StyleInclude Source="Assets/ForkTheme.axaml" />
         <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
         <dialogHost:DialogHostStyles />
 
@@ -28,7 +29,7 @@
             <Setter Property="Background" Value="{DynamicResource SemiColorFill0}" />
 
             <Setter Property="dialogHost:DialogHostStyle.BoxShadow" Value="{DynamicResource SemiShadowElevated}" />
-            <Setter Property="dialogHost:DialogHostStyle.CornerRadius" Value="6" />
+            <Setter Property="dialogHost:DialogHostStyle.CornerRadius" Value="10" />
         </Style>
     </Application.Styles>
 
@@ -72,7 +73,17 @@
                             IsVisible="{Binding BlSystemProxyPacVisible}"
                             ToggleType="Radio" />
                         <NativeMenuItemSeparator />
+                        <NativeMenuItem
+                            Header="{x:Static resx:ResUI.menuRouting}"
+                            IsVisible="{Binding BlRouting}" />
+                        <NativeMenuItem
+                            Header="{x:Static resx:ResUI.menuServers}"
+                            IsVisible="{Binding BlServers}" />
+                        <NativeMenuItemSeparator />
                         <NativeMenuItem Click="MenuAddServerViaClipboardClick" Header="{x:Static resx:ResUI.menuAddServerViaClipboard}" />
+                        <NativeMenuItem
+                            Command="{Binding AddServerViaScanCmd}"
+                            Header="{x:Static resx:ResUI.menuAddServerViaScan}" />
                         <NativeMenuItem Command="{Binding SubUpdateCmd}" Header="{x:Static resx:ResUI.menuSubUpdate}" />
                         <NativeMenuItem Command="{Binding SubUpdateViaProxyCmd}" Header="{x:Static resx:ResUI.menuSubUpdateViaProxy}" />
                         <NativeMenuItemSeparator />

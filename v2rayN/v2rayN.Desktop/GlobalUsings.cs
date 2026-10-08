@@ -31,7 +31,6 @@ global using ServiceLib.Enums;
 global using ServiceLib.Events;
 global using ServiceLib.Handler;
 global using ServiceLib.Manager;
-global using ServiceLib.Models.CoreConfigs;
 global using ServiceLib.Models.Configs;
 global using ServiceLib.Models.Dto;
 global using ServiceLib.Models.Entities;

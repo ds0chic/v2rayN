@@ -73,7 +73,6 @@ public partial class SubEditViewModel : MyReactiveObject, ICloseable
             if (url.StartsWith(Global.HttpProtocol) && !Utils.IsPrivateNetwork(uri.IdnHost))
             {
                 NoticeManager.Instance.Enqueue(ResUI.InsecureUrlProtocol);
-                //return;
             }
         }
 

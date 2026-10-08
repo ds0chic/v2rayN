@@ -1,4 +1,7 @@
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls.Notifications;
+using Avalonia.Styling;
 using DialogHostAvalonia;
 using v2rayN.Desktop.Base;
 using v2rayN.Desktop.Common;
@@ -19,16 +22,20 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
     {
         InitializeComponent();
 
+        // The unified toolbar replaces the native title bar on Windows only; macOS/Linux keep their native frame.
+        ExtendClientAreaToDecorationsHint = Utils.IsWindows();
+
         _config = AppManager.Instance.Config;
-        _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.TopRight };
+        _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.BottomRight, Margin = new Thickness(0, 0, 0, 56) };
 
         KeyDown += MainWindow_KeyDown;
+        menuRebootAsAdmin.IsVisible = Utils.IsWindows() && !Utils.IsAdministrator();
         menuSettingsSetUWP.Click += MenuSettingsSetUWP_Click;
-        menuPromotion.Click += MenuPromotion_Click;
         menuCheckUpdate.Click += MenuCheckUpdate_Click;
         btnNewUpdate.Click += MenuCheckUpdate_Click;
         menuBackupAndRestore.Click += MenuBackupAndRestore_Click;
         menuClose.Click += MenuClose_Click;
+        menuExit.Click += MenuExit_Click;
 
         conTheme.Content ??= new ThemeSettingView();
 
@@ -105,7 +112,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
             ViewModel.BrowseImageFileInteraction.RegisterHandler(async interaction =>
             {
-                var result = await UI.OpenFileDialog(null);
+                var result = await UI.OpenFileDialog();
                 interaction.SetOutput(result);
             }).DisposeWith(disposables);
 
@@ -152,7 +159,10 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
         if (_config.UiItem.AutoHideStartup && Utils.IsWindows())
         {
+            // Keep the first paint invisible; OnLoaded still runs and hides the window.
             WindowState = WindowState.Minimized;
+            Opacity = 0;
+            ShowInTaskbar = false;
         }
 
         AddHelpMenuItem();
@@ -169,7 +179,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
     private async Task DelegateSnackMsg(string content)
     {
-        _manager?.Show(new Avalonia.Controls.Notifications.Notification(null, content, NotificationType.Information));
+        ShowToast(content, NotificationType.Information);
         await Task.CompletedTask;
     }
 
@@ -238,14 +248,41 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         }
     }
 
-    private void MenuPromotion_Click(object? sender, RoutedEventArgs e)
+    // Toasts sit bottom-right above the status bar and disappear on their own.
+    private void ShowToast(string content, NotificationType type)
     {
-        ProcUtils.ProcessStart($"{Utils.Base64Decode(Global.PromotionUrl)}?t={DateTime.Now.Ticks}");
+        _manager?.Show(new Avalonia.Controls.Notifications.Notification(null, content, type, TimeSpan.FromSeconds(3)));
     }
 
-    private void MenuSettingsSetUWP_Click(object? sender, RoutedEventArgs e)
+    private async void MenuSettingsSetUWP_Click(object? sender, RoutedEventArgs e)
     {
-        ProcUtils.ProcessStart(Utils.GetBinPath("EnableLoopback.exe"));
+        var path = Utils.GetBinPath("EnableLoopback.exe");
+        if (!File.Exists(path))
+        {
+            ShowToast(ForkText.UwpLoopbackMissing, NotificationType.Warning);
+            return;
+        }
+
+        var before = await Task.Run(UwpLoopbackHelper.CountExempt);
+        if (!await UwpLoopbackHelper.RunToolAsync(path))
+        {
+            ShowToast(ForkText.UwpLoopbackFailed, NotificationType.Error);
+            return;
+        }
+
+        var after = await Task.Run(UwpLoopbackHelper.CountExempt);
+        if (before is null || after is null)
+        {
+            ShowToast(ForkText.UwpLoopbackClosed, NotificationType.Information);
+        }
+        else if (after == before)
+        {
+            ShowToast(string.Format(ForkText.UwpLoopbackUnchanged, after), NotificationType.Information);
+        }
+        else
+        {
+            ShowToast(string.Format(ForkText.UwpLoopbackChanged, after, after - before), NotificationType.Success);
+        }
     }
 
     public async Task AddServerViaClipboardAsync()
@@ -288,7 +325,13 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         DialogHost.Show(_backupAndRestoreView);
     }
 
-    private async void MenuClose_Click(object? sender, RoutedEventArgs e)
+    private void MenuClose_Click(object? sender, RoutedEventArgs e)
+    {
+        StorageUI();
+        ShowHideWindow(false);
+    }
+
+    private async void MenuExit_Click(object? sender, RoutedEventArgs e)
     {
         try
         {
@@ -334,6 +377,9 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
                     : !AppManager.Instance.ShowInTaskbar);
         if (bl)
         {
+            // While in the tray the window stays truly hidden (no rendering cost). On a cold re-show (Windows) it is
+            // shown cloaked and revealed only after it has painted, so the empty frame is never visible.
+            var warmup = !IsVisible && WindowCloakHelper.TrySetCloaked(this, true);
             Show();
             if (WindowState == WindowState.Minimized)
             {
@@ -341,6 +387,10 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
             }
             Activate();
             Focus();
+            if (warmup)
+            {
+                UncloakAfterFirstFrame();
+            }
         }
         else
         {
@@ -360,14 +410,90 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         AppManager.Instance.ShowInTaskbar = bl;
     }
 
+    private void UncloakAfterFirstFrame()
+    {
+        var done = false;
+        void Uncloak()
+        {
+            if (done)
+            {
+                return;
+            }
+            done = true;
+            // Fully transparent first, then reveal, so no opaque frame can slip through before the fade starts.
+            Opacity = 0;
+            WindowCloakHelper.TrySetCloaked(this, false);
+            FadeIn();
+        }
+
+        var top = TopLevel.GetTopLevel(this);
+        top?.RequestAnimationFrame(_ => top.RequestAnimationFrame(_ => Uncloak()));
+        // Safety net: never leave the window cloaked if no frame callback arrives.
+        DispatcherTimer.RunOnce(Uncloak, TimeSpan.FromMilliseconds(400));
+    }
+
+    // Short fade so the re-show reads as intentional even when the first frame takes a moment.
+    private void FadeIn()
+    {
+        var fade = new Animation
+        {
+            Duration = TimeSpan.FromMilliseconds(90),
+            Easing = new CubicEaseOut(),
+            FillMode = FillMode.Forward,
+            Children =
+            {
+                new KeyFrame { Cue = new Cue(0d), Setters = { new Setter(OpacityProperty, 0d) } },
+                new KeyFrame { Cue = new Cue(1d), Setters = { new Setter(OpacityProperty, 1d) } },
+            },
+        };
+        _ = fade.RunAsync(this).ContinueWith(_ => Dispatcher.UIThread.Post(() => Opacity = 1));
+    }
+
     protected override void OnLoaded(object? sender, RoutedEventArgs e)
     {
         base.OnLoaded(sender, e);
-        if (_config.UiItem.AutoHideStartup)
+        Opacity = 1;
+        RestoreUI();
+        if (_config.UiItem.AutoHideStartup && !WarmUpThenHide())
         {
             ShowHideWindow(false);
+            ShowInTaskbar = true;
         }
-        RestoreUI();
+    }
+
+    // Tray start: render the window once at its normal size while cloaked, then hide it, so the first tray open
+    // does not have to realize templates, rows and fonts from scratch. Returns false when cloaking is unavailable.
+    private bool WarmUpThenHide()
+    {
+        if (!WindowCloakHelper.TrySetCloaked(this, true))
+        {
+            return false;
+        }
+
+        if (WindowState == WindowState.Minimized)
+        {
+            WindowState = WindowState.Normal;
+        }
+
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        var done = false;
+        void Finish()
+        {
+            if (done)
+            {
+                return;
+            }
+            done = true;
+            Logging.SaveLog($"Tray start: warm-up rendered for {sw.ElapsedMilliseconds}ms");
+            ShowHideWindow(false);
+            ShowInTaskbar = true;
+        }
+
+        var top = TopLevel.GetTopLevel(this);
+        top?.RequestAnimationFrame(_ => top.RequestAnimationFrame(_ => DispatcherTimer.RunOnce(Finish, TimeSpan.FromMilliseconds(150))));
+        // Safety net: always end up hidden in the tray.
+        DispatcherTimer.RunOnce(Finish, TimeSpan.FromMilliseconds(800));
+        return true;
     }
 
     private void RestoreUI()

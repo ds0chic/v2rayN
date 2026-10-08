@@ -134,18 +134,6 @@ public class Utils
         return string.Empty;
     }
 
-    public static bool ToBool(object obj)
-    {
-        try
-        {
-            return Convert.ToBoolean(obj);
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
     public static string ToString(object? obj)
     {
         try
@@ -238,32 +226,6 @@ public class Utils
             }
 
             return sb.ToString();
-        }
-        catch (Exception ex)
-        {
-            Logging.SaveLog(_tag, ex);
-            return string.Empty;
-        }
-    }
-
-    public static string GetFileHash(string filePath)
-    {
-        if (string.IsNullOrEmpty(filePath))
-        {
-            return string.Empty;
-        }
-
-        if (!File.Exists(filePath))
-        {
-            return string.Empty;
-        }
-
-        try
-        {
-            using var md5 = MD5.Create();
-            using var stream = File.OpenRead(filePath);
-            var hash = md5.ComputeHash(stream);
-            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
         }
         catch (Exception ex)
         {
@@ -574,23 +536,6 @@ public class Utils
         }
 
         return false;
-    }
-
-    public static bool IsIpv4(string? ip)
-    {
-        if (ip.IsNullOrEmpty())
-        {
-            return false;
-        }
-
-        ip = ip.Trim();
-        if (!IPAddress.TryParse(ip, out var address))
-        {
-            return false;
-        }
-
-        return address.AddressFamily == AddressFamily.InterNetwork
-               && ip.Count(c => c == '.') == 3;
     }
 
     public static bool IsIpAddress(string? ip)
@@ -1450,13 +1395,6 @@ public class Utils
             Logging.SaveLog("SetUnixFileMode", ex);
         }
         return false;
-    }
-
-    public static async Task<string?> GetLinuxFontFamily(string lang)
-    {
-        // var arg = new List<string>() { "-c", $"fc-list :lang={lang} family" };
-        var arg = new List<string>() { "-c", $"fc-list : family" };
-        return await GetCliWrapOutput(Global.LinuxBash, arg);
     }
 
     public static string? GetHomePath()

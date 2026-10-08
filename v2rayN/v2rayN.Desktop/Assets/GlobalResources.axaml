@@ -18,4 +18,9 @@
     <Thickness x:Key="MarginLr8">8,0</Thickness>
     <Thickness x:Key="MarginTb8">0,8</Thickness>
     <Thickness x:Key="Margin8">8</Thickness>
+
+    <!-- Semi data grid rows read this token from their template; a Styles resource does not reach it, so it lives here. -->
+    <CornerRadius x:Key="DataGridRowCornerRadius">6</CornerRadius>
+    <!-- Semi dropdown popup border reads this token in its template; same reason as the data grid row token. -->
+    <CornerRadius x:Key="ComboBoxPopupBoxCornerRadius">10</CornerRadius>
 </ResourceDictionary>

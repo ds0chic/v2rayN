@@ -126,9 +126,6 @@
   <data name="UpgradeFileNotFound" xml:space="preserve">
     <value>Upgrade failed, file not found.</value>
   </data>
-  <data name="InProgress" xml:space="preserve">
-    <value>In progress, please wait...</value>
-  </data>
   <data name="TryTerminateProcess" xml:space="preserve">
     <value>Try to terminate the v2rayN process...</value>
   </data>
@@ -138,19 +135,7 @@
   <data name="StartUnzipping" xml:space="preserve">
     <value>Start extracting the update package...</value>
   </data>
-  <data name="SuccessUnzipping" xml:space="preserve">
-    <value>Successfully extracted the update package.</value>
-  </data>
-  <data name="FailedUnzipping" xml:space="preserve">
-    <value>Failed to extract the update package.</value>
-  </data>
   <data name="FailedUpgrade" xml:space="preserve">
     <value>Upgrade failed.</value>
-  </data>
-  <data name="SuccessUpgrade" xml:space="preserve">
-    <value>Upgrade success.</value>
-  </data>
-  <data name="Information" xml:space="preserve">
-    <value>Information</value>
   </data>
 </root>

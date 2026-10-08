@@ -118,7 +118,6 @@ public partial class RoutingRuleDetailsViewModel : MyReactiveObject, ICloseable
             NoticeManager.Instance.Enqueue(string.Format(ResUI.RoutingRuleDetailRequiredTips, "Network/Port/Protocol/Domain/IP/Process"));
             return;
         }
-        //NoticeHandler.Instance.Enqueue(ResUI.OperationSuccess);
         RequestClose?.Invoke(this, EventArgs.Empty);
         await Task.CompletedTask;
     }

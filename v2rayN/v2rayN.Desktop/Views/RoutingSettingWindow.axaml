@@ -65,7 +65,7 @@
                 VerticalAlignment="Center" />
         </Grid>
 
-        <TabControl x:Name="tabAdvanced">
+        <TabControl>
             <TabItem HorizontalAlignment="Left" Header="{x:Static resx:ResUI.TbRoutingTabRuleList}">
                 <DataGrid
                     x:Name="lstRoutings"

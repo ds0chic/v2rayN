@@ -1,3 +1,5 @@
+using v2rayN.Desktop.Common;
+
 namespace v2rayN.Desktop.Base;
 
 public class WindowBase<TViewModel> : ReactiveWindow<TViewModel> where TViewModel : class
@@ -5,6 +7,7 @@ public class WindowBase<TViewModel> : ReactiveWindow<TViewModel> where TViewMode
     public WindowBase()
     {
         Loaded += OnLoaded;
+        Opened += (s, e) => DarkTitleBarHelper.Apply(this);
         Loaded += (s, e) =>
         {
             if (Owner != null && !ShowInTaskbar)
@@ -12,11 +15,6 @@ public class WindowBase<TViewModel> : ReactiveWindow<TViewModel> where TViewMode
                 CanMinimize = false;
             }
         };
-    }
-
-    private void ReactiveWindowBase_Closed(object? sender, EventArgs e)
-    {
-        throw new NotImplementedException();
     }
 
     protected virtual void OnLoaded(object? sender, RoutedEventArgs e)

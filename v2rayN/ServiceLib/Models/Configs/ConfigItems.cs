@@ -141,6 +141,12 @@ public class CoreTypeItem
 public class TunModeItem
 {
     public bool EnableTun { get; set; }
+
+    /// <summary>
+    /// The user's last explicit choice. Unlike <see cref="EnableTun"/>, it is not cleared when TUN
+    /// cannot be enabled at startup (no admin/sudo rights), so it can be restored later.
+    /// </summary>
+    public bool LastEnableTun { get; set; }
     public bool AutoRoute { get; set; } = true;
     public bool StrictRoute { get; set; } = true;
     public string Stack { get; set; }

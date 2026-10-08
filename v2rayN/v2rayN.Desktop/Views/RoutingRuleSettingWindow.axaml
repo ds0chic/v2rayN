@@ -118,30 +118,6 @@
                 VerticalAlignment="Center"
                 TextWrapping="Wrap" />
 
-            <!--
-            <TextBlock
-                Grid.Row="3"
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                Margin="{StaticResource Margin4}"
-                Text="{x:Static resx:ResUI.LvCustomIcon}" />
-            <TextBox
-                x:Name="txtCustomIcon"
-                Grid.Row="3"
-                Grid.Column="1"
-                Width="600"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Margin="{StaticResource Margin4}"
-                TextWrapping="Wrap" />
-            <Button
-                x:Name="btnBrowseCustomIcon"
-                Grid.Row="3"
-                Grid.Column="2"
-                Margin="{StaticResource Margin4}"
-                Content="{x:Static resx:ResUI.TbBrowse}" />
-            -->
-
             <TextBlock
                 Grid.Row="4"
                 Grid.Column="0"
@@ -168,7 +144,7 @@
                 Content="{x:Static resx:ResUI.TbBrowse}" />
         </Grid>
 
-        <TabControl x:Name="tabAdvanced">
+        <TabControl>
             <TabItem HorizontalAlignment="Left" Header="{x:Static resx:ResUI.menuRuleList}">
                 <DataGrid
                     x:Name="lstRules"

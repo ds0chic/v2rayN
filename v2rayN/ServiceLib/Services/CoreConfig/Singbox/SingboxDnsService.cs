@@ -667,7 +667,6 @@ public partial class CoreConfigSingboxService
         }
         else
         {
-            // server.type = scheme.ToLower();
 
             // remove "+local" suffix
             // TODO: "+local" suffix decide server.detour = "direct" ?

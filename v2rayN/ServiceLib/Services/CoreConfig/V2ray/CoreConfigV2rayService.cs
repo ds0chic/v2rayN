@@ -212,7 +212,6 @@ public partial class CoreConfigV2rayService(CoreConfigContext context)
             }
             ApplyOutboundBindInterface();
             ApplyOutboundSendThrough();
-            //ret.Msg =string.Format(ResUI.SuccessfulConfiguration"), node.getSummary());
             ret.Success = true;
             ret.Data = ApplyCustomOutboundReplace();
             return ret;

@@ -70,15 +70,6 @@ namespace AmazTool.Resx {
         }
         
         /// <summary>
-        ///   查找类似 Failed to extract the update package. 的本地化字符串。
-        /// </summary>
-        internal static string FailedUnzipping {
-            get {
-                return ResourceManager.GetString("FailedUnzipping", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Upgrade failed. 的本地化字符串。
         /// </summary>
         internal static string FailedUpgrade {
@@ -97,24 +88,6 @@ namespace AmazTool.Resx {
         }
         
         /// <summary>
-        ///   查找类似 Information 的本地化字符串。
-        /// </summary>
-        internal static string Information {
-            get {
-                return ResourceManager.GetString("Information", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 In progress, please wait... 的本地化字符串。
-        /// </summary>
-        internal static string InProgress {
-            get {
-                return ResourceManager.GetString("InProgress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Start v2rayN, please wait... 的本地化字符串。
         /// </summary>
         internal static string Restartv2rayN {
@@ -129,24 +102,6 @@ namespace AmazTool.Resx {
         internal static string StartUnzipping {
             get {
                 return ResourceManager.GetString("StartUnzipping", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Successfully extracted the update package. 的本地化字符串。
-        /// </summary>
-        internal static string SuccessUnzipping {
-            get {
-                return ResourceManager.GetString("SuccessUnzipping", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Upgrade success. 的本地化字符串。
-        /// </summary>
-        internal static string SuccessUpgrade {
-            get {
-                return ResourceManager.GetString("SuccessUpgrade", resourceCulture);
             }
         }
         

@@ -28,7 +28,7 @@ public partial class BackupAndRestoreView : ReactiveUserControl<BackupAndRestore
 
     private async void MenuLocalBackup_Click(object? sender, RoutedEventArgs e)
     {
-        var fileName = await UI.SaveFileDialog("Zip|*.zip");
+        var fileName = await UI.SaveFileDialog();
         if (fileName.IsNullOrEmpty())
         {
             return;
@@ -39,7 +39,7 @@ public partial class BackupAndRestoreView : ReactiveUserControl<BackupAndRestore
 
     private async void MenuLocalRestore_Click(object? sender, RoutedEventArgs e)
     {
-        var fileName = await UI.OpenFileDialog(null);
+        var fileName = await UI.OpenFileDialog();
         if (fileName.IsNullOrEmpty())
         {
             return;

@@ -20,30 +20,9 @@ public static class Extension
         return string.IsNullOrWhiteSpace(value) ? null : value;
     }
 
-    public static bool BeginWithAny(this string s, IEnumerable<char> chars)
-    {
-        if (s.IsNullOrEmpty())
-        {
-            return false;
-        }
-        return chars.Contains(s.First());
-    }
-
     private static bool IsWhiteSpace(this string value)
     {
         return value.All(char.IsWhiteSpace);
-    }
-
-    public static IEnumerable<string> NonWhiteSpaceLines(this TextReader reader)
-    {
-        while (reader.ReadLine() is { } line)
-        {
-            if (line.IsWhiteSpace())
-            {
-                continue;
-            }
-            yield return line;
-        }
     }
 
     public static string TrimEx(this string? value)
@@ -94,30 +73,6 @@ public static class Extension
     public static bool IsComplexType(this EConfigType configType)
     {
         return configType is EConfigType.Custom or EConfigType.Outbound or EConfigType.PolicyGroup or EConfigType.ProxyChain;
-    }
-
-    /// <summary>
-    /// Safely adds elements from a collection to the list. Does nothing if the source is null.
-    /// </summary>
-    public static void AddRangeSafe<T>(this ICollection<T> destination, IEnumerable<T>? source)
-    {
-        ArgumentNullException.ThrowIfNull(destination);
-
-        if (source is null)
-        {
-            return;
-        }
-
-        if (destination is List<T> list)
-        {
-            list.AddRange(source);
-            return;
-        }
-
-        foreach (var item in source)
-        {
-            destination.Add(item);
-        }
     }
 
     /// <summary>

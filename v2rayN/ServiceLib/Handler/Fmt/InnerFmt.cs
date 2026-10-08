@@ -50,7 +50,6 @@ public class InnerFmt : BaseFmt
             var protocolExtra = item.GetProtocolExtra();
             // Only allow "self" as a special value for SubChildItems to avoid possible sources of attacks,
             // which means it will be replaced with the subid, otherwise set it to null
-            // if (!protocolExtra.SubChildItems.IsNullOrEmpty())
             if (protocolExtra.SubChildItems == "self")
             {
                 protocolExtra = protocolExtra with

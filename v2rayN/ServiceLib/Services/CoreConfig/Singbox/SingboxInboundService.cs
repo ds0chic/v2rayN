@@ -57,17 +57,13 @@ public partial class CoreConfigSingboxService
                 {
                     _config.TunModeItem.Mtu = Global.TunMtus.First();
                 }
-                if (_config.TunModeItem.Stack.IsNullOrEmpty())
-                {
-                    _config.TunModeItem.Stack = Global.TunStacks.First();
-                }
 
                 var tunInbound = JsonUtils.Deserialize<Inbound4Sbox>(EmbedUtils.GetEmbedText(Global.TunSingboxInboundFileName)) ?? new Inbound4Sbox { };
                 tunInbound.interface_name = context.IsMacOS ? null : "singbox_tun";
                 tunInbound.mtu = _config.TunModeItem.Mtu;
                 tunInbound.auto_route = _config.TunModeItem.AutoRoute;
                 tunInbound.strict_route = _config.TunModeItem.StrictRoute;
-                tunInbound.stack = _config.TunModeItem.Stack;
+                tunInbound.stack = _config.TunModeItem.Stack.NullIfEmpty();
 
                 var address = _config.TunModeItem.IPv4Address.NullIfEmpty() ?? Global.TunIPv4Address.First();
                 tunInbound.address = [address];

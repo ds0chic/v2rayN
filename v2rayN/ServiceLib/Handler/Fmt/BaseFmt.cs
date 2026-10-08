@@ -96,7 +96,6 @@ public class BaseFmt
             network = nameof(ETransport.raw);
         }
 
-        //dicQuery.Add("type", network);
         dicQuery.Add("type", network == nameof(ETransport.raw) ? Global.RawNetworkAlias : network);
 
         switch (network)

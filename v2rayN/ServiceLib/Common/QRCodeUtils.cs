@@ -77,10 +77,6 @@ public class QRCodeUtils
         try
         {
             var bitmap = SKBitmap.Decode(bytes);
-            //using var stream = new FileStream("test2.png", FileMode.Create, FileAccess.Write);
-            //using var image = SKImage.FromBitmap(bitmap);
-            //using var encodedImage = image.Encode();
-            //encodedImage.SaveTo(stream);
             return ReaderBarcode(bitmap);
         }
         catch

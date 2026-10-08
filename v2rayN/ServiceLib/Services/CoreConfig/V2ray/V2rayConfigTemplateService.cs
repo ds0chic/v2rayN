@@ -195,7 +195,6 @@ public partial class CoreConfigV2rayService
                     ?? string.Empty;
                 if (!Utils.IsPrivateNetwork(outboundAddress))
                 {
-                    //FillDialerProxy(outbound, fullConfigTemplate.ProxyDetour);
                     outbound["streamSettings"] ??= new JsonObject();
                     outbound["streamSettings"]["sockopt"] ??= new JsonObject();
                     outbound["streamSettings"]["sockopt"]["dialerProxy"] = fullConfigTemplate.ProxyDetour;

@@ -421,7 +421,7 @@ public partial class OptionSettingViewModel : MyReactiveObject, ICloseable
         for (var k = 1; k <= _config.CoreTypeItem.Count; k++)
         {
             var item = _config.CoreTypeItem[k - 1];
-            var type = string.Empty;
+            string type;
             switch ((int)item.ConfigType)
             {
                 case 1:

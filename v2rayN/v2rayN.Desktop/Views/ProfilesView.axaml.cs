@@ -39,7 +39,6 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
             this.OneWayBind(ViewModel, vm => vm.ProfileItems, v => v.lstProfiles.ItemsSource).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SelectedProfile, v => v.lstProfiles.SelectedItem).DisposeWith(disposables);
 
-            // this.OneWayBind(ViewModel, vm => vm.SubItems, v => v.lstGroup.ItemsSource).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SelectedSub, v => v.lstGroup.SelectedItem).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.ServerFilter, v => v.txtServerFilter.Text).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.AddSubCmd, v => v.btnAddSub).DisposeWith(disposables);
@@ -59,8 +58,6 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
             this.BindCommand(ViewModel, vm => vm.GenGroupRegionServerCmd, v => v.menuGenGroupRegionServer).DisposeWith(disposables);
 
             //servers move
-            //this.OneWayBind(ViewModel, vm => vm.SubItems, v => v.cmbMoveToGroup.ItemsSource).DisposeWith(disposables);
-            //this.Bind(ViewModel, vm => vm.SelectedMoveToGroup, v => v.cmbMoveToGroup.SelectedItem).DisposeWith(disposables);
 
             this.BindCommand(ViewModel, vm => vm.MoveTopCmd, v => v.menuMoveTop).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.MoveUpCmd, v => v.menuMoveUp).DisposeWith(disposables);
@@ -100,7 +97,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
                     return;
                 }
                 var profileItem = interaction.Input;
-                var fileName = await UI.SaveFileDialog("");
+                var fileName = await UI.SaveFileDialog();
                 if (fileName.IsNullOrEmpty())
                 {
                     interaction.SetOutput(false);
@@ -143,7 +140,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
             ViewModel.AdjustMainLvColWidthInteraction.RegisterHandler(interaction =>
             {
-                //AutofitColumnWidth();
+                Dispatcher.UIThread.Post(AutofitColumnWidth, DispatcherPriority.Default);
                 interaction.SetOutput(RxVoid.Default);
             }).DisposeWith(disposables);
 
@@ -220,18 +217,6 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
     {
         e.Row.Header = $" {e.Row.Index + 1}";
     }
-
-    //private void LstProfiles_ColumnHeader_Click(object? sender, RoutedEventArgs e)
-    //{
-    //    var colHeader = sender as DataGridColumnHeader;
-    //    if (colHeader == null || colHeader.TabIndex < 0 || colHeader.Column == null)
-    //    {
-    //        return;
-    //    }
-
-    //    var colName = ((MyDGTextColumn)colHeader.Column).ExName;
-    //    ViewModel?.SortServer(colName);
-    //}
 
     private void menuSelectAll_Click(object? sender, RoutedEventArgs e)
     {

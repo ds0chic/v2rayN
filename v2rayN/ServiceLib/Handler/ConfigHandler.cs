@@ -557,7 +557,6 @@ public static class ConfigHandler
         }
         var ext = Path.GetExtension(fileName);
         var newFileName = $"{Utils.GetGuid()}{ext}";
-        //newFileName = Path.Combine(Utile.GetTempPath(), newFileName);
 
         try
         {
@@ -594,7 +593,6 @@ public static class ConfigHandler
         }
         var ext = Path.GetExtension(fileName);
         var newFileName = $"{Utils.GetGuid()}{ext}";
-        //newFileName = Path.Combine(Utile.GetTempPath(), newFileName);
 
         try
         {
@@ -656,7 +654,6 @@ public static class ConfigHandler
             return -1;
         }
 
-        //ToJsonFile(config);
     }
 
     /// <summary>
@@ -775,7 +772,6 @@ public static class ConfigHandler
         profileItem.Password = profileItem.Password.TrimEx();
         profileItem.Fingerprint = string.Empty;
         profileItem.Alpn = string.Empty;
-        //profileItem.Alpn = "h3";
         profileItem.Network = string.Empty;
 
         if (profileItem.StreamSecurity.IsNullOrEmpty())
@@ -1264,7 +1260,6 @@ public static class ConfigHandler
 
         if (toFile)
         {
-            //profileItem.SetProtocolExtra();
             profileItem.SetProtocolExtra(profileItem.GetProtocolExtra());
             await SQLiteHelper.Instance.ReplaceAsync(profileItem);
         }
@@ -2196,7 +2191,6 @@ public static class ConfigHandler
         {
             //TODO Temporary reminder to be removed later
             NoticeManager.Instance.Enqueue(ResUI.InsecureUrlProtocol);
-            //return -1;
         }
 
         var queryVars = Utils.ParseQueryString(uri.Query);
@@ -2625,7 +2619,7 @@ public static class ConfigHandler
     /// <returns>0 if successful</returns>
     public static async Task<int> InitBuiltinRouting(Config config, bool blImportAdvancedRules = false)
     {
-        var ver = "V4-";
+        var ver = ForkRoutingUpgrade.Version;
         var items = await AppManager.Instance.RoutingItems();
 
         //TODO Temporary code to be removed later
@@ -2650,6 +2644,7 @@ public static class ConfigHandler
                 config.RoutingBasicItem.RoutingIndexId = string.Empty;
             }
 
+            await ForkRoutingUpgrade.UpgradeAsync(items); //fork: move unmodified V4- sets to V4V6-
             return 0;
         }
 
@@ -2660,6 +2655,7 @@ public static class ConfigHandler
             Remarks = $"{ver}绕过大陆(Whitelist)",
             Url = string.Empty,
             Sort = maxSort + 1,
+            DomainStrategy = ForkRoutingUpgrade.DomainStrategyFor("white"),
         };
         await AddBatchRoutingRules(item2, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "white"));
 
@@ -2669,6 +2665,7 @@ public static class ConfigHandler
             Remarks = $"{ver}黑名单(Blacklist)",
             Url = string.Empty,
             Sort = maxSort + 2,
+            DomainStrategy = ForkRoutingUpgrade.DomainStrategyFor("black"),
         };
         await AddBatchRoutingRules(item3, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "black"));
 
@@ -2678,6 +2675,7 @@ public static class ConfigHandler
             Remarks = $"{ver}全局(Global)",
             Url = string.Empty,
             Sort = maxSort + 3,
+            DomainStrategy = ForkRoutingUpgrade.DomainStrategyFor("global"),
         };
         await AddBatchRoutingRules(item1, EmbedUtils.GetEmbedText(Global.CustomRoutingFileName + "global"));
 

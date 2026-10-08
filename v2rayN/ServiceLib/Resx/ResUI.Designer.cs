@@ -2327,7 +2327,16 @@ namespace ServiceLib.Resx {
                 return ResourceManager.GetString("MsgTunRouteExcludeInvalidAddress", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 The proxy core did not become ready in time; TUN was not started. 的本地化字符串。
+        /// </summary>
+        public static string MsgTunProxyPortNotReady {
+            get {
+                return ResourceManager.GetString("MsgTunProxyPortNotReady", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 Unpacking... 的本地化字符串。
         /// </summary>
@@ -4869,6 +4878,24 @@ namespace ServiceLib.Resx {
             }
         }
         
+        /// <summary>
+        ///   查找类似 Has no effect with the sing-box core. 的本地化字符串。
+        /// </summary>
+        public static string TipSingboxIneffective {
+            get {
+                return ResourceManager.GetString("TipSingboxIneffective", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Has no effect with Xray native TUN. 的本地化字符串。
+        /// </summary>
+        public static string TipXrayTunIneffective {
+            get {
+                return ResourceManager.GetString("TipXrayTunIneffective", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 Tun Mode settings 的本地化字符串。
         /// </summary>

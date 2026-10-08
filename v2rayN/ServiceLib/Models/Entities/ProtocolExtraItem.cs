@@ -15,10 +15,8 @@ public record ProtocolExtraItem
     // vless
     public string? Flow { get; init; }
     public string? VlessEncryption { get; init; }
-    //public string? VisionSeed { get; init; }
 
     // shadowsocks
-    //public string? PluginArgs { get; init; }
     public string? SsMethod { get; init; }
 
     // wireguard

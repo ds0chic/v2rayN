@@ -101,12 +101,15 @@ public partial class OptionSettingWindow : WindowBase<OptionSettingViewModel>
             this.Bind(ViewModel, vm => vm.EnableStatistics, v => v.togEnableStatistics.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.DisplayRealTimeSpeed, v => v.togDisplayRealTimeSpeed.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.KeepOlderDedupl, v => v.togKeepOlderDedupl.IsChecked).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.EnableAutoAdjustMainLvColWidth, v => v.togEnableAutoAdjustMainLvColWidth.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.AutoHideStartup, v => v.togAutoHideStartup.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.Hide2TrayWhenClose, v => v.togHide2TrayWhenClose.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.MacOSShowInDock, v => v.togMacOSShowInDock.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.EnableDragDropSort, v => v.togEnableDragDropSort.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.DoubleClick2Activate, v => v.togDoubleClick2Activate.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.AutoUpdateInterval, v => v.txtautoUpdateInterval.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.TrayMenuServersLimit, v => v.txttrayMenuServersLimit.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.EnableHWA, v => v.togEnableHWA.IsChecked).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.CurrentFontFamily, v => v.cmbcurrentFontFamily.Text).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SpeedTestTimeout, v => v.cmbSpeedTestTimeout.SelectedValue).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SpeedTestUrl, v => v.cmbSpeedTestUrl.Text).DisposeWith(disposables);
@@ -207,7 +210,7 @@ public partial class OptionSettingWindow : WindowBase<OptionSettingViewModel>
 
     private async void BtnBrowseCustomSystemProxyPacPath_Click(object? sender, RoutedEventArgs e)
     {
-        var fileName = await UI.OpenFileDialog(null);
+        var fileName = await UI.OpenFileDialog();
         if (fileName.IsNullOrEmpty())
         {
             return;
@@ -218,7 +221,7 @@ public partial class OptionSettingWindow : WindowBase<OptionSettingViewModel>
 
     private async void BtnBrowseCustomSystemProxyScriptPath_Click(object? sender, RoutedEventArgs e)
     {
-        var fileName = await UI.OpenFileDialog(null);
+        var fileName = await UI.OpenFileDialog();
         if (fileName.IsNullOrEmpty())
         {
             return;

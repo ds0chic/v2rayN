@@ -1,4 +1,17 @@
 <Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="ForkPrimaryButtonForeground" Color="#FFFFFF" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="ForkPrimaryButtonForeground" Color="#000000" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
     <Design.PreviewWith>
         <Border Padding="20">
             <!--  Add Controls for Previewer Here  -->
@@ -33,6 +46,12 @@
         <Setter Property="Height" Value="{StaticResource IconButtonHeight}" />
         <Setter Property="MinWidth" Value="{StaticResource IconButtonWidth}" />
         <Setter Property="Theme" Value="{DynamicResource BorderlessButton}" />
+    </Style>
+
+    <!--  Primary action in every dialog: solid accent instead of the low-emphasis default.  -->
+    <Style Selector="Button#btnSave">
+        <Setter Property="Background" Value="{DynamicResource SemiColorPrimary}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForkPrimaryButtonForeground}" />
     </Style>
 
 </Styles>

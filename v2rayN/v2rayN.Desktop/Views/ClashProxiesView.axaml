@@ -137,7 +137,7 @@
                                     Width="5"
                                     Margin="0,1"
                                     Background="YellowGreen"
-                                    CornerRadius="4"
+                                    CornerRadius="6"
                                     DockPanel.Dock="Left"
                                     IsVisible="{Binding IsActive}" />
                                 <Grid Margin="{StaticResource Margin4}" RowDefinitions="1*,8,1*">

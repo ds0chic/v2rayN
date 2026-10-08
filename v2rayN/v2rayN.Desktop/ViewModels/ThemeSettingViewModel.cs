@@ -30,7 +30,7 @@ public partial class ThemeSettingViewModel : MyReactiveObject
 
     private void BindingUI()
     {
-        CurrentTheme = _config.UiItem.CurrentTheme;
+        CurrentTheme = NormalizeTheme(_config.UiItem.CurrentTheme);
         CurrentFontSize = _config.UiItem.CurrentFontSize;
         CurrentLanguage = _config.UiItem.CurrentLanguage;
 
@@ -70,6 +70,17 @@ public partial class ThemeSettingViewModel : MyReactiveObject
                     NoticeManager.Instance.Enqueue(ResUI.NeedRebootTips);
                 }
             });
+    }
+
+    // Only Dark and Light are offered; anything else (follow system, the colored variants) maps to the closest of the two.
+    private static string NormalizeTheme(string? theme)
+    {
+        if (theme is nameof(ETheme.Dark) or nameof(ETheme.Light))
+        {
+            return theme;
+        }
+
+        return Application.Current?.ActualThemeVariant == ThemeVariant.Light ? nameof(ETheme.Light) : nameof(ETheme.Dark);
     }
 
     private void ModifyTheme()

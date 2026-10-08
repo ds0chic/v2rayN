@@ -126,9 +126,6 @@
   <data name="UpgradeFileNotFound" xml:space="preserve">
     <value>升級失敗，檔案不存在。</value>
   </data>
-  <data name="InProgress" xml:space="preserve">
-    <value>正在進行中，請等待...</value>
-  </data>
   <data name="TryTerminateProcess" xml:space="preserve">
     <value>嘗試結束 v2rayN 進程...</value>
   </data>
@@ -138,19 +135,7 @@
   <data name="StartUnzipping" xml:space="preserve">
     <value>開始解壓縮更新包...</value>
   </data>
-  <data name="SuccessUnzipping" xml:space="preserve">
-    <value>解壓縮更新包成功。</value>
-  </data>
-  <data name="FailedUnzipping" xml:space="preserve">
-    <value>解壓縮更新包失敗。</value>
-  </data>
   <data name="FailedUpgrade" xml:space="preserve">
     <value>升級失敗。</value>
-  </data>
-  <data name="SuccessUpgrade" xml:space="preserve">
-    <value>升級成功。</value>
-  </data>
-  <data name="Information" xml:space="preserve">
-    <value>提示</value>
   </data>
 </root>

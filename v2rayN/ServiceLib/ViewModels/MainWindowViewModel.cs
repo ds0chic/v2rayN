@@ -224,7 +224,10 @@ public partial class MainWindowViewModel : MyReactiveObject
         });
         RebootAsAdminCmd = ReactiveCommand.CreateFromTask(async () =>
         {
-            await AppManager.Instance.RebootAsAdmin();
+            if (!await AppManager.Instance.RebootAsAdmin())
+            {
+                NoticeManager.Instance.Enqueue(ResUI.OperationFailed);
+            }
         });
         ClearServerStatisticsCmd = ReactiveCommand.CreateFromTask(async () =>
         {
@@ -330,7 +333,6 @@ public partial class MainWindowViewModel : MyReactiveObject
             return;
         }
 
-        //await ConfigHandler.InitBuiltinRouting(_config);
         await ConfigHandler.InitBuiltinDNS(_config);
         await ConfigHandler.InitBuiltinFullConfigTemplate(_config);
         await ProfileExManager.Instance.Init();
@@ -411,13 +413,10 @@ public partial class MainWindowViewModel : MyReactiveObject
     {
         await ProfilesViewModel.RefreshServersBiz();
         await StatusBarViewModel.RefreshServersBiz();
-
-        // await Task.Delay(200);
     }
 
     private async Task RefreshServersDispatcherAsync()
     {
-        //await Observable.Start(async () => await RefreshServers(), RxSchedulers.MainThreadScheduler);
         await _refreshServersSemaphore.WaitAsync();
         try
         {
@@ -437,7 +436,6 @@ public partial class MainWindowViewModel : MyReactiveObject
 
     private async Task RefreshSubscriptions()
     {
-        //await Observable.Start(async () => await ProfilesViewModel.RefreshSubscriptions(), RxSchedulers.MainThreadScheduler);
         await Signal.FromAsync(async () =>
             {
                 await ProfilesViewModel.RefreshSubscriptions();
@@ -460,7 +458,7 @@ public partial class MainWindowViewModel : MyReactiveObject
             IsSub = false,
         };
 
-        bool? ret = false;
+        bool? ret;
         if (eConfigType is EConfigType.Custom or EConfigType.Outbound)
         {
             var addServer2ViewModel = new AddServer2ViewModel(item);
@@ -528,17 +526,6 @@ public partial class MainWindowViewModel : MyReactiveObject
     {
         var imageFileName = await BrowseImageFileInteraction.HandleSafe(RxVoid.Default);
         await AddScanResultAsync(imageFileName);
-    }
-
-    public async Task ScanImageResult(string fileName)
-    {
-        if (fileName.IsNullOrEmpty())
-        {
-            return;
-        }
-
-        var result = QRCodeUtils.ParseBarcode(fileName);
-        await AddScanResultAsync(result);
     }
 
     private async Task AddScanResultAsync(string? result)
@@ -729,10 +716,6 @@ public partial class MainWindowViewModel : MyReactiveObject
             var showClashUI = AppManager.Instance.IsRunningCore(ECoreType.sing_box);
             if (showClashUI)
             {
-                //await Observable.Start(async () =>
-                //{
-                //    await ClashProxiesViewModel.ProxiesReload();
-                //}, RxSchedulers.MainThreadScheduler);
                 await Signal.FromAsync(async () =>
                     {
                         await ClashProxiesViewModel.ProxiesReload();

@@ -4,13 +4,10 @@ namespace v2rayN.Desktop.Views;
 
 public partial class FullConfigTemplateWindow : WindowBase<FullConfigTemplateViewModel>
 {
-    private static Config _config;
-
     public FullConfigTemplateWindow()
     {
         InitializeComponent();
 
-        _config = AppManager.Instance.Config;
         Loaded += Window_Loaded;
         btnCancel.Click += (_, _) => Close();
 

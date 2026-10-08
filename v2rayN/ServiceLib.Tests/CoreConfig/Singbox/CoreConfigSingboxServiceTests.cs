@@ -751,4 +751,125 @@ public class CoreConfigSingboxServiceTests
         await proxyOutbound.method.Should().BeEqualTo("aes-128-gcm");
         await proxyOutbound.password.Should().BeEqualTo("custom_password");
     }
+
+    [Test]
+    public async Task GenerateClientConfigContent_TunWithEmptyStack_ShouldOmitStackFromJson()
+    {
+        var config = CoreConfigTestFactory.CreateConfig(ECoreType.sing_box);
+        config.TunModeItem.EnableTun = true;
+        config.TunModeItem.Stack = null;
+        CoreConfigTestFactory.BindAppManagerConfig(config);
+
+        var node = CoreConfigTestFactory.CreateVmessNode(ECoreType.sing_box);
+        var context = CoreConfigTestFactory.CreateContext(config, node, ECoreType.sing_box) with
+        {
+            IsTunEnabled = true,
+        };
+
+        var result = new CoreConfigSingboxService(context).GenerateClientConfigContent();
+
+        await result.Success.Should().BeTrue().Because($"ret msg: {result.Msg}");
+        var cfg = JsonUtils.Deserialize<SingboxConfig>(result.Data!.ToString())!;
+        var tun = cfg.inbounds.First(i => i.type == "tun");
+
+        await tun.stack.Should().BeNull();
+        await (config.TunModeItem.Stack == null || config.TunModeItem.Stack == "").Should().BeTrue();
+
+        var jsonStr = result.Data!.ToString();
+        var jsonDoc = System.Text.Json.JsonDocument.Parse(jsonStr);
+        var root = jsonDoc.RootElement;
+        var inbounds = root.GetProperty("inbounds");
+        var tunInbound = inbounds.EnumerateArray().First(i => i.GetProperty("type").GetString() == "tun");
+        await tunInbound.TryGetProperty("stack", out _).Should().BeFalse();
+    }
+
+    [Test]
+    public async Task GenerateClientConfigContent_TunWithExplicitStack_ShouldIncludeStackInJson()
+    {
+        var config = CoreConfigTestFactory.CreateConfig(ECoreType.sing_box);
+        config.TunModeItem.EnableTun = true;
+        config.TunModeItem.Stack = "system";
+        CoreConfigTestFactory.BindAppManagerConfig(config);
+
+        var node = CoreConfigTestFactory.CreateVmessNode(ECoreType.sing_box);
+        var context = CoreConfigTestFactory.CreateContext(config, node, ECoreType.sing_box) with
+        {
+            IsTunEnabled = true,
+        };
+
+        var result = new CoreConfigSingboxService(context).GenerateClientConfigContent();
+
+        await result.Success.Should().BeTrue().Because($"ret msg: {result.Msg}");
+        var cfg = JsonUtils.Deserialize<SingboxConfig>(result.Data!.ToString())!;
+        var tun = cfg.inbounds.First(i => i.type == "tun");
+
+        await tun.stack.Should().BeEqualTo("system");
+        await config.TunModeItem.Stack.Should().BeEqualTo("system");
+    }
+
+    [Test]
+    public async Task GenerateClientConfigContent_SniffingWithDestOverride_ShouldApplySniffers()
+    {
+        var config = CoreConfigTestFactory.CreateConfig(ECoreType.sing_box);
+        config.Inbound[0].SniffingEnabled = true;
+        config.Inbound[0].DestOverride = ["http", "tls"];
+        CoreConfigTestFactory.BindAppManagerConfig(config);
+
+        var node = CoreConfigTestFactory.CreateSocksNode(ECoreType.sing_box);
+        var context = CoreConfigTestFactory.CreateContext(config, node, ECoreType.sing_box);
+
+        var result = new CoreConfigSingboxService(context).GenerateClientConfigContent();
+
+        await result.Success.Should().BeTrue().Because($"ret msg: {result.Msg}");
+        var cfg = JsonUtils.Deserialize<SingboxConfig>(result.Data!.ToString())!;
+        var sniffRule = cfg.route.rules.First(r => r.action == "sniff");
+
+        await sniffRule.sniffer.Should().NotBeNull();
+        await sniffRule.sniffer.Should().HaveCount(3);
+        await sniffRule.sniffer.Should().Contain("http");
+        await sniffRule.sniffer.Should().Contain("tls");
+        await sniffRule.sniffer.Should().Contain("dns");
+    }
+
+    [Test]
+    public async Task GenerateClientConfigContent_SniffingWithQuicAndHttpInDestOverride_ShouldIncludeQuicDns()
+    {
+        var config = CoreConfigTestFactory.CreateConfig(ECoreType.sing_box);
+        config.Inbound[0].SniffingEnabled = true;
+        config.Inbound[0].DestOverride = ["http", "tls", "quic"];
+        CoreConfigTestFactory.BindAppManagerConfig(config);
+
+        var node = CoreConfigTestFactory.CreateSocksNode(ECoreType.sing_box);
+        var context = CoreConfigTestFactory.CreateContext(config, node, ECoreType.sing_box);
+
+        var result = new CoreConfigSingboxService(context).GenerateClientConfigContent();
+
+        await result.Success.Should().BeTrue().Because($"ret msg: {result.Msg}");
+        var cfg = JsonUtils.Deserialize<SingboxConfig>(result.Data!.ToString())!;
+        var sniffRule = cfg.route.rules.First(r => r.action == "sniff");
+
+        await sniffRule.sniffer.Should().NotBeNull();
+        await sniffRule.sniffer.Should().Contain("quic");
+        await sniffRule.sniffer.Should().Contain("dns");
+    }
+
+    [Test]
+    public async Task GenerateClientConfigContent_SniffingWithEmptyDestOverride_ShouldHaveNullSniffer()
+    {
+        var config = CoreConfigTestFactory.CreateConfig(ECoreType.sing_box);
+        config.Inbound[0].SniffingEnabled = true;
+        config.Inbound[0].DestOverride = [];
+        CoreConfigTestFactory.BindAppManagerConfig(config);
+
+        var node = CoreConfigTestFactory.CreateSocksNode(ECoreType.sing_box);
+        var context = CoreConfigTestFactory.CreateContext(config, node, ECoreType.sing_box);
+
+        var result = new CoreConfigSingboxService(context).GenerateClientConfigContent();
+
+        await result.Success.Should().BeTrue().Because($"ret msg: {result.Msg}");
+        var cfg = JsonUtils.Deserialize<SingboxConfig>(result.Data!.ToString())!;
+        var sniffRule = cfg.route.rules.First(r => r.action == "sniff");
+
+        await sniffRule.sniffer.Should().BeNull();
+    }
 }

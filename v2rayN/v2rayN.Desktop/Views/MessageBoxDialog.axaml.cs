@@ -24,6 +24,7 @@ public partial class MessageBoxDialog : Window
 
         btnYes.Click += BtnYes_Click;
         btnNo.Click += BtnNo_Click;
+        Opened += (s, e) => DarkTitleBarHelper.Apply(this);
 
         CanMinimize = false;
     }

@@ -7,20 +7,26 @@ internal class Program
 {
     public static EventWaitHandle ProgramStarted;
 
+    // Held for the process lifetime; an unreferenced Mutex can be finalized and release single-instance protection.
+    private static Mutex? _singleInstanceMutex;
+
     // Initialization code. Don't use any Avalonia, third-party APIs or any
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     // yet and stuff might break.
     [STAThread]
     public static void Main(string[] args)
     {
+        StartupTiming.Mark("Main");
         if (OnStartup(args) == false)
         {
             Environment.Exit(0);
             return;
         }
+        StartupTiming.Mark("OnStartup");
 
-        BuildAvaloniaApp()
-            .StartWithClassicDesktopLifetime(args);
+        var builder = BuildAvaloniaApp();
+        StartupTiming.Mark("BuildAvaloniaApp");
+        builder.StartWithClassicDesktopLifetime(args);
     }
 
     private static bool OnStartup(string[]? Args)
@@ -38,7 +44,7 @@ internal class Program
         }
         else
         {
-            _ = new Mutex(true, "v2rayN", out var bOnlyOneInstance);
+            _singleInstanceMutex = new Mutex(true, "v2rayN", out var bOnlyOneInstance);
             if (!bOnlyOneInstance)
             {
                 return false;
@@ -47,6 +53,7 @@ internal class Program
 
         if (!AppManager.Instance.InitApp())
         {
+            StartupErrorDialog.Show($"Loading GUI configuration file is abnormal,please restart the application{Environment.NewLine}加载GUI配置文件异常,请重启应用");
             return false;
         }
 
@@ -59,7 +66,6 @@ internal class Program
     {
         var builder = AppBuilder.Configure<App>()
            .UsePlatformDetect()
-           //.WithInterFont()
            .WithFontByDefault()
 #if DEBUG
            .WithDeveloperTools()
@@ -71,6 +77,12 @@ internal class Program
         {
             var showInDock = Design.IsDesignMode || AppManager.Instance.Config.UiItem.MacOSShowInDock;
             builder = builder.With(new MacOSPlatformOptions { ShowInDock = showInDock });
+        }
+
+        // Hardware acceleration off => software rendering; on => Avalonia's default GPU modes.
+        if (!Design.IsDesignMode && Utils.IsWindows() && !AppManager.Instance.Config.GuiItem.EnableHWA)
+        {
+            builder = builder.With(new Win32PlatformOptions { RenderingMode = [Win32RenderingMode.Software] });
         }
 
         return builder;

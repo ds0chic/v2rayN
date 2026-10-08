@@ -141,14 +141,6 @@ internal struct JOBOBJECT_BASIC_LIMIT_INFORMATION
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct SECURITY_ATTRIBUTES
-{
-    public uint nLength;
-    public nint lpSecurityDescriptor;
-    public int bInheritHandle;
-}
-
-[StructLayout(LayoutKind.Sequential)]
 internal struct JOBOBJECT_EXTENDED_LIMIT_INFORMATION
 {
     public JOBOBJECT_BASIC_LIMIT_INFORMATION BasicLimitInformation;

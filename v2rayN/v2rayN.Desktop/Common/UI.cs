@@ -16,7 +16,7 @@ internal class UI
         return result == ButtonResult.Yes ? ButtonResult.Yes : ButtonResult.No;
     }
 
-    public static async Task<string?> OpenFileDialog(FilePickerFileType? filter)
+    public static async Task<string?> OpenFileDialog()
     {
         var sp = GetStorageProvider();
         if (sp is null)
@@ -28,13 +28,13 @@ internal class UI
         var files = await sp.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             AllowMultiple = false,
-            FileTypeFilter = filter is null ? [FilePickerFileTypes.All, FilePickerFileTypes.ImagePng] : [filter]
+            FileTypeFilter = [FilePickerFileTypes.All, FilePickerFileTypes.ImagePng]
         });
 
         return files.FirstOrDefault()?.TryGetLocalPath();
     }
 
-    public static async Task<string?> SaveFileDialog(string filter)
+    public static async Task<string?> SaveFileDialog()
     {
         var sp = GetStorageProvider();
         if (sp is null)

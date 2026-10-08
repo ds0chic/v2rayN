@@ -906,6 +906,12 @@
   <data name="TbSettingsNewPort4LAN" xml:space="preserve">
     <value>为局域网开启新的端口</value>
   </data>
+  <data name="TipSingboxIneffective" xml:space="preserve">
+    <value>sing-box 核心下无效。</value>
+  </data>
+  <data name="TipXrayTunIneffective" xml:space="preserve">
+    <value>Xray 原生 TUN 下无效。</value>
+  </data>
   <data name="TbSettingsTunMode" xml:space="preserve">
     <value>Tun 模式设置</value>
   </data>
@@ -1797,6 +1803,9 @@
   </data>
   <data name="MsgTunRouteExcludeInvalidAddress" xml:space="preserve">
     <value>TUN 路由排除列表包含无效地址：{0}</value>
+  </data>
+  <data name="MsgTunProxyPortNotReady" xml:space="preserve">
+    <value>代理核心未能及时就绪，已取消启动 TUN。</value>
   </data>
   <data name="MsgOptionsConflict" xml:space="preserve">
     <value>{0} 与 {1} 冲突</value>

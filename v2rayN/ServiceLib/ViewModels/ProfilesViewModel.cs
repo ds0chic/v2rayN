@@ -259,7 +259,6 @@ public partial class ProfilesViewModel : MyReactiveObject
         SelectedMoveToGroup = new();
 
         await RefreshSubscriptions();
-        //await RefreshServers();
     }
 
     #endregion Init
@@ -352,8 +351,6 @@ public partial class ProfilesViewModel : MyReactiveObject
     public async Task RefreshServers()
     {
         RefreshServersRequested.Publish();
-
-        // await Task.Delay(200);
 
         await Task.CompletedTask;
     }
@@ -475,7 +472,7 @@ public partial class ProfilesViewModel : MyReactiveObject
         }
         var eConfigType = item.ConfigType;
 
-        bool? ret = false;
+        bool? ret;
         if (eConfigType is EConfigType.Custom or EConfigType.Outbound)
         {
             var addServer2ViewModel = new AddServer2ViewModel(item);

@@ -5,6 +5,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="ServiceLib.Tests" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Downloader" />
 		<PackageReference Include="IPNetwork2" />
 		<PackageReference Include="ReactiveUI">
@@ -42,7 +46,6 @@
 		<EmbeddedResource Include="Sample\proxy_set_osx_sh" />
 		<EmbeddedResource Include="Sample\SampleClientConfig" />
 		<EmbeddedResource Include="Sample\SampleHttpRequest" />
-		<EmbeddedResource Include="Sample\SampleHttpResponse" />
 		<EmbeddedResource Include="Sample\SampleInbound" />
 		<EmbeddedResource Include="Sample\SampleOutbound" />
 		<EmbeddedResource Include="Sample\SampleTunInbound" />

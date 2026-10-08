@@ -1,4 +1,5 @@
 using v2rayN.Desktop.Common;
+using v2rayN.Desktop.Manager;
 using v2rayN.Desktop.Views;
 
 namespace v2rayN.Desktop;
@@ -15,6 +16,10 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        // Posted so each window has already updated its ActualThemeVariant when the title bar is read.
+        ActualThemeVariantChanged += (_, _) => Dispatcher.UIThread.Post(DarkTitleBarHelper.ApplyToAllWindows, DispatcherPriority.Background);
+        StartupTiming.Mark("FrameworkInitialize");
+
         var viewLocator = SimpleViewLocator.Instance;
         DataTemplates.Add(viewLocator);
 
@@ -23,13 +28,21 @@ public partial class App : Application
             if (!Design.IsDesignMode)
             {
                 AppManager.Instance.InitComponents();
+                StartupTiming.Mark("InitComponents");
                 DataContext = StatusBarViewModel.Instance;
+                if (TrayIcon.GetIcons(this)?.FirstOrDefault()?.Menu is { } trayMenu)
+                {
+                    TrayMenuManager.Attach(StatusBarViewModel.Instance, trayMenu);
+                }
             }
 
             var mainWindowViewModel = new MainWindowViewModel();
             var mainWindow = (MainWindow)viewLocator.Build(mainWindowViewModel);
             mainWindow.ViewModel = mainWindowViewModel;
             desktop.MainWindow = mainWindow;
+            StartupTiming.Mark("MainWindowCreated");
+            Dispatcher.UIThread.Post(StartupTiming.Flush, DispatcherPriority.ApplicationIdle);
+            AiAutomation.Start();
 
             if (OperatingSystem.IsMacOS())
             {
