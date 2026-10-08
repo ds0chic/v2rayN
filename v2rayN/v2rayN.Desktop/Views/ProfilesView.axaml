@@ -110,7 +110,14 @@
                 GridLinesVisibility="All"
                 HeadersVisibility="All"
                 IsReadOnly="True"
-                ItemsSource="{Binding ProfileItems}">
+                ItemsSource="{Binding ProfileItems}"
+                RowHeight="28">
+                <DataGrid.Styles>
+                    <Style Selector="DataGridColumnHeader">
+                        <Setter Property="Foreground" Value="{DynamicResource SemiColorText1}" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                    </Style>
+                </DataGrid.Styles>
                 <DataGrid.KeyBindings>
                     <KeyBinding Command="{Binding Export2ShareUrlCmd}" Gesture="Ctrl+C" />
                     <KeyBinding Command="{Binding SetDefaultServerCmd}" Gesture="Enter" />
@@ -213,7 +220,11 @@
                         Header="{x:Static resx:ResUI.LvServiceType}"
                         Tag="ConfigType" />
 
-                    <DataGridTemplateColumn SortMemberPath="Remarks" Tag="Remarks">
+                    <DataGridTemplateColumn
+                        Width="*"
+                        MinWidth="220"
+                        SortMemberPath="Remarks"
+                        Tag="Remarks">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{x:Static resx:ResUI.LvRemarks}" />
                         </DataGridTemplateColumn.Header>
@@ -236,7 +247,8 @@
                     </DataGridTemplateColumn>
 
                     <DataGridTextColumn
-                        Width="120"
+                        Width="160"
+                        MinWidth="120"
                         Binding="{Binding Address}"
                         Header="{x:Static resx:ResUI.LvAddress}"
                         Tag="Address" />
@@ -246,12 +258,12 @@
                         Header="{x:Static resx:ResUI.LvPort}"
                         Tag="Port" />
                     <DataGridTextColumn
-                        Width="100"
+                        Width="90"
                         Binding="{Binding Network}"
                         Header="{x:Static resx:ResUI.LvTransportProtocol}"
                         Tag="Network" />
                     <DataGridTextColumn
-                        Width="100"
+                        Width="90"
                         Binding="{Binding StreamSecurity}"
                         Header="{x:Static resx:ResUI.LvTLS}"
                         Tag="StreamSecurity" />
