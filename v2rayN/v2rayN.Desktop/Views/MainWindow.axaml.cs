@@ -1,4 +1,7 @@
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls.Notifications;
+using Avalonia.Styling;
 using DialogHostAvalonia;
 using v2rayN.Desktop.Base;
 using v2rayN.Desktop.Common;
@@ -344,12 +347,9 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
                     : !AppManager.Instance.ShowInTaskbar);
         if (bl)
         {
-            // Avoid a white flash on re-show: paint transparent, then fade in after the first frame.
-            var wasHidden = !IsVisible;
-            if (wasHidden)
-            {
-                Opacity = 0;
-            }
+            // While in the tray the window stays truly hidden (no rendering cost). On a cold re-show (Windows) it is
+            // shown cloaked and revealed only after it has painted, so the empty frame is never visible.
+            var warmup = !IsVisible && WindowCloakHelper.TrySetCloaked(this, true);
             Show();
             if (WindowState == WindowState.Minimized)
             {
@@ -357,9 +357,9 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
             }
             Activate();
             Focus();
-            if (wasHidden)
+            if (warmup)
             {
-                Dispatcher.UIThread.Post(() => Opacity = 1, DispatcherPriority.Render);
+                UncloakAfterFirstFrame();
             }
         }
         else
@@ -380,16 +380,92 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         AppManager.Instance.ShowInTaskbar = bl;
     }
 
+    private void UncloakAfterFirstFrame()
+    {
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        var done = false;
+        void Uncloak()
+        {
+            if (done)
+            {
+                return;
+            }
+            done = true;
+            Logging.SaveLog($"Tray show: first frame ready after {sw.ElapsedMilliseconds}ms");
+            // Fully transparent first, then reveal, so no opaque frame can slip through before the fade starts.
+            Opacity = 0;
+            WindowCloakHelper.TrySetCloaked(this, false);
+            FadeIn();
+        }
+
+        var top = TopLevel.GetTopLevel(this);
+        top?.RequestAnimationFrame(_ => top.RequestAnimationFrame(_ => Uncloak()));
+        // Safety net: never leave the window cloaked if no frame callback arrives.
+        DispatcherTimer.RunOnce(Uncloak, TimeSpan.FromMilliseconds(400));
+    }
+
+    // Short fade so the re-show reads as intentional even when the first frame takes a moment.
+    private void FadeIn()
+    {
+        var fade = new Animation
+        {
+            Duration = TimeSpan.FromMilliseconds(140),
+            Easing = new CubicEaseOut(),
+            FillMode = FillMode.Forward,
+            Children =
+            {
+                new KeyFrame { Cue = new Cue(0d), Setters = { new Setter(OpacityProperty, 0d) } },
+                new KeyFrame { Cue = new Cue(1d), Setters = { new Setter(OpacityProperty, 1d) } },
+            },
+        };
+        _ = fade.RunAsync(this).ContinueWith(_ => Dispatcher.UIThread.Post(() => Opacity = 1));
+    }
+
     protected override void OnLoaded(object? sender, RoutedEventArgs e)
     {
         base.OnLoaded(sender, e);
-        if (_config.UiItem.AutoHideStartup)
+        Opacity = 1;
+        RestoreUI();
+        if (_config.UiItem.AutoHideStartup && !WarmUpThenHide())
         {
             ShowHideWindow(false);
             ShowInTaskbar = true;
         }
-        Opacity = 1;
-        RestoreUI();
+    }
+
+    // Tray start: render the window once at its normal size while cloaked, then hide it, so the first tray open
+    // does not have to realize templates, rows and fonts from scratch. Returns false when cloaking is unavailable.
+    private bool WarmUpThenHide()
+    {
+        if (!WindowCloakHelper.TrySetCloaked(this, true))
+        {
+            return false;
+        }
+
+        if (WindowState == WindowState.Minimized)
+        {
+            WindowState = WindowState.Normal;
+        }
+
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        var done = false;
+        void Finish()
+        {
+            if (done)
+            {
+                return;
+            }
+            done = true;
+            Logging.SaveLog($"Tray start: warm-up rendered for {sw.ElapsedMilliseconds}ms");
+            ShowHideWindow(false);
+            ShowInTaskbar = true;
+        }
+
+        var top = TopLevel.GetTopLevel(this);
+        top?.RequestAnimationFrame(_ => top.RequestAnimationFrame(_ => DispatcherTimer.RunOnce(Finish, TimeSpan.FromMilliseconds(150))));
+        // Safety net: always end up hidden in the tray.
+        DispatcherTimer.RunOnce(Finish, TimeSpan.FromMilliseconds(800));
+        return true;
     }
 
     private void RestoreUI()
