@@ -106,11 +106,6 @@ public partial class MsgViewModel : MyReactiveObject
         }
     }
 
-    //public void ClearMsg()
-    //{
-    //    _queueMsg.Clear();
-    //}
-
     private void DoMsgFilter()
     {
         _config.MsgUIItem.MainMsgFilter = MsgFilter;

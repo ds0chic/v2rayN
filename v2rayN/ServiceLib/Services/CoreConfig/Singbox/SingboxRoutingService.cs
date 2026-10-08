@@ -321,7 +321,6 @@ public partial class CoreConfigSingboxService
             }
             foreach (var baseExeName in coreConfig.CoreExes)
             {
-                //directExeSet.Add(Utils.GetExeName(baseExeName));
                 var exePath = CoreInfoManager.Instance.GetCoreExecFile(coreConfig, out _);
                 if (!exePath.IsNullOrEmpty())
                 {

@@ -330,7 +330,6 @@ public partial class MainWindowViewModel : MyReactiveObject
             return;
         }
 
-        //await ConfigHandler.InitBuiltinRouting(_config);
         await ConfigHandler.InitBuiltinDNS(_config);
         await ConfigHandler.InitBuiltinFullConfigTemplate(_config);
         await ProfileExManager.Instance.Init();
@@ -411,13 +410,10 @@ public partial class MainWindowViewModel : MyReactiveObject
     {
         await ProfilesViewModel.RefreshServersBiz();
         await StatusBarViewModel.RefreshServersBiz();
-
-        // await Task.Delay(200);
     }
 
     private async Task RefreshServersDispatcherAsync()
     {
-        //await Observable.Start(async () => await RefreshServers(), RxSchedulers.MainThreadScheduler);
         await _refreshServersSemaphore.WaitAsync();
         try
         {
@@ -437,7 +433,6 @@ public partial class MainWindowViewModel : MyReactiveObject
 
     private async Task RefreshSubscriptions()
     {
-        //await Observable.Start(async () => await ProfilesViewModel.RefreshSubscriptions(), RxSchedulers.MainThreadScheduler);
         await Signal.FromAsync(async () =>
             {
                 await ProfilesViewModel.RefreshSubscriptions();
@@ -729,10 +724,6 @@ public partial class MainWindowViewModel : MyReactiveObject
             var showClashUI = AppManager.Instance.IsRunningCore(ECoreType.sing_box);
             if (showClashUI)
             {
-                //await Observable.Start(async () =>
-                //{
-                //    await ClashProxiesViewModel.ProxiesReload();
-                //}, RxSchedulers.MainThreadScheduler);
                 await Signal.FromAsync(async () =>
                     {
                         await ClashProxiesViewModel.ProxiesReload();

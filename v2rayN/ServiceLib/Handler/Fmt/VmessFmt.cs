@@ -102,7 +102,6 @@ public class VmessFmt : BaseFmt
             RawHeaderType = Global.None,
         };
 
-        //item.ConfigVersion = vmessQRCode.v;
         item.Remarks = Utils.ToString(vmessQRCode.ps);
         item.Address = Utils.ToString(vmessQRCode.add);
         item.Port = vmessQRCode.port;

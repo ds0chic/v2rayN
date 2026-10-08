@@ -186,7 +186,6 @@ public partial class UpdateService(Config config, Func<bool, string, Task> updat
             var gitHubReleases = JsonUtils.Deserialize<List<GitHubRelease>>(result);
             var gitHubRelease = preRelease ? gitHubReleases?.First() : gitHubReleases?.First(r => r.Prerelease == false);
             tagName = gitHubRelease?.TagName;
-            //var body = gitHubRelease?.Body;
 
             if (coreInfo?.LockedMaxVersion != null)
             {
@@ -550,19 +549,11 @@ public partial class UpdateService(Config config, Func<bool, string, Task> updat
         {
             if (args.Success)
             {
-                //_ = UpdateFunc(false, string.Format(ResUI.MsgDownloadGeoFileSuccessfully, fileName));
 
                 foreach (var request in requests)
                 {
                     try
                     {
-                        //if (File.Exists(tmpFileName))
-                        //{
-                        //    File.Copy(tmpFileName, targetPath, true);
-
-                        //    File.Delete(tmpFileName);
-                        //    //await    UpdateFunc(true, "");
-                        //}
                         var tmpFileName = tmpFilePathDict[request.FilePath];
                         if (File.Exists(tmpFileName))
                         {

@@ -259,7 +259,6 @@ public partial class ProfilesViewModel : MyReactiveObject
         SelectedMoveToGroup = new();
 
         await RefreshSubscriptions();
-        //await RefreshServers();
     }
 
     #endregion Init
@@ -352,8 +351,6 @@ public partial class ProfilesViewModel : MyReactiveObject
     public async Task RefreshServers()
     {
         RefreshServersRequested.Publish();
-
-        // await Task.Delay(200);
 
         await Task.CompletedTask;
     }

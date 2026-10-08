@@ -10,7 +10,6 @@ public class ProfileExManager
 
     public ProfileExManager()
     {
-        //Init();
     }
 
     public async Task Init()

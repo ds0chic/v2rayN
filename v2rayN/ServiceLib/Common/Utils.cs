@@ -1454,7 +1454,6 @@ public class Utils
 
     public static async Task<string?> GetLinuxFontFamily(string lang)
     {
-        // var arg = new List<string>() { "-c", $"fc-list :lang={lang} family" };
         var arg = new List<string>() { "-c", $"fc-list : family" };
         return await GetCliWrapOutput(Global.LinuxBash, arg);
     }

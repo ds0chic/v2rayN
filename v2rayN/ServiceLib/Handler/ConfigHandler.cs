@@ -557,7 +557,6 @@ public static class ConfigHandler
         }
         var ext = Path.GetExtension(fileName);
         var newFileName = $"{Utils.GetGuid()}{ext}";
-        //newFileName = Path.Combine(Utile.GetTempPath(), newFileName);
 
         try
         {
@@ -594,7 +593,6 @@ public static class ConfigHandler
         }
         var ext = Path.GetExtension(fileName);
         var newFileName = $"{Utils.GetGuid()}{ext}";
-        //newFileName = Path.Combine(Utile.GetTempPath(), newFileName);
 
         try
         {
@@ -656,7 +654,6 @@ public static class ConfigHandler
             return -1;
         }
 
-        //ToJsonFile(config);
     }
 
     /// <summary>
@@ -775,7 +772,6 @@ public static class ConfigHandler
         profileItem.Password = profileItem.Password.TrimEx();
         profileItem.Fingerprint = string.Empty;
         profileItem.Alpn = string.Empty;
-        //profileItem.Alpn = "h3";
         profileItem.Network = string.Empty;
 
         if (profileItem.StreamSecurity.IsNullOrEmpty())
@@ -1264,7 +1260,6 @@ public static class ConfigHandler
 
         if (toFile)
         {
-            //profileItem.SetProtocolExtra();
             profileItem.SetProtocolExtra(profileItem.GetProtocolExtra());
             await SQLiteHelper.Instance.ReplaceAsync(profileItem);
         }
@@ -2196,7 +2191,6 @@ public static class ConfigHandler
         {
             //TODO Temporary reminder to be removed later
             NoticeManager.Instance.Enqueue(ResUI.InsecureUrlProtocol);
-            //return -1;
         }
 
         var queryVars = Utils.ParseQueryString(uri.Query);

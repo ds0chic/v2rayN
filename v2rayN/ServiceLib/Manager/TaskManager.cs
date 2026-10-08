@@ -36,7 +36,6 @@ public class TaskManager
             //Execute once 20 minute
             if (numOfExecuted % 20 == 0)
             {
-                //Logging.SaveLog("Execute save config");
 
                 try
                 {
@@ -52,7 +51,6 @@ public class TaskManager
             //Execute once 1 hour
             if (numOfExecuted % 60 == 0)
             {
-                //Logging.SaveLog("Execute delete expired files");
 
                 FileUtils.DeleteExpiredFiles(Utils.GetBinConfigPath(), DateTime.Now.AddHours(-1), "Test");
                 FileUtils.DeleteExpiredFiles(Utils.GetLogPath(), DateTime.Now.AddDays(-7));

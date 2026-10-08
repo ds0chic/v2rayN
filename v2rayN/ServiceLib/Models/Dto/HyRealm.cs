@@ -91,7 +91,6 @@ public record HyRealm(
         };
         if (StunList is { Count: > 0 })
         {
-            // var query = string.Join('&', StunList.Select(s => "stun=" + Utils.UrlEncode(s)));
             // NOTE: maybe we don't need to encode the stun host:port, since it should be a valid URI component already, and encoding will make it unreadable
             var query = string.Join('&', StunList.Select(s => "stun=" + s));
             uriBuilder.Query = query;

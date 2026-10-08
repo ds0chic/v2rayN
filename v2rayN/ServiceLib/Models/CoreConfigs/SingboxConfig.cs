@@ -278,7 +278,6 @@ public class Server4Sbox : BaseServer4Sbox
     public string? path { get; set; }
     public Headers4Sbox? headers { get; set; }
 
-    // public List<string>? path { get; set; } // hosts
     public Dictionary<string, List<string>>? predefined { get; set; }
 }
 

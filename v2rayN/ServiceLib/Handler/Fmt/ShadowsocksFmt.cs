@@ -34,12 +34,6 @@ public class ShadowsocksFmt : BaseFmt
         {
             remark = "#" + Utils.UrlEncode(item.Remarks);
         }
-        //url = string.Format("{0}:{1}@{2}:{3}",
-        //    item.security,
-        //    item.id,
-        //    item.address,
-        //    item.port);
-        //url = Utile.Base64Encode(url);
         //new Sip002
         var pw = Utils.Base64Encode($"{item.GetProtocolExtra().SsMethod}:{item.Password}", true);
         var transport = item.GetTransportExtra();

@@ -114,7 +114,6 @@ public class DownloaderHelper
                 onProgress.Invoke("0");
             }
         };
-        //progress.Invoke("......");
         await using var stream = await downloader.DownloadFileTaskAsync(address: url, cancellationToken);
     }
 
@@ -289,7 +288,6 @@ public class DownloaderHelper
         }
 
         handler.SslOptions.EnabledSslProtocols = SslProtocols.Tls13 | SslProtocols.Tls12;
-        //handler.SslOptions.RemoteCertificateValidationCallback = ExceptionHelper.CertificateValidationCallBack;
 
         var certificateChainPolicy = CertPemManager.Instance.BuildCertificateChainPolicy();
         if (certificateChainPolicy != null)

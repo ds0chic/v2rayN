@@ -97,7 +97,6 @@ public class JsonUtils
         }
         catch
         {
-            //SaveLog(ex.Message, ex);
             return null;
         }
     }
