@@ -303,6 +303,8 @@ public class ForkRoutingUpgradeTests
                || !string.IsNullOrEmpty(r.Port);
     }
 
+    private static string Sigs(IEnumerable<RulesItem> rules) => string.Join(",", rules.Select(ForkRoutingUpgrade.RuleSignature));
+
     private static RoutingItem Item(string remarks, string ruleSet)
     {
         return new RoutingItem { Remarks = remarks, RuleSet = ruleSet };
@@ -318,32 +320,121 @@ public class ForkRoutingUpgradeTests
     }
 
     [Test]
-    [Arguments("white", "V4-绕过大陆(Whitelist)")]
-    [Arguments("black", "V4-黑名单(Blacklist)")]
-    [Arguments("global", "V4-全局(Global)")]
-    public async Task Unmodified_old_item_is_matched_for_upgrade(string key, string remarks)
-    {
-        await ForkRoutingUpgrade.MatchUnmodifiedOld(Item(remarks, OldJson(key))).Should().BeEqualTo(key);
-    }
-
-    [Test]
-    [Arguments("white", "V4-绕过大陆(Whitelist)")]
-    [Arguments("black", "V4-黑名单(Blacklist)")]
-    public async Task Edited_old_item_is_not_matched(string key, string remarks)
+    [Arguments("white")]
+    [Arguments("black")]
+    [Arguments("global")]
+    public async Task Old_template_rule_signatures_match_stored_constants(string key)
     {
         var rules = JsonUtils.Deserialize<List<RulesItem>>(OldJson(key))!;
-        rules[0].Enabled = false;
-        var edited = JsonUtils.Serialize(rules, false);
 
-        await ForkRoutingUpgrade.MatchUnmodifiedOld(Item(remarks, edited)).Should().BeNull();
+        await Sigs(rules).Should().BeEqualTo(string.Join(",", ForkRoutingUpgrade.OldRuleSignaturesFor(key)));
     }
 
     [Test]
-    public async Task Item_with_wrong_name_or_already_upgraded_is_not_matched()
+    [Arguments("white", "V4-绕过大陆(Whitelist)", "V4V6-绕过大陆(Whitelist)", "IPIfNonMatch")]
+    [Arguments("black", "V4-黑名单(Blacklist)", "V4V6-黑名单(Blacklist)", "IPOnDemand")]
+    [Arguments("global", "V4-全局(Global)", "V4V6-全局(Global)", "")]
+    public async Task Unmodified_old_item_is_replaced_entirely(string key, string remarks, string newRemarks, string domainStrategy)
     {
-        await ForkRoutingUpgrade.MatchUnmodifiedOld(Item("V4V6-绕过大陆(Whitelist)", OldWhite)).Should().BeNull();
-        await ForkRoutingUpgrade.MatchUnmodifiedOld(Item("自定义(Custom)", OldWhite)).Should().BeNull();
-        await ForkRoutingUpgrade.MatchUnmodifiedOld(Item("V4-绕过大陆(Whitelist)", string.Empty)).Should().BeNull();
+        var plan = ForkRoutingUpgrade.PlanUpgrade(Item(remarks, OldJson(key)));
+
+        await plan.Should().NotBeNull();
+        await plan!.Remarks.Should().BeEqualTo(newRemarks);
+        await plan.DomainStrategy.Should().BeEqualTo(domainStrategy);
+        await Sigs(plan.Rules).Should().BeEqualTo(Sigs(JsonUtils.Deserialize<List<RulesItem>>(NewJson(key))!));
+    }
+
+    [Test]
+    public async Task Edited_white_with_two_prepended_custom_rules_keeps_them_first()
+    {
+        var custom = new List<RulesItem>
+        {
+            new() { Remarks = "Claude/AI force proxy", OutboundTag = "proxy", Domain = ["domain:claude.ai"] },
+            new() { Remarks = "AppleTV/F1 force proxy (Codex)", OutboundTag = "proxy", Domain = ["domain:apple.com"] },
+        };
+        var current = custom.Concat(JsonUtils.Deserialize<List<RulesItem>>(OldWhite)!).ToList();
+        var plan = ForkRoutingUpgrade.PlanUpgrade(Item("V4-绕过大陆(Whitelist)", JsonUtils.Serialize(current, false)));
+
+        var template = JsonUtils.Deserialize<List<RulesItem>>(NewJson("white"))!;
+        await plan.Should().NotBeNull();
+        await plan!.Remarks.Should().BeEqualTo("V4V6-绕过大陆(Whitelist)");
+        await plan.DomainStrategy.Should().BeEqualTo("IPIfNonMatch");
+        await plan.Rules.Count.Should().BeEqualTo(2 + template.Count);
+        await string.Join(",", plan.Rules.Take(2).Select(r => r.Remarks)).Should().BeEqualTo("Claude/AI force proxy,AppleTV/F1 force proxy (Codex)");
+        await Sigs(plan.Rules.Skip(2)).Should().BeEqualTo(Sigs(template));
+        await plan.Rules.Take(2).All(r => !string.IsNullOrEmpty(r.Id)).Should().BeTrue();
+    }
+
+    [Test]
+    public async Task Existing_domain_strategy_is_kept_and_empty_one_is_filled()
+    {
+        var current = JsonUtils.Serialize(JsonUtils.Deserialize<List<RulesItem>>(OldWhite)!.Prepend(new RulesItem { Remarks = "x", OutboundTag = "direct", Domain = ["domain:x.com"] }).ToList(), false);
+
+        var kept = ForkRoutingUpgrade.PlanUpgrade(new RoutingItem { Remarks = "V4-绕过大陆(Whitelist)", RuleSet = current, DomainStrategy = "IPOnDemand" });
+        var filled = ForkRoutingUpgrade.PlanUpgrade(new RoutingItem { Remarks = "V4-绕过大陆(Whitelist)", RuleSet = current, DomainStrategy = "AsIs" });
+
+        await kept!.DomainStrategy.Should().BeEqualTo("IPOnDemand");
+        await filled!.DomainStrategy.Should().BeEqualTo("IPIfNonMatch");
+    }
+
+    [Test]
+    public async Task Edited_old_rule_is_kept_as_custom_and_the_original_is_not()
+    {
+        var rules = JsonUtils.Deserialize<List<RulesItem>>(OldWhite)!;
+        var proxyGoogle = rules.First(r => r.Remarks == "代理Google");
+        proxyGoogle.OutboundTag = "direct";
+        var plan = ForkRoutingUpgrade.PlanUpgrade(Item("V4-绕过大陆(Whitelist)", JsonUtils.Serialize(rules, false)));
+
+        await plan.Should().NotBeNull();
+        await plan!.Rules[0].Remarks.Should().BeEqualTo("代理Google");
+        await plan.Rules[0].OutboundTag.Should().BeEqualTo("direct");
+        await plan.Rules.Count(r => r.Remarks == "代理Google").Should().BeEqualTo(2);
+        await plan.Rules.Count(r => r.Domain?.Contains("geosite:google") == true && r.OutboundTag == "proxy").Should().BeEqualTo(1);
+    }
+
+    [Test]
+    public async Task Duplicate_of_a_new_template_rule_is_not_added_twice()
+    {
+        var template = JsonUtils.Deserialize<List<RulesItem>>(NewJson("white"))!;
+        var duplicate = JsonUtils.Deserialize<List<RulesItem>>(NewJson("white"))![4];
+        duplicate.Remarks = "my copy";
+        var current = JsonUtils.Deserialize<List<RulesItem>>(OldWhite)!.Prepend(duplicate).ToList();
+        var plan = ForkRoutingUpgrade.PlanUpgrade(Item("V4-绕过大陆(Whitelist)", JsonUtils.Serialize(current, false)));
+
+        await plan.Should().NotBeNull();
+        await plan!.Rules.Count.Should().BeEqualTo(template.Count);
+        await Sigs(plan!.Rules).Should().BeEqualTo(Sigs(template));
+    }
+
+    [Test]
+    public async Task Disabled_custom_rule_stays_disabled_and_its_template_twin_is_dropped()
+    {
+        var rules = JsonUtils.Deserialize<List<RulesItem>>(OldWhite)!;
+        rules[0].Enabled = false; // user turned off "阻断udp443"
+        var plan = ForkRoutingUpgrade.PlanUpgrade(Item("V4-绕过大陆(Whitelist)", JsonUtils.Serialize(rules, false)));
+
+        await plan.Should().NotBeNull();
+        await plan!.Rules[0].Remarks.Should().BeEqualTo("阻断udp443");
+        await plan.Rules[0].Enabled.Should().BeFalse();
+        await plan.Rules.Count(r => r.OutboundTag == "block" && r.Port == "443" && r.Enabled).Should().BeEqualTo(0);
+    }
+
+    [Test]
+    [Arguments("V4V6-绕过大陆(Whitelist)")]
+    [Arguments("V4V6-黑名单(Blacklist)")]
+    [Arguments("V4V6-全局(Global)")]
+    public async Task Already_upgraded_item_is_not_planned_again(string remarks)
+    {
+        var upgraded = JsonUtils.Serialize(JsonUtils.Deserialize<List<RulesItem>>(NewJson("white"))!, false);
+
+        await ForkRoutingUpgrade.PlanUpgrade(Item(remarks, upgraded)).Should().BeNull();
+    }
+
+    [Test]
+    public async Task Item_with_wrong_name_or_empty_rules_is_not_planned()
+    {
+        await ForkRoutingUpgrade.PlanUpgrade(Item("自定义(Custom)", OldWhite)).Should().BeNull();
+        await ForkRoutingUpgrade.PlanUpgrade(Item("V4-绕过大陆(Whitelist)", string.Empty)).Should().BeNull();
     }
 
     [Test]
