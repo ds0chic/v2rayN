@@ -26,7 +26,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         ExtendClientAreaToDecorationsHint = Utils.IsWindows();
 
         _config = AppManager.Instance.Config;
-        _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.TopRight };
+        _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.TopRight, Margin = new Thickness(0, Utils.IsWindows() ? 44 : 0, 0, 0) };
 
         KeyDown += MainWindow_KeyDown;
         menuRebootAsAdmin.IsVisible = Utils.IsWindows() && !Utils.IsAdministrator();

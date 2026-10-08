@@ -18,6 +18,11 @@
         <Setter Property="FontSize" Value="{StaticResource ForkFontBase}" />
     </Style>
 
+    <!-- The main toolbar draws its own title; the drawn window decorations would paint a second one over it. -->
+    <Style Selector="WindowDrawnDecorations /template/ Panel#PART_TitleTextPanel">
+        <Setter Property="Opacity" Value="0" />
+    </Style>
+
     <!-- Surfaces -->
     <Style Selector="Border.card">
         <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />

@@ -37,7 +37,6 @@
         <DockPanel>
             <Grid
                 Height="44"
-                Background="Transparent"
                 ColumnDefinitions="Auto,Auto,*,Auto,Auto"
                 DockPanel.Dock="Top">
                 <Menu
