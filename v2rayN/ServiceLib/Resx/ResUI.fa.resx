@@ -177,6 +177,9 @@
   <data name="LvAddress" xml:space="preserve">
     <value>آدرس</value>
   </data>
+  <data name="LvEncryptionMethod" xml:space="preserve">
+    <value>امنیت</value>
+  </data>
   <data name="LvPort" xml:space="preserve">
     <value>پورت</value>
   </data>
@@ -258,6 +261,9 @@
   <data name="PleaseSelectEncryption" xml:space="preserve">
     <value>لطفاً روش رمزگذاری را انتخاب کنید</value>
   </data>
+  <data name="PleaseSelectProtocol" xml:space="preserve">
+    <value>لطفا یک پروتکل انتخاب کنید</value>
+  </data>
   <data name="PleaseSelectServer" xml:space="preserve">
     <value>لطفا ابتدا سرور را انتخاب کنید</value>
   </data>
@@ -294,6 +300,9 @@
   <data name="PleaseSelectRules" xml:space="preserve">
     <value>لطفا قوانین را انتخاب کنید</value>
   </data>
+  <data name="RemoveRules" xml:space="preserve">
+    <value>آیا مطمئن هستید که می خواهید قوانین را حذف کنید؟</value>
+  </data>
   <data name="RoutingRuleDetailRequiredTips" xml:space="preserve">
     <value>{0}، یکی از فیلدهای الزامی است.</value>
   </data>
@@ -324,8 +333,29 @@
   <data name="FillCorrectDNSText" xml:space="preserve">
     <value>لطفاً DNS سفارشی صحیح را پر کنید</value>
   </data>
+  <data name="TransportPathTip1" xml:space="preserve">
+    <value>* مسیر ws</value>
+  </data>
+  <data name="TransportPathTip2" xml:space="preserve">
+    <value>* مسیر h2</value>
+  </data>
+  <data name="TransportPathTip3" xml:space="preserve">
+    <value>*QUIC key/Kcp seed</value>
+  </data>
   <data name="TransportPathTip4" xml:space="preserve">
     <value>gRPC serviceName</value>
+  </data>
+  <data name="TransportRequestHostTip1" xml:space="preserve">
+    <value>*هاست http جدا شده با کاما (،)</value>
+  </data>
+  <data name="TransportRequestHostTip2" xml:space="preserve">
+    <value>*هاست ws</value>
+  </data>
+  <data name="TransportRequestHostTip3" xml:space="preserve">
+    <value>*هاست h2 با کاما (،) جدا شده است</value>
+  </data>
+  <data name="TransportRequestHostTip4" xml:space="preserve">
+    <value>*QUIC securty</value>
   </data>
   <data name="TransportHeaderType1" xml:space="preserve">
     <value>raw camouflage type</value>
@@ -333,11 +363,17 @@
   <data name="TransportHeaderType2" xml:space="preserve">
     <value>kcp camouflage type</value>
   </data>
+  <data name="TransportHeaderType3" xml:space="preserve">
+    <value>QUIC camouflage type</value>
+  </data>
   <data name="TransportHeaderType4" xml:space="preserve">
     <value>حالت grpc</value>
   </data>
   <data name="LvTLS" xml:space="preserve">
     <value>TLS</value>
+  </data>
+  <data name="TransportPathTip5" xml:space="preserve">
+    <value>*Kcp seed</value>
   </data>
   <data name="RegisterGlobalHotkeyFailed" xml:space="preserve">
     <value>ثبت کلید جهانی {0} انجام نشد، دلیل: {1}</value>
@@ -552,6 +588,9 @@
   <data name="TbFingerprint" xml:space="preserve">
     <value>اثرانگشت</value>
   </data>
+  <data name="TbHeaderType" xml:space="preserve">
+    <value>نوع Camouflage</value>
+  </data>
   <data name="TbId" xml:space="preserve">
     <value>UUID(id)</value>
   </data>
@@ -642,6 +681,9 @@
   <data name="TbSettingsCoreType" xml:space="preserve">
     <value>تنظیمات CoreType</value>
   </data>
+  <data name="TbSettingsDefAllowInsecure" xml:space="preserve">
+    <value>اعطای مجوز ناامن</value>
+  </data>
   <data name="TbSettingsDomainStrategy4Freedom" xml:space="preserve">
     <value>Outbound Freedom domainStrategy</value>
   </data>
@@ -654,6 +696,9 @@
   <data name="TbSettingsEnableUpdateViaProxy" xml:space="preserve">
     <value>به‌روزرسانی از طریق پروکسی</value>
   </data>
+  <data name="TbSettingsException" xml:space="preserve">
+    <value>استثنا</value>
+  </data>
   <data name="TbSettingsExceptionTip" xml:space="preserve">
     <value>استثناها: از سرور پروکسی برای آدرس هایی که با موارد زیر شروع می شوند استفاده نکنید. برای جدا کردن ورودی ها از نقطه ویرگول (;) استفاده کنید.</value>
   </data>
@@ -662,6 +707,9 @@
   </data>
   <data name="TbSettingsKeepOlderDedupl" xml:space="preserve">
     <value>ورودی‌های قدیمی‌تر را هنگام حذف کپی نگه دارید</value>
+  </data>
+  <data name="TbSettingsLogEnabled" xml:space="preserve">
+    <value>ثبت گزارش های محلی</value>
   </data>
   <data name="TbSettingsLogLevel" xml:space="preserve">
     <value>سطح ثبت رویداد</value>
@@ -924,6 +972,9 @@
   <data name="TbSettingsEnableHWA" xml:space="preserve">
     <value>فعال‌ سازی شتاب‌ دهنده سخت‌ افزاری (نیاز به راه‌اندازی مجدد)</value>
   </data>
+  <data name="SpeedtestingWait" xml:space="preserve">
+    <value>در انتظار آزمایش...</value>
+  </data>
   <data name="SpeedtestingPressEscToExit" xml:space="preserve">
     <value>برای پایان دادن به ESC فشار دهید</value>
   </data>
@@ -1080,6 +1131,12 @@
   <data name="TbSettingsFragmentMaxSplitTip" xml:space="preserve">
     <value>مکسیمم تعداد تقسیم (0 = نامحدود، 0-10000). فقط Xray-core. خالی = پیش‌فرض.</value>
   </data>
+  <data name="TbSettingsFragmentFallbackDelay" xml:space="preserve">
+    <value>تأخیر فول‌بک</value>
+  </data>
+  <data name="TbSettingsFragmentFallbackDelayTip" xml:space="preserve">
+    <value>تأخیر فول‌بک فرگمنت TLS. فقط sing-box. خالی = پیش‌فرض.</value>
+  </data>
   <data name="FillFragmentParameterError" xml:space="preserve">
     <value>فرمت محدوده نامعتبر. از 'from-to' استفاده کنید (مثلا 50-100).</value>
   </data>
@@ -1107,6 +1164,12 @@
   <data name="TbSortingDelay" xml:space="preserve">
     <value>تاخیر</value>
   </data>
+  <data name="TbSortingDownSpeed" xml:space="preserve">
+    <value>سرعت دانلود</value>
+  </data>
+  <data name="TbSortingDownTraffic" xml:space="preserve">
+    <value>ترافیک دانلود</value>
+  </data>
   <data name="TbSortingHost" xml:space="preserve">
     <value>هاست</value>
   </data>
@@ -1121,6 +1184,12 @@
   </data>
   <data name="TbSortingType" xml:space="preserve">
     <value>نوع</value>
+  </data>
+  <data name="TbSortingUpSpeed" xml:space="preserve">
+    <value>سرعت اپلود</value>
+  </data>
+  <data name="TbSortingUpTraffic" xml:space="preserve">
+    <value>ترافیک آپلود</value>
   </data>
   <data name="TbConnections" xml:space="preserve">
     <value>اتصالات</value>
@@ -1137,8 +1206,23 @@
   <data name="menuRulemode" xml:space="preserve">
     <value>نوع قانون</value>
   </data>
+  <data name="menuModeDirect" xml:space="preserve">
+    <value>مستقیم</value>
+  </data>
+  <data name="menuModeGlobal" xml:space="preserve">
+    <value>جهانی</value>
+  </data>
+  <data name="menuModeNothing" xml:space="preserve">
+    <value>تغییر نده</value>
+  </data>
+  <data name="menuModeRule" xml:space="preserve">
+    <value>قانون</value>
+  </data>
   <data name="menuDelaytest" xml:space="preserve">
     <value>تست تأخیر</value>
+  </data>
+  <data name="menuProxiesDelaytestPart" xml:space="preserve">
+    <value>تست تاخیر قسمت گره (نقطه اتصال)</value>
   </data>
   <data name="menuProxiesReload" xml:space="preserve">
     <value>تازه سازی پروکسی ها</value>
@@ -1299,6 +1383,9 @@
   <data name="SpeedtestingTestFailedPart" xml:space="preserve">
     <value>شروع آزمایش مجدد قطعات ناموفق، {0} باقی مانده است. برای خاتمه ESC را فشار دهید...</value>
   </data>
+  <data name="menuTestServerResult" xml:space="preserve">
+    <value>با نتیجه آزمایش</value>
+  </data>
   <data name="menuRemoveInvalidServerResult" xml:space="preserve">
     <value>حذف نامعتبر با نتایج آزمایش</value>
   </data>
@@ -1373,6 +1460,9 @@
   </data>
   <data name="TbBlockSVCBHTTPSQueriesTips" xml:space="preserve">
     <value>Block ECH and HTTP/3 availability checks when enabled. Always enabled in Xray</value>
+  </data>
+  <data name="FillCorrectConfigTemplateText" xml:space="preserve">
+    <value>Please fill in the correct config template</value>
   </data>
   <data name="menuFullConfigTemplate" xml:space="preserve">
     <value>Full Config Template Setting</value>
@@ -1464,6 +1554,9 @@
   <data name="MsgInvalidProperty" xml:space="preserve">
     <value>The {0} property is invalid, please check</value>
   </data>
+  <data name="MsgNotSupportProtocol" xml:space="preserve">
+    <value>Not support protocol '{0}'</value>
+  </data>
   <data name="TbSettingsHide2TrayWhenCloseTip" xml:space="preserve">
     <value>If the system does not have a tray function, please do not enable it</value>
   </data>
@@ -1499,6 +1592,9 @@ The "Get Certificate" action may fail if a self-signed certificate is used or if
   </data>
   <data name="TbFetchCertChain" xml:space="preserve">
     <value>Fetch Certificate Chain</value>
+  </data>
+  <data name="ServerNameMustBeValidDomain" xml:space="preserve">
+    <value>Please set a valid domain</value>
   </data>
   <data name="CertNotSet" xml:space="preserve">
     <value>Certificate not set</value>

@@ -177,6 +177,9 @@
   <data name="LvAddress" xml:space="preserve">
     <value>Адрес</value>
   </data>
+  <data name="LvEncryptionMethod" xml:space="preserve">
+    <value>Метод шифрования</value>
+  </data>
   <data name="LvPort" xml:space="preserve">
     <value>Порт</value>
   </data>
@@ -258,6 +261,9 @@
   <data name="PleaseSelectEncryption" xml:space="preserve">
     <value>Выберите метод шифрования</value>
   </data>
+  <data name="PleaseSelectProtocol" xml:space="preserve">
+    <value>Выберите протокол</value>
+  </data>
   <data name="PleaseSelectServer" xml:space="preserve">
     <value>Сначала выберите сервер</value>
   </data>
@@ -294,6 +300,9 @@
   <data name="PleaseSelectRules" xml:space="preserve">
     <value>Выберите правила</value>
   </data>
+  <data name="RemoveRules" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить правила?</value>
+  </data>
   <data name="RoutingRuleDetailRequiredTips" xml:space="preserve">
     <value>{0}: одно из обязательных полей</value>
   </data>
@@ -324,8 +333,29 @@
   <data name="FillCorrectDNSText" xml:space="preserve">
     <value>Введите корректный пользовательский DNS</value>
   </data>
+  <data name="TransportPathTip1" xml:space="preserve">
+    <value>*Путь ws/httpupgrade/xhttp</value>
+  </data>
+  <data name="TransportPathTip2" xml:space="preserve">
+    <value>*HTTP2-путь</value>
+  </data>
+  <data name="TransportPathTip3" xml:space="preserve">
+    <value>*Ключ шифрования QUIC</value>
+  </data>
   <data name="TransportPathTip4" xml:space="preserve">
     <value>Имя сервиса gRPC</value>
+  </data>
+  <data name="TransportRequestHostTip1" xml:space="preserve">
+    <value>*http-хосты, разделённые запятыми (,)</value>
+  </data>
+  <data name="TransportRequestHostTip2" xml:space="preserve">
+    <value>*Хост ws/httpupgrade/xhttp</value>
+  </data>
+  <data name="TransportRequestHostTip3" xml:space="preserve">
+    <value>*HTTP2-хосты, разделённые запятыми (,)</value>
+  </data>
+  <data name="TransportRequestHostTip4" xml:space="preserve">
+    <value>*Метод шифрования QUIC</value>
   </data>
   <data name="TransportHeaderType1" xml:space="preserve">
     <value>Тип raw-камуфляжа</value>
@@ -333,11 +363,17 @@
   <data name="TransportHeaderType2" xml:space="preserve">
     <value>Тип KCP-камуфляжа</value>
   </data>
+  <data name="TransportHeaderType3" xml:space="preserve">
+    <value>Тип QUIC-камуфляжа</value>
+  </data>
   <data name="TransportHeaderType4" xml:space="preserve">
     <value>Режим gRPC</value>
   </data>
   <data name="LvTLS" xml:space="preserve">
     <value>TLS</value>
+  </data>
+  <data name="TransportPathTip5" xml:space="preserve">
+    <value>*KCP-seed</value>
   </data>
   <data name="RegisterGlobalHotkeyFailed" xml:space="preserve">
     <value>Не удалось зарегистрировать глобальную горячую клавишу {0}, причина: {1}</value>
@@ -555,6 +591,9 @@
   <data name="TbFingerprint" xml:space="preserve">
     <value>Отпечаток</value>
   </data>
+  <data name="TbHeaderType" xml:space="preserve">
+    <value>Тип камуфляжа</value>
+  </data>
   <data name="TbId" xml:space="preserve">
     <value>UUID (id)</value>
   </data>
@@ -645,6 +684,9 @@
   <data name="TbSettingsCoreType" xml:space="preserve">
     <value>Настройки типа ядра</value>
   </data>
+  <data name="TbSettingsDefAllowInsecure" xml:space="preserve">
+    <value>По умолчанию пропускать проверку сертификата (allowInsecure)</value>
+  </data>
   <data name="TbSettingsDomainStrategy4Freedom" xml:space="preserve">
     <value>«Freedom»: стратегия обработки доменов исходящего трафика</value>
   </data>
@@ -657,6 +699,9 @@
   <data name="TbSettingsEnableUpdateViaProxy" xml:space="preserve">
     <value>Обновлять через прокси</value>
   </data>
+  <data name="TbSettingsException" xml:space="preserve">
+    <value>Исключение</value>
+  </data>
   <data name="TbSettingsExceptionTip" xml:space="preserve">
     <value>Исключения: не использовать прокси для адресов, начинающихся с указанных. Разделяйте точкой с запятой (;)</value>
   </data>
@@ -665,6 +710,9 @@
   </data>
   <data name="TbSettingsKeepOlderDedupl" xml:space="preserve">
     <value>При удалении дубликатов сохранять элементы с меньшим порядковым номером</value>
+  </data>
+  <data name="TbSettingsLogEnabled" xml:space="preserve">
+    <value>Записывать логи</value>
   </data>
   <data name="TbSettingsLogLevel" xml:space="preserve">
     <value>Уровень записи логов</value>
@@ -927,6 +975,9 @@
   <data name="TbSettingsEnableHWA" xml:space="preserve">
     <value>Включить аппаратное ускорение (требуется перезапуск)</value>
   </data>
+  <data name="SpeedtestingWait" xml:space="preserve">
+    <value>Ожидание…</value>
+  </data>
   <data name="SpeedtestingPressEscToExit" xml:space="preserve">
     <value>Нажмите ESC для прекращения теста</value>
   </data>
@@ -1098,6 +1149,12 @@
   <data name="TbSettingsFragmentMaxSplitTip" xml:space="preserve">
     <value>Максимальное число разделений (0 = без лимита, 0-10000). Только для Xray-core. Пусто = по умолчанию</value>
   </data>
+  <data name="TbSettingsFragmentFallbackDelay" xml:space="preserve">
+    <value>Резервная задержка</value>
+  </data>
+  <data name="TbSettingsFragmentFallbackDelayTip" xml:space="preserve">
+    <value>Резервная задержка для TLS-фрагмента. Только для sing-box. Пусто = по умолчанию</value>
+  </data>
   <data name="FillFragmentParameterError" xml:space="preserve">
     <value>Неверный формат диапазона. Используйте 'from-to' (например, 50-100)</value>
   </data>
@@ -1125,6 +1182,12 @@
   <data name="TbSortingDelay" xml:space="preserve">
     <value>Задержка</value>
   </data>
+  <data name="TbSortingDownSpeed" xml:space="preserve">
+    <value>Скорость загрузки</value>
+  </data>
+  <data name="TbSortingDownTraffic" xml:space="preserve">
+    <value>Загруженный трафик</value>
+  </data>
   <data name="TbSortingHost" xml:space="preserve">
     <value>Хост</value>
   </data>
@@ -1139,6 +1202,12 @@
   </data>
   <data name="TbSortingType" xml:space="preserve">
     <value>Тип</value>
+  </data>
+  <data name="TbSortingUpSpeed" xml:space="preserve">
+    <value>Скорость отдачи</value>
+  </data>
+  <data name="TbSortingUpTraffic" xml:space="preserve">
+    <value>Отправленный трафик</value>
   </data>
   <data name="TbConnections" xml:space="preserve">
     <value>Соединения</value>
@@ -1155,8 +1224,23 @@
   <data name="menuRulemode" xml:space="preserve">
     <value>Режим правила</value>
   </data>
+  <data name="menuModeDirect" xml:space="preserve">
+    <value>Прямое соединение</value>
+  </data>
+  <data name="menuModeGlobal" xml:space="preserve">
+    <value>Глобальный режим</value>
+  </data>
+  <data name="menuModeNothing" xml:space="preserve">
+    <value>Как в исходной конфигурации</value>
+  </data>
+  <data name="menuModeRule" xml:space="preserve">
+    <value>Правила</value>
+  </data>
   <data name="menuDelaytest" xml:space="preserve">
     <value>Тест задержки</value>
+  </data>
+  <data name="menuProxiesDelaytestPart" xml:space="preserve">
+    <value>Тест задержки выбранных узлов</value>
   </data>
   <data name="menuProxiesReload" xml:space="preserve">
     <value>Обновить прокси</value>
@@ -1317,6 +1401,9 @@
   <data name="SpeedtestingTestFailedPart" xml:space="preserve">
     <value>Повторное тестирование неудачных элементов, осталось {0}. Нажмите ESC для остановки…</value>
   </data>
+  <data name="menuTestServerResult" xml:space="preserve">
+    <value>По результату теста</value>
+  </data>
   <data name="menuRemoveInvalidServerResult" xml:space="preserve">
     <value>Удалить недействительные по результатам теста</value>
   </data>
@@ -1391,6 +1478,9 @@
   </data>
   <data name="TbBlockSVCBHTTPSQueriesTips" xml:space="preserve">
     <value>При включении блокирует запросы доступности ECH и HTTP/3. В Xray включено всегда</value>
+  </data>
+  <data name="FillCorrectConfigTemplateText" xml:space="preserve">
+    <value>Пожалуйста, заполните корректный шаблон конфигурации</value>
   </data>
   <data name="menuFullConfigTemplate" xml:space="preserve">
     <value>Настройка полного шаблона конфигурации</value>
@@ -1482,6 +1572,9 @@
   <data name="MsgInvalidProperty" xml:space="preserve">
     <value>Свойство {0} недопустимо, проверьте его</value>
   </data>
+  <data name="MsgNotSupportProtocol" xml:space="preserve">
+    <value>Протокол «{0}» не поддерживается</value>
+  </data>
   <data name="TbSettingsHide2TrayWhenCloseTip" xml:space="preserve">
     <value>Если в системе нет функции трея, не включайте эту опцию</value>
   </data>
@@ -1517,6 +1610,9 @@
   </data>
   <data name="TbFetchCertChain" xml:space="preserve">
     <value>Получить цепочку сертификатов</value>
+  </data>
+  <data name="ServerNameMustBeValidDomain" xml:space="preserve">
+    <value>Укажите корректный домен</value>
   </data>
   <data name="CertNotSet" xml:space="preserve">
     <value>Сертификат не задан</value>
@@ -1718,6 +1814,9 @@
   </data>
   <data name="TbEnableFinalFragmentTip" xml:space="preserve">
     <value>Разбивать конец пакетов на более мелкие фрагменты при отправке. Это может влиять на пропускную способность и задержку</value>
+  </data>
+  <data name="TbEnabletDnsViaProxy" xml:space="preserve">
+    <value>DNS через Bridge</value>
   </data>
   <data name="MsgInsecureConfiguration" xml:space="preserve">
     <value>Обнаружена небезопасная конфигурация: AllowInsecure включён, но сертификат не предоставлен. Это может привести к атаке «человек посередине» (MITM)</value>

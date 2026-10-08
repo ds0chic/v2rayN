@@ -177,6 +177,9 @@
   <data name="LvAddress" xml:space="preserve">
     <value>位址</value>
   </data>
+  <data name="LvEncryptionMethod" xml:space="preserve">
+    <value>加密方式</value>
+  </data>
   <data name="LvPort" xml:space="preserve">
     <value>埠</value>
   </data>
@@ -258,6 +261,9 @@
   <data name="PleaseSelectEncryption" xml:space="preserve">
     <value>請選擇加密方式</value>
   </data>
+  <data name="PleaseSelectProtocol" xml:space="preserve">
+    <value>請選擇協定</value>
+  </data>
   <data name="PleaseSelectServer" xml:space="preserve">
     <value>請先選擇設定</value>
   </data>
@@ -294,6 +300,9 @@
   <data name="PleaseSelectRules" xml:space="preserve">
     <value>請先選擇規則</value>
   </data>
+  <data name="RemoveRules" xml:space="preserve">
+    <value>是否確定移除規則？</value>
+  </data>
   <data name="RoutingRuleDetailRequiredTips" xml:space="preserve">
     <value>{0}，至少需填寫其中一項。</value>
   </data>
@@ -324,8 +333,29 @@
   <data name="FillCorrectDNSText" xml:space="preserve">
     <value>請填寫正確的自訂 DNS</value>
   </data>
+  <data name="TransportPathTip1" xml:space="preserve">
+    <value>*ws/httpupgrade/xhttp path</value>
+  </data>
+  <data name="TransportPathTip2" xml:space="preserve">
+    <value>*h2 path</value>
+  </data>
+  <data name="TransportPathTip3" xml:space="preserve">
+    <value>*QUIC 加密金鑰</value>
+  </data>
   <data name="TransportPathTip4" xml:space="preserve">
     <value>gRPC serviceName</value>
+  </data>
+  <data name="TransportRequestHostTip1" xml:space="preserve">
+    <value>*http host 中間逗號 (,) 分隔</value>
+  </data>
+  <data name="TransportRequestHostTip2" xml:space="preserve">
+    <value>*ws/httpupgrade/xhttp host</value>
+  </data>
+  <data name="TransportRequestHostTip3" xml:space="preserve">
+    <value>*h2 host 中間逗號 (,) 分隔</value>
+  </data>
+  <data name="TransportRequestHostTip4" xml:space="preserve">
+    <value>*QUIC 加密方式</value>
   </data>
   <data name="TransportHeaderType1" xml:space="preserve">
     <value>raw 偽裝類型</value>
@@ -333,11 +363,17 @@
   <data name="TransportHeaderType2" xml:space="preserve">
     <value>KCP 偽裝類型</value>
   </data>
+  <data name="TransportHeaderType3" xml:space="preserve">
+    <value>QUIC 偽裝類型</value>
+  </data>
   <data name="TransportHeaderType4" xml:space="preserve">
     <value>gRPC 模式</value>
   </data>
   <data name="LvTLS" xml:space="preserve">
     <value>TLS</value>
+  </data>
+  <data name="TransportPathTip5" xml:space="preserve">
+    <value>*KCP seed</value>
   </data>
   <data name="RegisterGlobalHotkeyFailed" xml:space="preserve">
     <value>註冊全域快速鍵 {0} 失敗，原因：{1}</value>
@@ -555,6 +591,9 @@
   <data name="TbFingerprint" xml:space="preserve">
     <value>Fingerprint</value>
   </data>
+  <data name="TbHeaderType" xml:space="preserve">
+    <value>偽裝類型 (type)</value>
+  </data>
   <data name="TbId" xml:space="preserve">
     <value>使用者 ID (id)</value>
   </data>
@@ -645,6 +684,9 @@
   <data name="TbSettingsCoreType" xml:space="preserve">
     <value>Core 類型設定</value>
   </data>
+  <data name="TbSettingsDefAllowInsecure" xml:space="preserve">
+    <value>預設跳過憑證驗證 (allowinsecure)</value>
+  </data>
   <data name="TbSettingsDomainStrategy4Freedom" xml:space="preserve">
     <value>Outbound Freedom domainStrategy</value>
   </data>
@@ -657,6 +699,9 @@
   <data name="TbSettingsEnableUpdateViaProxy" xml:space="preserve">
     <value>透過代理更新</value>
   </data>
+  <data name="TbSettingsException" xml:space="preserve">
+    <value>例外</value>
+  </data>
   <data name="TbSettingsExceptionTip" xml:space="preserve">
     <value>例外：對於下列字元開頭的位址，不使用代理。使用分號 (;) 分隔。</value>
   </data>
@@ -665,6 +710,9 @@
   </data>
   <data name="TbSettingsKeepOlderDedupl" xml:space="preserve">
     <value>去重時保留序號較小的項</value>
+  </data>
+  <data name="TbSettingsLogEnabled" xml:space="preserve">
+    <value>啟用日誌</value>
   </data>
   <data name="TbSettingsLogLevel" xml:space="preserve">
     <value>日誌等級</value>
@@ -927,6 +975,9 @@
   <data name="TbSettingsEnableHWA" xml:space="preserve">
     <value>啟用硬體加速 (需重啟)</value>
   </data>
+  <data name="SpeedtestingWait" xml:space="preserve">
+    <value>等待測試中...</value>
+  </data>
   <data name="SpeedtestingPressEscToExit" xml:space="preserve">
     <value>按 ECS 以終止測試</value>
   </data>
@@ -1095,6 +1146,12 @@
   <data name="TbSettingsFragmentMaxSplitTip" xml:space="preserve">
     <value>每個封包最大分片數 (0-10000, 0=無限制)。僅 Xray。留空使用預設值。</value>
   </data>
+  <data name="TbSettingsFragmentFallbackDelay" xml:space="preserve">
+    <value>回退延遲</value>
+  </data>
+  <data name="TbSettingsFragmentFallbackDelayTip" xml:space="preserve">
+    <value>ACK 偵測不可用時的回退延遲 (如 500ms)。僅 sing-box。留空使用預設值。</value>
+  </data>
   <data name="FillFragmentParameterError" xml:space="preserve">
     <value>無效的範圍格式。請使用 'from-to' (如 50-100)。</value>
   </data>
@@ -1122,6 +1179,12 @@
   <data name="TbSortingDelay" xml:space="preserve">
     <value>延遲</value>
   </data>
+  <data name="TbSortingDownSpeed" xml:space="preserve">
+    <value>下載速度</value>
+  </data>
+  <data name="TbSortingDownTraffic" xml:space="preserve">
+    <value>下載流量</value>
+  </data>
   <data name="TbSortingHost" xml:space="preserve">
     <value>主機</value>
   </data>
@@ -1136,6 +1199,12 @@
   </data>
   <data name="TbSortingType" xml:space="preserve">
     <value>類型</value>
+  </data>
+  <data name="TbSortingUpSpeed" xml:space="preserve">
+    <value>上傳速度</value>
+  </data>
+  <data name="TbSortingUpTraffic" xml:space="preserve">
+    <value>上傳流量</value>
   </data>
   <data name="TbConnections" xml:space="preserve">
     <value>目前連線</value>
@@ -1152,8 +1221,23 @@
   <data name="menuRulemode" xml:space="preserve">
     <value>規則模式</value>
   </data>
+  <data name="menuModeDirect" xml:space="preserve">
+    <value>直連</value>
+  </data>
+  <data name="menuModeGlobal" xml:space="preserve">
+    <value>全局</value>
+  </data>
+  <data name="menuModeNothing" xml:space="preserve">
+    <value>隨原配置</value>
+  </data>
+  <data name="menuModeRule" xml:space="preserve">
+    <value>規則</value>
+  </data>
   <data name="menuDelaytest" xml:space="preserve">
     <value>延遲測試</value>
+  </data>
+  <data name="menuProxiesDelaytestPart" xml:space="preserve">
+    <value>目前部分節點延遲測試</value>
   </data>
   <data name="menuProxiesReload" xml:space="preserve">
     <value>重新整理</value>
@@ -1314,6 +1398,9 @@
   <data name="SpeedtestingTestFailedPart" xml:space="preserve">
     <value>開始對失敗部分進行重新測試，剩餘 {0} 個。可按 ESC 終止...</value>
   </data>
+  <data name="menuTestServerResult" xml:space="preserve">
+    <value>按測試結果</value>
+  </data>
   <data name="menuRemoveInvalidServerResult" xml:space="preserve">
     <value>按測試結果移除無效</value>
   </data>
@@ -1388,6 +1475,9 @@
   </data>
   <data name="TbBlockSVCBHTTPSQueriesTips" xml:space="preserve">
     <value>啟用後將封鎖 ECH 與 HTTP/3 可用性查詢。Xray 固定啟用</value>
+  </data>
+  <data name="FillCorrectConfigTemplateText" xml:space="preserve">
+    <value>請填寫正確的設定範本</value>
   </data>
   <data name="menuFullConfigTemplate" xml:space="preserve">
     <value>完整設定範本</value>
@@ -1479,6 +1569,9 @@
   <data name="MsgInvalidProperty" xml:space="preserve">
     <value>{0} 屬性無效，請檢查</value>
   </data>
+  <data name="MsgNotSupportProtocol" xml:space="preserve">
+    <value>不支援協定 '{0}'</value>
+  </data>
   <data name="TbSettingsHide2TrayWhenCloseTip" xml:space="preserve">
     <value>如果系統沒有託盤功能，請不要開啟</value>
   </data>
@@ -1514,6 +1607,9 @@
   </data>
   <data name="TbFetchCertChain" xml:space="preserve">
     <value>獲取憑證鏈</value>
+  </data>
+  <data name="ServerNameMustBeValidDomain" xml:space="preserve">
+    <value>請設定有效的網域名稱</value>
   </data>
   <data name="CertNotSet" xml:space="preserve">
     <value>尚未設定憑證</value>
@@ -1719,6 +1815,9 @@
   </data>
   <data name="TbEnableFinalFragmentTip" xml:space="preserve">
     <value>將封包末端拆分為更小的片段進行傳送，可能會影響吞吐量與延遲</value>
+  </data>
+  <data name="TbEnabletDnsViaProxy" xml:space="preserve">
+    <value>DNS 透過 Bridge</value>
   </data>
   <data name="MsgInsecureConfiguration" xml:space="preserve">
     <value>偵測到不安全的設定：已啟用 AllowInsecure，但未提供憑證。這可能導致中間人攻擊（MITM）</value>
