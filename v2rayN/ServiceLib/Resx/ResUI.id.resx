@@ -177,9 +177,6 @@
   <data name="LvAddress" xml:space="preserve">
     <value>Alamat</value>
   </data>
-  <data name="LvEncryptionMethod" xml:space="preserve">
-    <value>Keamanan</value>
-  </data>
   <data name="LvPort" xml:space="preserve">
     <value>Port</value>
   </data>
@@ -261,9 +258,6 @@
   <data name="PleaseSelectEncryption" xml:space="preserve">
     <value>Silakan pilih metode enkripsi</value>
   </data>
-  <data name="PleaseSelectProtocol" xml:space="preserve">
-    <value>Silakan pilih protokol</value>
-  </data>
   <data name="PleaseSelectServer" xml:space="preserve">
     <value>Silakan pilih konfigurasi terlebih dahulu</value>
   </data>
@@ -300,9 +294,6 @@
   <data name="PleaseSelectRules" xml:space="preserve">
     <value>Silakan pilih aturan</value>
   </data>
-  <data name="RemoveRules" xml:space="preserve">
-    <value>Yakin ingin menghapus aturan?</value>
-  </data>
   <data name="RoutingRuleDetailRequiredTips" xml:space="preserve">
     <value>{0}, salah satu kolom wajib diisi.</value>
   </data>
@@ -333,29 +324,8 @@
   <data name="FillCorrectDNSText" xml:space="preserve">
     <value>Isi DNS kustom yang benar</value>
   </data>
-  <data name="TransportPathTip1" xml:space="preserve">
-    <value>*path ws/http upgrade/xhttp</value>
-  </data>
-  <data name="TransportPathTip2" xml:space="preserve">
-    <value>*path h2</value>
-  </data>
-  <data name="TransportPathTip3" xml:space="preserve">
-    <value>*kunci QUIC/seed KCP</value>
-  </data>
   <data name="TransportPathTip4" xml:space="preserve">
     <value>nama layanan gRPC</value>
-  </data>
-  <data name="TransportRequestHostTip1" xml:space="preserve">
-    <value>*host http, pisahkan dengan koma (,)</value>
-  </data>
-  <data name="TransportRequestHostTip2" xml:space="preserve">
-    <value>*host ws/http upgrade/xhttp</value>
-  </data>
-  <data name="TransportRequestHostTip3" xml:space="preserve">
-    <value>*host h2, pisahkan dengan koma (,)</value>
-  </data>
-  <data name="TransportRequestHostTip4" xml:space="preserve">
-    <value>*keamanan QUIC</value>
   </data>
   <data name="TransportHeaderType1" xml:space="preserve">
     <value>tipe kamuflase raw</value>
@@ -363,17 +333,11 @@
   <data name="TransportHeaderType2" xml:space="preserve">
     <value>tipe kamuflase kcp</value>
   </data>
-  <data name="TransportHeaderType3" xml:space="preserve">
-    <value>tipe kamuflase QUIC</value>
-  </data>
   <data name="TransportHeaderType4" xml:space="preserve">
     <value>mode gRPC</value>
   </data>
   <data name="LvTLS" xml:space="preserve">
     <value>TLS</value>
-  </data>
-  <data name="TransportPathTip5" xml:space="preserve">
-    <value>*seed kcp</value>
   </data>
   <data name="RegisterGlobalHotkeyFailed" xml:space="preserve">
     <value>Pendaftaran hotkey global {0} gagal, alasan: {1}</value>
@@ -588,9 +552,6 @@
   <data name="TbFingerprint" xml:space="preserve">
     <value>Sidik jari</value>
   </data>
-  <data name="TbHeaderType" xml:space="preserve">
-    <value>Tipe kamuflase</value>
-  </data>
   <data name="TbId" xml:space="preserve">
     <value>UUID(id)</value>
   </data>
@@ -681,9 +642,6 @@
   <data name="TbSettingsCoreType" xml:space="preserve">
     <value>Pengaturan tipe Core</value>
   </data>
-  <data name="TbSettingsDefAllowInsecure" xml:space="preserve">
-    <value>Lewati verifikasi sertifikat (allowInsecure)</value>
-  </data>
   <data name="TbSettingsDomainStrategy4Freedom" xml:space="preserve">
     <value>Strategi domain Outbound Freedom</value>
   </data>
@@ -693,9 +651,6 @@
   <data name="TbSettingsEnableCheckPreReleaseUpdate" xml:space="preserve">
     <value>Periksa versi pra-rilis</value>
   </data>
-  <data name="TbSettingsException" xml:space="preserve">
-    <value>Pengecualian</value>
-  </data>
   <data name="TbSettingsExceptionTip" xml:space="preserve">
     <value>Pengecualian: jangan gunakan server proxy untuk alamat yang cocok dengan entri berikut. Pisahkan dengan titik koma (;).</value>
   </data>
@@ -704,9 +659,6 @@
   </data>
   <data name="TbSettingsKeepOlderDedupl" xml:space="preserve">
     <value>Pertahankan entri lama saat deduplikasi</value>
-  </data>
-  <data name="TbSettingsLogEnabled" xml:space="preserve">
-    <value>Aktifkan log</value>
   </data>
   <data name="TbSettingsLogLevel" xml:space="preserve">
     <value>Level log</value>
@@ -969,9 +921,6 @@
   <data name="TbSettingsEnableHWA" xml:space="preserve">
     <value>Aktifkan akselerasi perangkat keras (perlu mulai ulang)</value>
   </data>
-  <data name="SpeedtestingWait" xml:space="preserve">
-    <value>Menunggu...</value>
-  </data>
   <data name="SpeedtestingPressEscToExit" xml:space="preserve">
     <value>Tekan ESC untuk menghentikan pengujian</value>
   </data>
@@ -1128,12 +1077,6 @@
   <data name="TbSettingsFragmentMaxSplitTip" xml:space="preserve">
     <value>Maks jumlah split (0 = unlimited, 0-10000). Hanya Xray-core. Kosong = default.</value>
   </data>
-  <data name="TbSettingsFragmentFallbackDelay" xml:space="preserve">
-    <value>Fallback Delay</value>
-  </data>
-  <data name="TbSettingsFragmentFallbackDelayTip" xml:space="preserve">
-    <value>Delay fallback untuk TLS fragment. Hanya sing-box. Kosong = default.</value>
-  </data>
   <data name="FillFragmentParameterError" xml:space="preserve">
     <value>Format range tidak valid. Gunakan 'from-to' (cth: 50-100).</value>
   </data>
@@ -1161,12 +1104,6 @@
   <data name="TbSortingDelay" xml:space="preserve">
     <value>Latensi</value>
   </data>
-  <data name="TbSortingDownSpeed" xml:space="preserve">
-    <value>Kecepatan unduh</value>
-  </data>
-  <data name="TbSortingDownTraffic" xml:space="preserve">
-    <value>Lalu lintas unduh</value>
-  </data>
   <data name="TbSortingHost" xml:space="preserve">
     <value>Host</value>
   </data>
@@ -1181,12 +1118,6 @@
   </data>
   <data name="TbSortingType" xml:space="preserve">
     <value>Tipe</value>
-  </data>
-  <data name="TbSortingUpSpeed" xml:space="preserve">
-    <value>Kecepatan unggah</value>
-  </data>
-  <data name="TbSortingUpTraffic" xml:space="preserve">
-    <value>Lalu lintas unggah</value>
   </data>
   <data name="TbConnections" xml:space="preserve">
     <value>Koneksi</value>
@@ -1203,23 +1134,8 @@
   <data name="menuRulemode" xml:space="preserve">
     <value>Mode aturan</value>
   </data>
-  <data name="menuModeDirect" xml:space="preserve">
-    <value>Langsung</value>
-  </data>
-  <data name="menuModeGlobal" xml:space="preserve">
-    <value>Global</value>
-  </data>
-  <data name="menuModeNothing" xml:space="preserve">
-    <value>Jangan ubah</value>
-  </data>
-  <data name="menuModeRule" xml:space="preserve">
-    <value>Aturan</value>
-  </data>
   <data name="menuDelaytest" xml:space="preserve">
     <value>Uji latensi</value>
-  </data>
-  <data name="menuProxiesDelaytestPart" xml:space="preserve">
-    <value>Uji latensi sebagian node</value>
   </data>
   <data name="menuProxiesReload" xml:space="preserve">
     <value>Muat ulang proxy</value>
@@ -1380,9 +1296,6 @@
   <data name="SpeedtestingTestFailedPart" xml:space="preserve">
     <value>Memulai pengujian ulang bagian yang gagal, tersisa {0}. Tekan ESC untuk menghentikan...</value>
   </data>
-  <data name="menuTestServerResult" xml:space="preserve">
-    <value>Berdasarkan hasil uji</value>
-  </data>
   <data name="menuRemoveInvalidServerResult" xml:space="preserve">
     <value>Hapus tidak valid berdasarkan hasil uji</value>
   </data>
@@ -1457,9 +1370,6 @@
   </data>
   <data name="TbBlockSVCBHTTPSQueriesTips" xml:space="preserve">
     <value>Block ECH and HTTP/3 availability checks when enabled. Always enabled in Xray</value>
-  </data>
-  <data name="FillCorrectConfigTemplateText" xml:space="preserve">
-    <value>Isi template konfigurasi yang benar</value>
   </data>
   <data name="menuFullConfigTemplate" xml:space="preserve">
     <value>Pengaturan template konfigurasi lengkap</value>
@@ -1551,9 +1461,6 @@
   <data name="MsgInvalidProperty" xml:space="preserve">
     <value>Properti {0} tidak valid, silakan periksa</value>
   </data>
-  <data name="MsgNotSupportProtocol" xml:space="preserve">
-    <value>Protokol '{0}' tidak didukung</value>
-  </data>
   <data name="TbSettingsHide2TrayWhenCloseTip" xml:space="preserve">
     <value>Jika sistem tidak memiliki fungsi system tray, jangan aktifkan opsi ini.</value>
   </data>
@@ -1589,9 +1496,6 @@ Tindakan "Ambil sertifikat" mungkin gagal jika sertifikat self-signed digunakan 
   </data>
   <data name="TbFetchCertChain" xml:space="preserve">
     <value>Ambil rantai sertifikat</value>
-  </data>
-  <data name="ServerNameMustBeValidDomain" xml:space="preserve">
-    <value>Tetapkan domain yang valid</value>
   </data>
   <data name="CertNotSet" xml:space="preserve">
     <value>Sertifikat belum diatur</value>

@@ -177,9 +177,6 @@
   <data name="LvAddress" xml:space="preserve">
     <value>Cím</value>
   </data>
-  <data name="LvEncryptionMethod" xml:space="preserve">
-    <value>Biztonság</value>
-  </data>
   <data name="LvPort" xml:space="preserve">
     <value>Port</value>
   </data>
@@ -261,9 +258,6 @@
   <data name="PleaseSelectEncryption" xml:space="preserve">
     <value>Kérjük, válassza ki a titkosítási módszert</value>
   </data>
-  <data name="PleaseSelectProtocol" xml:space="preserve">
-    <value>Kérjük, válassza ki a protokollt</value>
-  </data>
   <data name="PleaseSelectServer" xml:space="preserve">
     <value>Kérjük, először válassza ki a konfigurációt</value>
   </data>
@@ -300,9 +294,6 @@
   <data name="PleaseSelectRules" xml:space="preserve">
     <value>Kérjük, válasszon szabályokat</value>
   </data>
-  <data name="RemoveRules" xml:space="preserve">
-    <value>Biztosan eltávolítja a szabályokat?</value>
-  </data>
   <data name="RoutingRuleDetailRequiredTips" xml:space="preserve">
     <value>{0}, az egyik kötelező mező.</value>
   </data>
@@ -333,29 +324,8 @@
   <data name="FillCorrectDNSText" xml:space="preserve">
     <value>Kérjük, töltse ki a helyes egyéni DNS-t</value>
   </data>
-  <data name="TransportPathTip1" xml:space="preserve">
-    <value>*ws/http upgrade/xhttp elérési út</value>
-  </data>
-  <data name="TransportPathTip2" xml:space="preserve">
-    <value>*h2 elérési út</value>
-  </data>
-  <data name="TransportPathTip3" xml:space="preserve">
-    <value>*QUIC kulcs/KCP seed</value>
-  </data>
   <data name="TransportPathTip4" xml:space="preserve">
     <value>gRPC szolgáltatásnév</value>
-  </data>
-  <data name="TransportRequestHostTip1" xml:space="preserve">
-    <value>*http host vesszővel elválasztva (,)</value>
-  </data>
-  <data name="TransportRequestHostTip2" xml:space="preserve">
-    <value>*ws/http upgrade/xhttp host</value>
-  </data>
-  <data name="TransportRequestHostTip3" xml:space="preserve">
-    <value>*h2 host vesszővel elválasztva (,)</value>
-  </data>
-  <data name="TransportRequestHostTip4" xml:space="preserve">
-    <value>*QUIC biztonság</value>
   </data>
   <data name="TransportHeaderType1" xml:space="preserve">
     <value>raw álcázási típus</value>
@@ -363,17 +333,11 @@
   <data name="TransportHeaderType2" xml:space="preserve">
     <value>kcp álcázási típus</value>
   </data>
-  <data name="TransportHeaderType3" xml:space="preserve">
-    <value>QUIC álcázási típus</value>
-  </data>
   <data name="TransportHeaderType4" xml:space="preserve">
     <value>gRPC mód</value>
   </data>
   <data name="LvTLS" xml:space="preserve">
     <value>TLS</value>
-  </data>
-  <data name="TransportPathTip5" xml:space="preserve">
-    <value>*kcp seed</value>
   </data>
   <data name="RegisterGlobalHotkeyFailed" xml:space="preserve">
     <value>Globális gyorsbillentyű {0} regisztrációja sikertelen, ok: {1}</value>
@@ -588,9 +552,6 @@
   <data name="TbFingerprint" xml:space="preserve">
     <value>Ujjlenyomat</value>
   </data>
-  <data name="TbHeaderType" xml:space="preserve">
-    <value>Álcázási típus</value>
-  </data>
   <data name="TbId" xml:space="preserve">
     <value>UUID(id)</value>
   </data>
@@ -681,9 +642,6 @@
   <data name="TbSettingsCoreType" xml:space="preserve">
     <value>Core Típus beállítások</value>
   </data>
-  <data name="TbSettingsDefAllowInsecure" xml:space="preserve">
-    <value>Nem biztonságos engedélyezése</value>
-  </data>
   <data name="TbSettingsDomainStrategy4Freedom" xml:space="preserve">
     <value>Kimenő Freedom tartomány stratégia</value>
   </data>
@@ -693,9 +651,6 @@
   <data name="TbSettingsEnableCheckPreReleaseUpdate" xml:space="preserve">
     <value>Előzetes kiadás frissítések ellenőrzése</value>
   </data>
-  <data name="TbSettingsException" xml:space="preserve">
-    <value>Kivétel</value>
-  </data>
   <data name="TbSettingsExceptionTip" xml:space="preserve">
     <value>Kivételek: Ne használjon proxy szervert a következő címmel kezdődő címekhez. Pontosvesszővel (;) válassza el a bejegyzéseket.</value>
   </data>
@@ -704,9 +659,6 @@
   </data>
   <data name="TbSettingsKeepOlderDedupl" xml:space="preserve">
     <value>Régebbi bejegyzések megtartása deduplikáláskor</value>
-  </data>
-  <data name="TbSettingsLogEnabled" xml:space="preserve">
-    <value>Naplózás engedélyezése</value>
   </data>
   <data name="TbSettingsLogLevel" xml:space="preserve">
     <value>Naplózási szint</value>
@@ -969,9 +921,6 @@
   <data name="TbSettingsEnableHWA" xml:space="preserve">
     <value>Hardveres gyorsítás engedélyezése (újraindítást igényel)</value>
   </data>
-  <data name="SpeedtestingWait" xml:space="preserve">
-    <value>Tesztelésre vár...</value>
-  </data>
   <data name="SpeedtestingPressEscToExit" xml:space="preserve">
     <value>ESC megnyomásával megszakítható</value>
   </data>
@@ -1128,12 +1077,6 @@
   <data name="TbSettingsFragmentMaxSplitTip" xml:space="preserve">
     <value>Maximális darabolások száma (0 = korlátlan, 0-10000). Csak Xray-core. Üres = alapértelmezett.</value>
   </data>
-  <data name="TbSettingsFragmentFallbackDelay" xml:space="preserve">
-    <value>Fallback késleltetés</value>
-  </data>
-  <data name="TbSettingsFragmentFallbackDelayTip" xml:space="preserve">
-    <value>TLS fragment fallback késleltetés. Csak sing-box. Üres = alapértelmezett.</value>
-  </data>
   <data name="FillFragmentParameterError" xml:space="preserve">
     <value>Érvénytelen tartomány formátum. Használja 'from-to' (pl. 50-100).</value>
   </data>
@@ -1161,12 +1104,6 @@
   <data name="TbSortingDelay" xml:space="preserve">
     <value>Késleltetés</value>
   </data>
-  <data name="TbSortingDownSpeed" xml:space="preserve">
-    <value>Letöltési sebesség</value>
-  </data>
-  <data name="TbSortingDownTraffic" xml:space="preserve">
-    <value>Letöltési forgalom</value>
-  </data>
   <data name="TbSortingHost" xml:space="preserve">
     <value>Host</value>
   </data>
@@ -1181,12 +1118,6 @@
   </data>
   <data name="TbSortingType" xml:space="preserve">
     <value>Típus</value>
-  </data>
-  <data name="TbSortingUpSpeed" xml:space="preserve">
-    <value>Feltöltési sebesség</value>
-  </data>
-  <data name="TbSortingUpTraffic" xml:space="preserve">
-    <value>Feltöltési forgalom</value>
   </data>
   <data name="TbConnections" xml:space="preserve">
     <value>Kapcsolatok</value>
@@ -1203,23 +1134,8 @@
   <data name="menuRulemode" xml:space="preserve">
     <value>Szabály mód</value>
   </data>
-  <data name="menuModeDirect" xml:space="preserve">
-    <value>Közvetlen</value>
-  </data>
-  <data name="menuModeGlobal" xml:space="preserve">
-    <value>Globális</value>
-  </data>
-  <data name="menuModeNothing" xml:space="preserve">
-    <value>Ne változtassa meg</value>
-  </data>
-  <data name="menuModeRule" xml:space="preserve">
-    <value>Szabály</value>
-  </data>
   <data name="menuDelaytest" xml:space="preserve">
     <value>Késleltetés teszt</value>
-  </data>
-  <data name="menuProxiesDelaytestPart" xml:space="preserve">
-    <value>Részleges csomópont késleltetés teszt</value>
   </data>
   <data name="menuProxiesReload" xml:space="preserve">
     <value>Proxyk frissítése</value>
@@ -1380,9 +1296,6 @@
   <data name="SpeedtestingTestFailedPart" xml:space="preserve">
     <value>Sikertelen részek újratesztelése elindult, {0} maradt. ESC megnyomásával megszakítható...</value>
   </data>
-  <data name="menuTestServerResult" xml:space="preserve">
-    <value>Teszt eredmény szerint</value>
-  </data>
   <data name="menuRemoveInvalidServerResult" xml:space="preserve">
     <value>Érvénytelenek eltávolítása teszteredmények alapján</value>
   </data>
@@ -1457,9 +1370,6 @@
   </data>
   <data name="TbBlockSVCBHTTPSQueriesTips" xml:space="preserve">
     <value>Block ECH and HTTP/3 availability checks when enabled. Always enabled in Xray</value>
-  </data>
-  <data name="FillCorrectConfigTemplateText" xml:space="preserve">
-    <value>Please fill in the correct config template</value>
   </data>
   <data name="menuFullConfigTemplate" xml:space="preserve">
     <value>Full Config Template Setting</value>
@@ -1551,9 +1461,6 @@
   <data name="MsgInvalidProperty" xml:space="preserve">
     <value>The {0} property is invalid, please check</value>
   </data>
-  <data name="MsgNotSupportProtocol" xml:space="preserve">
-    <value>Not support protocol '{0}'</value>
-  </data>
   <data name="TbSettingsHide2TrayWhenCloseTip" xml:space="preserve">
     <value>If the system does not have a tray function, please do not enable it</value>
   </data>
@@ -1589,9 +1496,6 @@ The "Get Certificate" action may fail if a self-signed certificate is used or if
   </data>
   <data name="TbFetchCertChain" xml:space="preserve">
     <value>Fetch Certificate Chain</value>
-  </data>
-  <data name="ServerNameMustBeValidDomain" xml:space="preserve">
-    <value>Please set a valid domain</value>
   </data>
   <data name="CertNotSet" xml:space="preserve">
     <value>Certificate not set</value>
