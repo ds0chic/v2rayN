@@ -57,8 +57,11 @@
 - 默认 `DestOverride = ["http", "tls"]`（`ConfigItems.cs:32`），所以 sniff 规则的 `sniffer` 变成 `[http, tls, dns]`。
   以前不传 `sniffer` 时 sing-box 会嗅探所有协议；现在 bittorrent 不再被识别。
 - `Sample/custom_routing_black` 第一条规则是 `protocol: ["bittorrent"] → direct`，在 sing-box 下永远匹配不到。
-  BT 流量会按目标地址走代理，很多机场会因此封号。用户自己写的 `protocol` 规则（stun、quic 等）同样受影响。
-  Xray 的语义是 `destOverride` 只决定是否覆盖目标地址，不影响协议识别，所以两个内核的行为现在不一致。
+  不过黑名单以「最终直连」结尾，只有 Google、GFW 域名和少数 IP 段走代理，所以对内置黑名单的实际影响有限。
+- 影响较大的是用户自己加的 `protocol` 规则：例如在白名单模式下手动添加的「BT 直连」或「BT 阻断」规则（白名单默认走代理）。
+  主内核为 sing-box 时这类规则会静默失效，BT 流量走代理，有被机场封号的风险。stun 等其他协议规则同样受影响。
+- Xray 的语义是 `destOverride` 只决定是否覆盖目标地址，不影响协议识别，所以两个内核的行为现在不一致。
+- 级别：影响面限于「sing-box 内核 + 依赖 protocol 规则」的用户，定为中（偏低）。
 - 现有测试 `CoreConfigSingboxServiceTests.cs:827-831` 反而把 `[http, tls, dns]` 固定成了预期结果。
 - 修复：在 `BuildSniffers` 中把当前路由规则里出现的所有 `Protocol` 值都加进列表（至少始终包含 `bittorrent`），并补一条测试。
 
@@ -181,8 +184,12 @@ fork 的重新设计只改了样式和布局，没有改数据流，下面的问
 
 ## 七、建议的处理顺序
 
-1. F2、H2、H3、M3、M4、M5：每个修复都在 20 行以内，影响面小。F2 会影响用户的实际流量走向，应优先修。
-2. F1、M1、M2、M6、M7、M8：修复稍多，需要配合测试。F1 应在还有大量用户停留在 `V4-` 路由时尽快修。
-3. P1：改 ProfileExManager 的数据结构。
-4. P2、P3、P4：在 Flutter Host 里绕开，不改 ServiceLib。
-5. F3–F5：顺手加固。
+按日常使用中被碰到的概率排序：
+
+1. H3、M2、M4：几乎每个用户都会碰到。H3 在每次批量测速时都可能触发；M2 只要订阅里有域名已失效的节点，TCPing 就会卡在「测试中」；M4 发生在导入订阅后第一次按测试结果排序时。
+2. H2：只影响 PAC 模式的用户，但一旦触发，PAC 会一直失效到重启；同时服务对局域网开放。
+3. M1、M3、M5、M7：功能错误或偶发的数据丢失。
+4. F2、F1（fork 引入）：影响面较窄。F2 涉及「sing-box 内核 + protocol 规则」，F1 涉及「改过内置规则的进程、入站或类型字段，且还没完成 V4V6 迁移」。F1 的迁移只运行一次，所以应在大部分用户升级前修复。
+5. M6、M8、P1：安全加固和性能。
+6. P2、P3、P4：在 Flutter Host 里绕开，不改 ServiceLib。
+7. F3–F5：顺手加固。
