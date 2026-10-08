@@ -11,6 +11,15 @@ public enum LanShareState
 // Fork-only LAN sharing rules, free of UI code. Mirrors the rules in V2rayInboundService.GenInbounds.
 public static class LanShare
 {
+    public const string FirewallRuleName = "v2rayN LAN proxy";
+
+    // netsh arguments for the LAN firewall rule: inbound TCP on the port, local subnet only, private and domain profiles only.
+    public static string[] FirewallAddArgs(int port)
+    {
+        return ["advfirewall", "firewall", "add", "rule", $"name={FirewallRuleName}", "dir=in", "action=allow", "protocol=TCP",
+            $"localport={port}", "remoteip=localsubnet", "profile=private,domain"];
+    }
+
     private const string RandomChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private const int RandomUserLength = 8;
     private const int RandomPassLength = 16;

@@ -110,4 +110,12 @@ public class LanShareTests
         await (user1 != user2).Should().BeTrue();
         await (pass1 != pass2).Should().BeTrue();
     }
+
+    [Test]
+    public async Task FirewallAddArgs_LimitedToLocalSubnetPrivateAndDomainProfiles()
+    {
+        var args = string.Join(' ', LanShare.FirewallAddArgs(10808));
+
+        await args.Should().BeEqualTo("advfirewall firewall add rule name=v2rayN LAN proxy dir=in action=allow protocol=TCP localport=10808 remoteip=localsubnet profile=private,domain");
+    }
 }

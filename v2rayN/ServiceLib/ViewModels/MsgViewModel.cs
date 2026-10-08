@@ -6,6 +6,7 @@ public partial class MsgViewModel : MyReactiveObject
 
     private readonly ConcurrentQueue<string> _queueMsg = new();
     private volatile bool _lastMsgFilterNotAvailable;
+    private Regex? _msgFilterRegex;
     public int NumMaxMsg => 500;
 
     [Reactive]
@@ -73,19 +74,18 @@ public partial class MsgViewModel : MyReactiveObject
         }
 
         //filter msg
-        if (MsgFilter.IsNotEmpty() && !_lastMsgFilterNotAvailable)
+        if (_msgFilterRegex is not null && !_lastMsgFilterNotAvailable)
         {
             try
             {
-                if (!Utils.IsRegexMatch(msg, MsgFilter))
+                if (!_msgFilterRegex.IsMatch(msg))
                 {
                     return;
                 }
             }
-            catch (Exception ex)
+            catch (RegexMatchTimeoutException)
             {
-                EnqueueWithLimit(ex.Message);
-                _lastMsgFilterNotAvailable = true;
+                // keep the line, as Utils.IsRegexMatch does on timeout; no log entry per line
             }
         }
 
@@ -110,5 +110,29 @@ public partial class MsgViewModel : MyReactiveObject
     {
         _config.MsgUIItem.MainMsgFilter = MsgFilter;
         _lastMsgFilterNotAvailable = false;
+        _msgFilterRegex = null;
+        if (MsgFilter.IsNotEmpty() && !TryCompileMsgFilter(MsgFilter, out _msgFilterRegex, out var error))
+        {
+            // One notice per filter change; an invalid filter is treated as disabled, so every line is shown.
+            _lastMsgFilterNotAvailable = true;
+            EnqueueWithLimit(error);
+        }
+    }
+
+    // Compiles the log filter once. An invalid pattern returns false with the reason and never throws.
+    public static bool TryCompileMsgFilter(string filter, out Regex? regex, out string error)
+    {
+        try
+        {
+            regex = new Regex(filter, RegexOptions.None, TimeSpan.FromSeconds(2));
+            error = string.Empty;
+            return true;
+        }
+        catch (ArgumentException ex)
+        {
+            regex = null;
+            error = ex.Message;
+            return false;
+        }
     }
 }

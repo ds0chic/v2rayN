@@ -1,7 +1,10 @@
 using System.Diagnostics;
+using System.Globalization;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Text;
+using ServiceLib.Common;
 
 namespace v2rayN.Desktop.Common;
 
@@ -66,11 +69,9 @@ public static class LanShareHelper
         {
             // Replace an existing rule with the same name instead of stacking duplicates.
             // Delete fails when no rule exists yet; that is expected, so its result is ignored.
-            await RunNetshAsync("advfirewall", "firewall", "delete", "rule", "name=v2rayN LAN proxy");
+            await RunNetshAsync("advfirewall", "firewall", "delete", "rule", $"name={LanShare.FirewallRuleName}");
 
-            var result = await RunNetshAsync(
-                "advfirewall", "firewall", "add", "rule", "name=v2rayN LAN proxy",
-                "dir=in", "action=allow", "protocol=TCP", $"localport={port}");
+            var result = await RunNetshAsync(LanShare.FirewallAddArgs(port));
             if (result is null)
             {
                 return ForkText.LanFirewallFailed;
@@ -90,12 +91,15 @@ public static class LanShareHelper
 
     private static async Task<(int ExitCode, string Output)?> RunNetshAsync(params string[] args)
     {
+        var encoding = OemEncoding();
         var startInfo = new ProcessStartInfo
         {
-            FileName = "netsh",
+            FileName = Path.Combine(Environment.SystemDirectory, "netsh.exe"),
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
+            StandardOutputEncoding = encoding,
+            StandardErrorEncoding = encoding,
             CreateNoWindow = true,
         };
         foreach (var arg in args)
@@ -115,6 +119,20 @@ public static class LanShareHelper
         await process.WaitForExitAsync();
 
         return (process.ExitCode, (stdout + stderr).Trim());
+    }
+
+    // netsh writes its text in the OEM code page (936 on Chinese Windows), not in UTF-8.
+    private static Encoding OemEncoding()
+    {
+        try
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            return Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
+        }
+        catch (Exception)
+        {
+            return Encoding.UTF8;
+        }
     }
 
     private static bool IsVirtualName(string? name)

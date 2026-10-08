@@ -118,7 +118,7 @@ public partial class CoreConfigSingboxService
                 _coreConfig.route.rules.Add(new()
                 {
                     action = "sniff",
-                    sniffer = BuildSniffers(_config.Inbound.First().DestOverride)
+                    sniffer = BuildSniffers(_config.Inbound.First().DestOverride, context.RoutingItem)
                 });
                 _coreConfig.route.rules.Add(new()
                 {
@@ -607,7 +607,9 @@ public partial class CoreConfigSingboxService
         return tag;
     }
 
-    private static List<string>? BuildSniffers(List<string>? destOverride)
+    private static readonly string[] SingboxSniffableProtocols = ["http", "tls", "quic", "stun", "bittorrent", "dtls", "ssh", "rdp", "ntp"];
+
+    private static List<string>? BuildSniffers(List<string>? destOverride, RoutingItem? routing)
     {
         if (destOverride is not { Count: > 0 })
         {
@@ -617,6 +619,15 @@ public partial class CoreConfigSingboxService
         if (list.Count == 0)
         {
             return null;
+        }
+        // sing-box matches a protocol rule only on sniffed traffic, so a protocol used by an enabled routing rule must be sniffed too.
+        var rules = routing?.RuleSet.IsNullOrEmpty() == false ? JsonUtils.Deserialize<List<RulesItem>>(routing.RuleSet) : null;
+        foreach (var protocol in rules?.Where(r => r.Enabled).SelectMany(r => r.Protocol ?? []) ?? [])
+        {
+            if (SingboxSniffableProtocols.Contains(protocol) && !list.Contains(protocol))
+            {
+                list.Add(protocol);
+            }
         }
         list.Add("dns");
         return list;

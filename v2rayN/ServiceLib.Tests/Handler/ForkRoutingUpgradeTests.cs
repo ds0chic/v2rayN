@@ -1,4 +1,5 @@
 using ServiceLib.Common;
+using ServiceLib.Enums;
 using ServiceLib.Handler;
 using ServiceLib.Models.Entities;
 
@@ -475,5 +476,46 @@ public class ForkRoutingUpgradeTests
         var rules = JsonUtils.Deserialize<List<RulesItem>>(NewJson("white"))!;
 
         await rules.Any(r => !HasCondition(r)).Should().BeFalse();
+    }
+
+    private static List<RulesItem> MergedWithEditedFirstRule(Action<RulesItem> edit)
+    {
+        var rules = JsonUtils.Deserialize<List<RulesItem>>(OldWhite)!;
+        edit(rules[0]);
+        return ForkRoutingUpgrade.PlanUpgrade(Item("V4-绕过大陆(Whitelist)", JsonUtils.Serialize(rules, false)))!.Rules;
+    }
+
+    [Test]
+    public async Task Rule_edited_only_in_process_is_kept_as_custom_first()
+    {
+        var merged = MergedWithEditedFirstRule(r => r.Process = ["chrome.exe"]);
+
+        await merged[0].Process!.Should().Contain("chrome.exe");
+    }
+
+    [Test]
+    public async Task Rule_edited_only_in_inbound_tag_is_kept_as_custom_first()
+    {
+        var merged = MergedWithEditedFirstRule(r => r.InboundTag = ["socks"]);
+
+        await merged[0].InboundTag!.Should().Contain("socks");
+    }
+
+    [Test]
+    public async Task Rule_edited_only_in_rule_type_is_kept_as_custom_first()
+    {
+        var merged = MergedWithEditedFirstRule(r => r.RuleType = ERuleType.Routing);
+
+        await merged[0].RuleType.Should().BeEqualTo(ERuleType.Routing);
+    }
+
+    [Test]
+    public async Task Null_and_empty_lists_give_the_same_signature()
+    {
+        var withNulls = new RulesItem { OutboundTag = "direct", Ip = ["geoip:cn"] };
+        var withEmpty = new RulesItem { OutboundTag = "direct", Ip = ["geoip:cn"], InboundTag = [], Process = [] };
+
+        await ForkRoutingUpgrade.RuleSignature(withEmpty).Should().BeEqualTo(ForkRoutingUpgrade.RuleSignature(withNulls));
+        await ForkRoutingUpgrade.Signature([withEmpty]).Should().BeEqualTo(ForkRoutingUpgrade.Signature([withNulls]));
     }
 }

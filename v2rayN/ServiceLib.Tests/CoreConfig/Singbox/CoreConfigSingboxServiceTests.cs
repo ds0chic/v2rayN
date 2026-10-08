@@ -872,4 +872,84 @@ public class CoreConfigSingboxServiceTests
 
         await sniffRule.sniffer.Should().BeNull();
     }
+
+    [Test]
+    public async Task GenerateClientConfigContent_SniffingWithEnabledBittorrentRule_ShouldSniffBittorrent()
+    {
+        var config = CoreConfigTestFactory.CreateConfig(ECoreType.sing_box);
+        config.Inbound[0].SniffingEnabled = true;
+        config.Inbound[0].DestOverride = ["http", "tls"];
+        CoreConfigTestFactory.BindAppManagerConfig(config);
+
+        var node = CoreConfigTestFactory.CreateSocksNode(ECoreType.sing_box);
+        var context = CoreConfigTestFactory.CreateContext(config, node, ECoreType.sing_box) with
+        {
+            RoutingItem = new RoutingItem
+            {
+                Id = "r-bt-1",
+                Remarks = "bt-block",
+                RuleSet = JsonUtils.Serialize(new List<RulesItem>
+                {
+                    new()
+                    {
+                        Enabled = true,
+                        RuleType = ERuleType.Routing,
+                        OutboundTag = Global.BlockTag,
+                        Protocol = ["bittorrent"],
+                    }
+                }),
+                DomainStrategy = Global.AsIs,
+                DomainStrategy4Singbox = string.Empty,
+            }
+        };
+
+        var result = new CoreConfigSingboxService(context).GenerateClientConfigContent();
+
+        await result.Success.Should().BeTrue().Because($"ret msg: {result.Msg}");
+        var cfg = JsonUtils.Deserialize<SingboxConfig>(result.Data!.ToString())!;
+        var sniffRule = cfg.route.rules.First(r => r.action == "sniff");
+
+        await sniffRule.sniffer.Should().Contain("bittorrent");
+        await sniffRule.sniffer.Should().Contain("dns");
+        await sniffRule.sniffer!.Count(s => s == "dns").Should().BeEqualTo(1);
+    }
+
+    [Test]
+    public async Task GenerateClientConfigContent_SniffingWithDisabledBittorrentRule_ShouldNotSniffBittorrent()
+    {
+        var config = CoreConfigTestFactory.CreateConfig(ECoreType.sing_box);
+        config.Inbound[0].SniffingEnabled = true;
+        config.Inbound[0].DestOverride = ["http", "tls"];
+        CoreConfigTestFactory.BindAppManagerConfig(config);
+
+        var node = CoreConfigTestFactory.CreateSocksNode(ECoreType.sing_box);
+        var context = CoreConfigTestFactory.CreateContext(config, node, ECoreType.sing_box) with
+        {
+            RoutingItem = new RoutingItem
+            {
+                Id = "r-bt-2",
+                Remarks = "bt-block-off",
+                RuleSet = JsonUtils.Serialize(new List<RulesItem>
+                {
+                    new()
+                    {
+                        Enabled = false,
+                        RuleType = ERuleType.Routing,
+                        OutboundTag = Global.BlockTag,
+                        Protocol = ["bittorrent"],
+                    }
+                }),
+                DomainStrategy = Global.AsIs,
+                DomainStrategy4Singbox = string.Empty,
+            }
+        };
+
+        var result = new CoreConfigSingboxService(context).GenerateClientConfigContent();
+
+        await result.Success.Should().BeTrue().Because($"ret msg: {result.Msg}");
+        var cfg = JsonUtils.Deserialize<SingboxConfig>(result.Data!.ToString())!;
+        var sniffRule = cfg.route.rules.First(r => r.action == "sniff");
+
+        await sniffRule.sniffer!.Contains("bittorrent").Should().BeFalse();
+    }
 }

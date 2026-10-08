@@ -208,17 +208,13 @@ public static class ConfigHandler
         {
             //save temp file
             var resPath = Utils.GetConfigPath(_configRes);
-            var tempPath = $"{resPath}_temp";
 
             var content = JsonUtils.Serialize(config, true, true);
             if (content.IsNullOrEmpty())
             {
                 return -1;
             }
-            await File.WriteAllTextAsync(tempPath, content);
-
-            //rename
-            File.Move(tempPath, resPath, true);
+            await WriteConfigFileAsync(resPath, content);
         }
         catch (Exception ex)
         {
@@ -227,6 +223,26 @@ public static class ConfigHandler
         }
 
         return 0;
+    }
+
+    private static readonly SemaphoreSlim _saveConfigLock = new(1, 1);
+
+    // Concurrent saves share one temp file, so the write and the rename are serialized.
+    internal static async Task WriteConfigFileAsync(string resPath, string content)
+    {
+        await _saveConfigLock.WaitAsync();
+        try
+        {
+            var tempPath = $"{resPath}_temp";
+            await File.WriteAllTextAsync(tempPath, content);
+
+            //rename
+            File.Move(tempPath, resPath, true);
+        }
+        finally
+        {
+            _saveConfigLock.Release();
+        }
     }
 
     #endregion ConfigHandler

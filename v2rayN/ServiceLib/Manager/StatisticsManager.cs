@@ -8,6 +8,7 @@ public class StatisticsManager
     private Config _config;
     private ServerStatItem? _serverStatItem;
     private List<ServerStatItem> _lstServerStat;
+    private readonly object _lstServerStatLock = new();
     private Func<ServerSpeedItem, Task>? _updateFunc;
 
     private StatisticsXrayService? _statisticsXray;
@@ -84,7 +85,10 @@ public class StatisticsManager
         var toStat = JsonUtils.DeepCopy(stat);
         toStat.IndexId = toIndexId;
         await SQLiteHelper.Instance.ReplaceAsync(toStat);
-        _lstServerStat.Add(toStat);
+        lock (_lstServerStatLock)
+        {
+            _lstServerStat = [.. _lstServerStat, toStat];
+        }
     }
 
     private async Task InitData()
@@ -149,7 +153,10 @@ public class StatisticsManager
                     DateNow = ticks
                 };
                 await SQLiteHelper.Instance.ReplaceAsync(_serverStatItem);
-                _lstServerStat.Add(_serverStatItem);
+                lock (_lstServerStatLock)
+                {
+                    _lstServerStat = [.. _lstServerStat, _serverStatItem];
+                }
             }
         }
 
