@@ -409,7 +409,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
     {
         var fade = new Animation
         {
-            Duration = TimeSpan.FromMilliseconds(140),
+            Duration = TimeSpan.FromMilliseconds(90),
             Easing = new CubicEaseOut(),
             FillMode = FillMode.Forward,
             Children =
