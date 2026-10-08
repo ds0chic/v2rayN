@@ -1,0 +1,112 @@
+<UserControl
+    x:Class="v2rayN.Desktop.Views.LanShareCard"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="TextBlock.lanStatusOk">
+            <Setter Property="Foreground" Value="{DynamicResource SemiColorSuccess}" />
+        </Style>
+        <Style Selector="TextBlock.lanStatusWarn">
+            <Setter Property="Foreground" Value="{DynamicResource SemiColorWarning}" />
+        </Style>
+        <Style Selector="TextBlock.lanStatusDanger">
+            <Setter Property="Foreground" Value="{DynamicResource SemiColorDanger}" />
+        </Style>
+        <Style Selector="TextBlock.lanStatusMuted">
+            <Setter Property="Foreground" Value="{DynamicResource SemiColorText2}" />
+        </Style>
+    </UserControl.Styles>
+    <Border Classes="settingsGroup">
+        <StackPanel>
+            <TextBlock Classes="settingsGroupTitle" Text="{x:Static common:ForkText.LanShareTitle}" />
+
+            <Grid ColumnDefinitions="260,*" Margin="0,4">
+                <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.LanShareStatusLabel}" />
+                <TextBlock
+                    x:Name="txtLanShareStatus"
+                    Grid.Column="1"
+                    FontWeight="SemiBold"
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Center" />
+            </Grid>
+            <TextBlock
+                x:Name="txtLanShareStatusTip"
+                Margin="0,2,0,0"
+                Classes="settingsTip" />
+
+            <Button
+                x:Name="btnApplyLanRecommended"
+                MinWidth="160"
+                Margin="0,8,0,0"
+                HorizontalAlignment="Left"
+                Content="{x:Static common:ForkText.LanShareApplyRecommended}" />
+            <TextBlock
+                Margin="0,4,0,0"
+                Classes="settingsTip"
+                Text="{x:Static common:ForkText.LanShareApplyTip}" />
+            <TextBlock
+                x:Name="txtLanShareApplied"
+                Margin="0,4,0,0"
+                Classes="settingsTip lanStatusOk" />
+
+            <TextBlock
+                Margin="0,16,0,4"
+                Classes="settingsGroupTitle"
+                Text="{x:Static common:ForkText.LanShareAddressTitle}" />
+            <TextBlock
+                x:Name="txtLanAddressHint"
+                Classes="settingsTip" />
+
+            <StackPanel x:Name="pnlLanAddress">
+                <Grid ColumnDefinitions="260,*,Auto" Margin="0,4">
+                    <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.LanShareInterface}" />
+                    <ComboBox
+                        x:Name="cmbLanIp"
+                        Grid.Column="1"
+                        MinWidth="300"
+                        HorizontalAlignment="Left" />
+                </Grid>
+                <Grid ColumnDefinitions="260,*" Margin="0,4">
+                    <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.LanShareLanPort}" />
+                    <TextBlock
+                        x:Name="txtLanPort"
+                        Grid.Column="1"
+                        VerticalAlignment="Center" />
+                </Grid>
+                <Grid ColumnDefinitions="260,*,Auto" Margin="0,4">
+                    <TextBlock VerticalAlignment="Center" Text="HTTP" />
+                    <TextBox
+                        x:Name="txtLanHttpProxy"
+                        Grid.Column="1"
+                        IsReadOnly="True" />
+                    <Button
+                        x:Name="btnCopyLanHttp"
+                        Grid.Column="2"
+                        Margin="8,0,0,0"
+                        Content="{x:Static common:ForkText.LanShareCopy}" />
+                </Grid>
+                <Grid ColumnDefinitions="260,*,Auto" Margin="0,4">
+                    <TextBlock VerticalAlignment="Center" Text="SOCKS5" />
+                    <TextBox
+                        x:Name="txtLanSocksProxy"
+                        Grid.Column="1"
+                        IsReadOnly="True" />
+                    <Button
+                        x:Name="btnCopyLanSocks"
+                        Grid.Column="2"
+                        Margin="8,0,0,0"
+                        Content="{x:Static common:ForkText.LanShareCopy}" />
+                </Grid>
+                <Button
+                    x:Name="btnToggleLanPassword"
+                    Margin="260,4,0,0"
+                    HorizontalAlignment="Left"
+                    MinWidth="120"
+                    Content="{x:Static common:ForkText.LanShareShowPassword}" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>
