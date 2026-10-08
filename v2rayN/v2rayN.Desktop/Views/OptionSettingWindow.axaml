@@ -37,6 +37,17 @@
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+        <Style Selector="Border.coreBadge">
+            <Setter Property="Background" Value="{DynamicResource SemiColorFill1}" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Padding" Value="6,1" />
+            <Setter Property="Margin" Value="8,0,0,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Border.coreBadge > TextBlock">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Foreground" Value="{DynamicResource SemiColorText2}" />
+        </Style>
     </Window.Styles>
     <DockPanel Margin="{StaticResource Margin8}">
         <StackPanel
@@ -150,7 +161,12 @@
                                         Theme="{DynamicResource CardCheckGroupListBox}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsRouteOnly}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsRouteOnly}" />
+                                        <Border Classes="coreBadge">
+                                            <TextBlock Text="Xray" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togrouteOnly"
                                         Grid.Column="1"
@@ -158,7 +174,12 @@
                                         ToolTip.Tip="{x:Static resx:ResUI.TipSingboxIneffective}" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUdpEnabled}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUdpEnabled}" />
+                                        <Border Classes="coreBadge">
+                                            <TextBlock Text="Xray" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togudpEnabled"
                                         Grid.Column="1"
@@ -235,14 +256,24 @@
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsMuxEnabled}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4SboxProtocol}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4SboxProtocol}" />
+                                        <Border Classes="coreBadge">
+                                            <TextBlock Text="sing-box" />
+                                        </Border>
+                                    </StackPanel>
                                     <ComboBox
                                         x:Name="cmbmux4SboxProtocol"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4Ray}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4Ray}" />
+                                        <Border Classes="coreBadge">
+                                            <TextBlock Text="Xray" />
+                                        </Border>
+                                    </StackPanel>
                                 </Grid>
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="24,4,0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4RayConcurrency}" />
@@ -300,7 +331,12 @@
                                             x:Name="togenableFragment"
                                             HorizontalAlignment="Left" />
                                         <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentPackets}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentPackets}" />
+                                                <Border Classes="coreBadge">
+                                                    <TextBlock Text="Xray" />
+                                                </Border>
+                                            </StackPanel>
                                             <ComboBox
                                                 x:Name="cmbFragmentPackets"
                                                 Grid.Column="1"
@@ -313,7 +349,12 @@
                                                 Text="{x:Static resx:ResUI.TbSettingsFragmentPacketsTip}" />
                                         </Grid>
                                         <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentLength}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentLength}" />
+                                                <Border Classes="coreBadge">
+                                                    <TextBlock Text="Xray" />
+                                                </Border>
+                                            </StackPanel>
                                             <TextBox
                                                 x:Name="txtFragmentLengths"
                                                 Grid.Column="1"
@@ -327,7 +368,12 @@
                                                 Text="{x:Static resx:ResUI.TbSettingsFragmentLengthTip}" />
                                         </Grid>
                                         <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentInterval}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentInterval}" />
+                                                <Border Classes="coreBadge">
+                                                    <TextBlock Text="Xray" />
+                                                </Border>
+                                            </StackPanel>
                                             <TextBox
                                                 x:Name="txtFragmentDelays"
                                                 Grid.Column="1"
@@ -341,7 +387,12 @@
                                                 Text="{x:Static resx:ResUI.TbSettingsFragmentIntervalTip}" />
                                         </Grid>
                                         <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                            <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentMaxSplit}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsFragmentMaxSplit}" />
+                                                <Border Classes="coreBadge">
+                                                    <TextBlock Text="Xray" />
+                                                </Border>
+                                            </StackPanel>
                                             <TextBox
                                                 x:Name="txtFragmentMaxSplit"
                                                 Grid.Column="1"
@@ -402,7 +453,12 @@
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsEnableCacheFile4Sbox}" />
                                 <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
-                                    <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableCacheFile4Sbox}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableCacheFile4Sbox}" />
+                                        <Border Classes="coreBadge">
+                                            <TextBlock Text="sing-box" />
+                                        </Border>
+                                    </StackPanel>
                                     <ToggleSwitch
                                         x:Name="togenableCacheFile4Sbox"
                                         Grid.Column="1"
@@ -840,6 +896,13 @@
                             Margin="{StaticResource Margin4}"
                             VerticalAlignment="Center"
                             Text="{x:Static resx:ResUI.TbSettingsTunAutoRoute}" />
+                        <Border
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Classes="coreBadge"
+                            HorizontalAlignment="Left">
+                            <TextBlock Text="sing-box" />
+                        </Border>
                         <ToggleSwitch
                             x:Name="togAutoRoute"
                             ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}"
@@ -867,6 +930,13 @@
                             Margin="{StaticResource Margin4}"
                             VerticalAlignment="Center"
                             Text="{x:Static resx:ResUI.TbSettingsTunStack}" />
+                        <Border
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Classes="coreBadge"
+                            HorizontalAlignment="Left">
+                            <TextBlock Text="sing-box" />
+                        </Border>
                         <ComboBox
                             x:Name="cmbStack"
                             ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}"
@@ -897,6 +967,13 @@
                             Margin="{StaticResource Margin4}"
                             VerticalAlignment="Center"
                             Text="{x:Static resx:ResUI.TbIcmpRoutingPolicy}" />
+                        <Border
+                            Grid.Row="6"
+                            Grid.Column="2"
+                            Classes="coreBadge"
+                            HorizontalAlignment="Left">
+                            <TextBlock Text="sing-box" />
+                        </Border>
                         <ComboBox
                             x:Name="cmbIcmpRoutingPolicy"
                             ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}"
