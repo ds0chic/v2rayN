@@ -8,7 +8,6 @@
     <File Path="../.github/workflows/winget-publish.yml" />
     <File Path="../package-debian.sh" />
     <File Path="../package-osx.sh" />
-    <File Path="../package-release-zip.sh" />
   </Folder>
   <Folder Name="/Solution Files/">
     <File Path="Directory.Build.props" />
