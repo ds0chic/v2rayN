@@ -107,6 +107,28 @@
                     MinWidth="120"
                     Content="{x:Static common:ForkText.LanShareShowPassword}" />
             </StackPanel>
+
+            <StackPanel x:Name="pnlFirewall">
+                <TextBlock
+                    Margin="0,16,0,4"
+                    Classes="settingsGroupTitle"
+                    Text="{x:Static common:ForkText.LanFirewallTitle}" />
+                <Button
+                    x:Name="btnAddFirewallRule"
+                    MinWidth="160"
+                    IsEnabled="False"
+                    HorizontalAlignment="Left"
+                    Content="{x:Static common:ForkText.LanFirewallButton}" />
+                <TextBlock
+                    Margin="0,4,0,0"
+                    Classes="settingsTip"
+                    Text="{x:Static common:ForkText.LanFirewallTip}" />
+                <TextBlock
+                    x:Name="txtFirewallResult"
+                    Margin="0,4,0,0"
+                    Classes="settingsTip"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </StackPanel>
     </Border>
 </UserControl>

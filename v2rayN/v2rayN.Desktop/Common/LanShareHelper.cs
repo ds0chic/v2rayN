@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -127,6 +128,51 @@ public static class LanShareHelper
 
         // Physical adapters first; OrderBy is stable so the original adapter order is kept within each group.
         return list.OrderBy(t => t.IsVirtual).ToList();
+    }
+
+    // Runs netsh and returns a user-facing result. Caller must check administrator rights first.
+    public static async Task<string> AddFirewallRuleAsync(int port)
+    {
+        try
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "netsh",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true,
+            };
+            foreach (var arg in new[]
+                     {
+                         "advfirewall", "firewall", "add", "rule", "name=v2rayN LAN proxy",
+                         "dir=in", "action=allow", "protocol=TCP", $"localport={port}",
+                     })
+            {
+                startInfo.ArgumentList.Add(arg);
+            }
+
+            using var process = Process.Start(startInfo);
+            if (process is null)
+            {
+                return ForkText.LanFirewallFailed;
+            }
+
+            var stderrTask = process.StandardError.ReadToEndAsync();
+            var stdout = await process.StandardOutput.ReadToEndAsync();
+            var stderr = await stderrTask;
+            await process.WaitForExitAsync();
+
+            var output = (stdout + stderr).Trim();
+            return process.ExitCode == 0
+                ? $"{ForkText.LanFirewallSuccess}\n{output}"
+                : $"{ForkText.LanFirewallFailed} (exit {process.ExitCode})\n{output}";
+        }
+        catch (Exception ex)
+        {
+            Logging.SaveLog("AddFirewallRuleAsync", ex);
+            return $"{ForkText.LanFirewallFailed}\n{ex.Message}";
+        }
     }
 
     private static bool IsVirtualName(string? name)

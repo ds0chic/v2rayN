@@ -30,6 +30,8 @@ public partial class LanShareCard : UserControl
             _showPassword = !_showPassword;
             Refresh();
         };
+        btnAddFirewallRule.Click += BtnAddFirewallRule_Click;
+        pnlFirewall.IsVisible = Utils.IsWindows();
 
         DataContextChanged += (_, _) => BindViewModel();
         AttachedToVisualTree += (_, _) => BindViewModel();
@@ -72,6 +74,7 @@ public partial class LanShareCard : UserControl
 
         RefreshStatus();
         RefreshAddresses();
+        btnAddFirewallRule.IsEnabled = _vm.AllowLANConn;
     }
 
     private void RefreshStatus()
@@ -168,6 +171,29 @@ public partial class LanShareCard : UserControl
 
         txtLanShareApplied.Text = ForkText.LanShareApplied;
         Refresh();
+    }
+
+    private async void BtnAddFirewallRule_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_vm is null || !Utils.IsWindows())
+        {
+            return;
+        }
+
+        if (!Utils.IsAdministrator())
+        {
+            txtFirewallResult.Text = ForkText.LanFirewallNeedAdmin;
+            return;
+        }
+
+        var port = LanShareHelper.GetLanPort(_vm.LocalPort, _vm.NewPort4LAN);
+        var confirm = await UI.ShowYesNo($"{ForkText.LanFirewallConfirm}\nTCP {port}");
+        if (confirm != ButtonResult.Yes)
+        {
+            return;
+        }
+
+        txtFirewallResult.Text = await LanShareHelper.AddFirewallRuleAsync(port);
     }
 
     private async void BtnCopyLanHttp_Click(object? sender, RoutedEventArgs e)

@@ -98,6 +98,29 @@ public static class ForkText
 
     public static string LanShareHidePassword => Pick("隐藏密码", "隱藏密碼", "Hide password");
 
+    public static string LanFirewallTitle => Pick("Windows 防火墙", "Windows 防火牆", "Windows Firewall");
+
+    public static string LanFirewallButton => Pick("添加防火墙放行规则", "新增防火牆放行規則", "Add firewall allow rule");
+
+    public static string LanFirewallTip => Pick(
+        "仅放行该端口的 TCP 入站流量。可在 Windows 防火墙中删除名为 \"v2rayN LAN proxy\" 的规则。重复添加会产生多条同名规则。",
+        "僅放行該連接埠的 TCP 入站流量。可於 Windows 防火牆中刪除名為 \"v2rayN LAN proxy\" 的規則。重複新增會產生多條同名規則。",
+        "Allows inbound TCP on this port only. Remove the rule named \"v2rayN LAN proxy\" in Windows Firewall to undo. Adding again creates duplicate rules.");
+
+    public static string LanFirewallConfirm => Pick(
+        "将添加一条仅 TCP 的 Windows 防火墙入站放行规则,端口如下。确定继续吗?",
+        "將新增一條僅 TCP 的 Windows 防火牆入站放行規則，連接埠如下。確定繼續嗎？",
+        "Add an inbound Windows Firewall rule allowing TCP on the port below. Continue?");
+
+    public static string LanFirewallNeedAdmin => Pick(
+        "需要以管理员身份运行 v2rayN 才能添加防火墙规则。",
+        "需要以系統管理員身分執行 v2rayN 才能新增防火牆規則。",
+        "Run v2rayN as administrator to add a firewall rule.");
+
+    public static string LanFirewallSuccess => Pick("防火墙规则已添加。", "防火牆規則已新增。", "Firewall rule added.");
+
+    public static string LanFirewallFailed => Pick("添加防火墙规则失败。", "新增防火牆規則失敗。", "Failed to add firewall rule.");
+
     private static string Resolve(CultureInfo culture)
     {
         var name = culture.Name;
