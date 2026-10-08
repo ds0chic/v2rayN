@@ -508,6 +508,10 @@ internal static class AiAutomationCommands
                 node["selectedIndex"] = tabControl.SelectedIndex;
                 node["text"] = MaskIfNeeded(DisplayText(tabControl.SelectedItem), masked);
                 break;
+            case Expander expander:
+                node["expanded"] = expander.IsExpanded;
+                node["text"] = MaskIfNeeded(DisplayText(expander.Header, deep: true), masked);
+                break;
             case TabItem tabItem:
                 node["selected"] = tabItem.IsSelected;
                 node["text"] = MaskIfNeeded(DisplayText(tabItem.Header), masked);
