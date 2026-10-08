@@ -81,36 +81,31 @@ public partial class LanShareCard : UserControl
     {
         var state = LanShare.GetState(_vm!.AllowLANConn, _vm.NewPort4LAN, _vm.User, _vm.Pass);
         string text;
-        string? warn;
+        string tip;
         string statusClass;
         switch (state)
         {
             case LanShareState.Recommended:
-                text = ForkText.LanStatusRecommended;
-                warn = null;
-                statusClass = "lanStatusOk";
+                (text, tip, statusClass) = (ForkText.LanStatusRecommended, ForkText.LanTipRecommended, "lanStatusOk");
                 break;
             case LanShareState.NoAuth:
-                text = ForkText.LanStatusNoAuth;
-                warn = ForkText.LanWarnNoAuth;
-                statusClass = "lanStatusWarn";
+                (text, tip, statusClass) = (ForkText.LanStatusNoAuth, ForkText.LanTipNoAuth, "lanStatusWarn");
                 break;
             case LanShareState.SharedPort:
-                text = ForkText.LanStatusSharedPort;
-                warn = ForkText.LanWarnSharedPort;
-                statusClass = "lanStatusDanger";
+                (text, tip, statusClass) = (ForkText.LanStatusSharedPort, ForkText.LanTipSharedPort, "lanStatusDanger");
                 break;
             default:
-                text = ForkText.LanStatusOff;
-                warn = null;
-                statusClass = "lanStatusMuted";
+                (text, tip, statusClass) = (ForkText.LanStatusOff, ForkText.LanTipOff, "lanStatusMuted");
                 break;
         }
 
         txtLanShareStatus.Text = text;
-        SetStatusClass(txtLanShareStatus, statusClass);
-        txtLanShareStatusTip.Text = warn ?? ForkText.LanStatusTip;
-        SetStatusClass(txtLanShareStatusTip, warn is null ? "lanStatusMuted" : statusClass);
+        SetStatusClass(dotLanStatus, statusClass);
+        txtLanShareStatusTip.Text = tip;
+        SetStatusClass(txtLanShareStatusTip, state is LanShareState.Recommended or LanShareState.Off ? "lanStatusMuted" : statusClass);
+
+        chipLanUnsaved.IsVisible = IsUnsaved();
+        txtLanUnsaved.Text = ForkText.LanUnsaved;
     }
 
     private void RefreshAddresses()
@@ -140,7 +135,22 @@ public partial class LanShareCard : UserControl
         btnToggleLanPassword.Content = _showPassword ? ForkText.LanShareHidePassword : ForkText.LanShareShowPassword;
     }
 
-    private static void SetStatusClass(TextBlock block, string statusClass)
+    // True when the window holds LAN values that differ from what is stored in the config.
+    private bool IsUnsaved()
+    {
+        var saved = AppManager.Instance.Config.Inbound.FirstOrDefault();
+        if (saved is null || _vm is null)
+        {
+            return false;
+        }
+
+        return saved.AllowLANConn != _vm.AllowLANConn
+               || saved.NewPort4LAN != _vm.NewPort4LAN
+               || (saved.User ?? string.Empty) != (_vm.User ?? string.Empty)
+               || (saved.Pass ?? string.Empty) != (_vm.Pass ?? string.Empty);
+    }
+
+    private static void SetStatusClass(StyledElement block, string statusClass)
     {
         foreach (var cls in LanStatusClasses)
         {
@@ -169,7 +179,6 @@ public partial class LanShareCard : UserControl
             _vm.Pass = LanShare.GenerateRandomPass();
         }
 
-        txtLanShareApplied.Text = ForkText.LanShareApplied;
         Refresh();
     }
 

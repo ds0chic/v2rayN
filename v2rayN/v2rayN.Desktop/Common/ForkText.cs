@@ -33,41 +33,50 @@ public static class ForkText
         "未找到 EnableLoopback.exe，發布包才附帶",
         "EnableLoopback.exe not found; only release packages include it.");
 
-    public static string LanShareTitle => Pick("局域网共享", "區域網路共享", "LAN sharing");
+    public static string UwpLoopbackFailed => Pick("无法启动回环工具", "無法啟動回環工具", "Could not start the loopback tool.");
+
+    public static string UwpLoopbackClosed => Pick("回环工具已关闭,无法确认是否有变更", "回環工具已關閉，無法確認是否有變更", "Loopback tool closed; could not confirm any change.");
+
+    public static string UwpLoopbackUnchanged => Pick("回环豁免无变化,当前共 {0} 个应用", "回環豁免無變化，目前共 {0} 個應用", "Loopback exemptions unchanged: {0} apps.");
+
+    public static string UwpLoopbackChanged => Pick("回环豁免已更新:共 {0} 个应用({1:+0;-0})", "回環豁免已更新：共 {0} 個應用（{1:+0;-0}）", "Loopback exemptions updated: {0} apps ({1:+0;-0}).");
+
+    public static string ThemeDark => Pick("深色", "深色", "Dark");
+    public static string ThemeLight => Pick("浅色", "淺色", "Light");
+
+    public static string LanShareTitle =>Pick("局域网共享", "區域網路共享", "LAN sharing");
 
     public static string LanShareStatusLabel => Pick("当前状态", "目前狀態", "Current status");
 
     public static string LanStatusOff => Pick("未开启", "未開啟", "Off");
 
-    public static string LanStatusRecommended => Pick(
-        "已开启(推荐:独立端口+认证)",
-        "已開啟(推薦：獨立連接埠＋認證)",
-        "On (recommended: dedicated port + auth)");
+    public static string LanStatusRecommended => Pick("已开启 · 安全", "已開啟 · 安全", "On · secure");
 
-    public static string LanStatusNoAuth => Pick(
-        "已开启但无认证(不安全)",
-        "已開啟但無認證（不安全）",
-        "On without authentication (insecure)");
+    public static string LanStatusNoAuth => Pick("已开启 · 无认证", "已開啟 · 無認證", "On · no authentication");
 
-    public static string LanStatusSharedPort => Pick(
-        "已开启但与本机代理共用端口(不安全)",
-        "已開啟但與本機代理共用連接埠（不安全）",
-        "On, sharing the local proxy port (insecure)");
+    public static string LanStatusSharedPort => Pick("已开启 · 不安全", "已開啟 · 不安全", "On · insecure");
 
-    public static string LanStatusTip => Pick(
-        "显示的是当前窗口中的值,点击\"确定\"后生效。",
-        "顯示的是目前視窗中的值，按「確定」後生效。",
-        "Reflects the values in this window. Takes effect after clicking OK.");
+    public static string LanTipOff => Pick(
+        "其他设备暂时无法使用本机代理。点右侧按钮可一键开启。",
+        "其他裝置暫時無法使用本機代理。按右側按鈕可一鍵開啟。",
+        "Other devices cannot use this proxy yet. Use the button on the right to turn it on.");
 
-    public static string LanWarnNoAuth => Pick(
-        "局域网端口没有认证,同一网络内任何设备都可以使用本代理。请填写用户名和密码。",
-        "區域網路連接埠沒有認證，同一網路內任何裝置都可以使用本代理。請填寫使用者名稱和密碼。",
-        "The LAN port has no authentication. Any device on the network can use this proxy. Set a username and password.");
+    public static string LanTipRecommended => Pick(
+        "独立端口 + 用户名密码。其他设备按下方地址设置即可。",
+        "獨立連接埠 + 使用者名稱密碼。其他裝置按下方位址設定即可。",
+        "Dedicated port with a username and password. Configure other devices with the addresses below.");
 
-    public static string LanWarnSharedPort => Pick(
-        "局域网与本机代理共用端口且没有认证,建议开启\"局域网使用新端口\"并设置用户名和密码。",
-        "區域網路與本機代理共用連接埠且沒有認證，建議開啟「區域網路使用新連接埠」並設定使用者名稱和密碼。",
-        "LAN shares the local proxy port without authentication. Enable the dedicated LAN port and set a username and password.");
+    public static string LanTipNoAuth => Pick(
+        "同一网络里任何设备都能使用你的代理。请填写用户名和密码。",
+        "同一網路裡任何裝置都能使用你的代理。請填寫使用者名稱和密碼。",
+        "Any device on the network can use your proxy. Set a username and password.");
+
+    public static string LanTipSharedPort => Pick(
+        "与本机共用端口且没有认证。点右侧按钮改用独立端口并加认证。",
+        "與本機共用連接埠且沒有認證。按右側按鈕改用獨立連接埠並加認證。",
+        "Shares the local port without authentication. Use the button on the right for a dedicated port with authentication.");
+
+    public static string LanUnsaved => Pick("未保存 · 点确认生效", "未儲存 · 按確認生效", "Not saved · click OK to apply");
 
     public static string LanShareApplyRecommended => Pick("应用推荐设置", "套用推薦設定", "Apply recommended settings");
 
@@ -75,11 +84,6 @@ public static class ForkText
         "开启局域网、使用独立端口并启用认证。用户名或密码为空时自动生成随机值。",
         "開啟區域網路、使用獨立連接埠並啟用認證。使用者名稱或密碼為空時自動產生隨機值。",
         "Enables LAN access on a dedicated port with authentication. An empty username or password is generated randomly.");
-
-    public static string LanShareApplied => Pick(
-        "已应用到当前窗口,点击\"确定\"保存。",
-        "已套用到目前視窗，按「確定」儲存。",
-        "Applied to this window. Click OK to save.");
 
     public static string LanShareAddressTitle => Pick("其他设备这样设置", "其他裝置這樣設定", "Configure other devices");
 

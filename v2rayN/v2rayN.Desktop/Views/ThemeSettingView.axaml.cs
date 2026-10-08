@@ -1,4 +1,5 @@
 using Avalonia.Data;
+using v2rayN.Desktop.Common;
 using v2rayN.Desktop.ViewModels;
 
 namespace v2rayN.Desktop.Views;
@@ -6,6 +7,8 @@ namespace v2rayN.Desktop.Views;
 /// <summary>
 /// ThemeSettingView.xaml
 /// </summary>
+internal sealed record ThemeOption(string Value, string Display);
+
 public partial class ThemeSettingView : ReactiveUserControl<ThemeSettingViewModel>
 {
     public ThemeSettingView()
@@ -13,7 +16,13 @@ public partial class ThemeSettingView : ReactiveUserControl<ThemeSettingViewMode
         InitializeComponent();
         ViewModel = new ThemeSettingViewModel();
 
-        cmbCurrentTheme.ItemsSource = Utils.GetEnumNames<ETheme>();
+        cmbCurrentTheme.ItemsSource = new List<ThemeOption>
+        {
+            new(nameof(ETheme.Dark), ForkText.ThemeDark),
+            new(nameof(ETheme.Light), ForkText.ThemeLight),
+        };
+        cmbCurrentTheme.DisplayMemberBinding = new Binding(nameof(ThemeOption.Display));
+        cmbCurrentTheme.SelectedValueBinding = new Binding(nameof(ThemeOption.Value));
         cmbCurrentFontSize.ItemsSource = Enumerable.Range(Global.MinFontSize, Global.MinFontSizeCount).ToList();
         cmbCurrentLanguage.ItemsSource = Global.LanguageOptions;
         cmbCurrentLanguage.DisplayMemberBinding = new Binding(nameof(LanguageOption.Display));

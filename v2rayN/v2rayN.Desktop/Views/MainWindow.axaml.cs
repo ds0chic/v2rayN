@@ -26,7 +26,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         ExtendClientAreaToDecorationsHint = Utils.IsWindows();
 
         _config = AppManager.Instance.Config;
-        _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.TopRight, Margin = new Thickness(0, Utils.IsWindows() ? 44 : 0, 0, 0) };
+        _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.BottomRight, Margin = new Thickness(0, 0, 0, 56) };
 
         KeyDown += MainWindow_KeyDown;
         menuRebootAsAdmin.IsVisible = Utils.IsWindows() && !Utils.IsAdministrator();
@@ -180,7 +180,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
     private async Task DelegateSnackMsg(string content)
     {
-        _manager?.Show(new Avalonia.Controls.Notifications.Notification(null, content, NotificationType.Information));
+        ShowToast(content, NotificationType.Information);
         await Task.CompletedTask;
     }
 
@@ -254,16 +254,41 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         ProcUtils.ProcessStart($"{Utils.Base64Decode(Global.PromotionUrl)}?t={DateTime.Now.Ticks}");
     }
 
-    private void MenuSettingsSetUWP_Click(object? sender, RoutedEventArgs e)
+    // Toasts sit bottom-right above the status bar and disappear on their own.
+    private void ShowToast(string content, NotificationType type)
+    {
+        _manager?.Show(new Avalonia.Controls.Notifications.Notification(null, content, type, TimeSpan.FromSeconds(3)));
+    }
+
+    private async void MenuSettingsSetUWP_Click(object? sender, RoutedEventArgs e)
     {
         var path = Utils.GetBinPath("EnableLoopback.exe");
         if (!File.Exists(path))
         {
-            _manager?.Show(new Avalonia.Controls.Notifications.Notification(null, ForkText.UwpLoopbackMissing, NotificationType.Warning));
+            ShowToast(ForkText.UwpLoopbackMissing, NotificationType.Warning);
             return;
         }
 
-        ProcUtils.ProcessStart(path);
+        var before = await Task.Run(UwpLoopbackHelper.CountExempt);
+        if (!await UwpLoopbackHelper.RunToolAsync(path))
+        {
+            ShowToast(ForkText.UwpLoopbackFailed, NotificationType.Error);
+            return;
+        }
+
+        var after = await Task.Run(UwpLoopbackHelper.CountExempt);
+        if (before is null || after is null)
+        {
+            ShowToast(ForkText.UwpLoopbackClosed, NotificationType.Information);
+        }
+        else if (after == before)
+        {
+            ShowToast(string.Format(ForkText.UwpLoopbackUnchanged, after), NotificationType.Information);
+        }
+        else
+        {
+            ShowToast(string.Format(ForkText.UwpLoopbackChanged, after, after - before), NotificationType.Success);
+        }
     }
 
     public async Task AddServerViaClipboardAsync()

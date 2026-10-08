@@ -15,6 +15,10 @@
         <Style Selector="TextBlock.lanStatusDanger">
             <Setter Property="Foreground" Value="{DynamicResource SemiColorDanger}" />
         </Style>
+        <Style Selector="Ellipse.lanStatusOk"><Setter Property="Fill" Value="{DynamicResource SemiColorSuccess}" /></Style>
+        <Style Selector="Ellipse.lanStatusWarn"><Setter Property="Fill" Value="{DynamicResource SemiColorWarning}" /></Style>
+        <Style Selector="Ellipse.lanStatusDanger"><Setter Property="Fill" Value="{DynamicResource SemiColorDanger}" /></Style>
+        <Style Selector="Ellipse.lanStatusMuted"><Setter Property="Fill" Value="{DynamicResource SemiColorText3}" /></Style>
         <Style Selector="TextBlock.lanStatusMuted">
             <Setter Property="Foreground" Value="{DynamicResource SemiColorText2}" />
         </Style>
@@ -26,10 +30,18 @@
             <!-- Status and the one-click recommended setup share a row. -->
             <Grid Margin="0,2" ColumnDefinitions="*,Auto" MinHeight="40">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="8">
+                    <Ellipse
+                        x:Name="dotLanStatus"
+                        Width="8"
+                        Height="8"
+                        VerticalAlignment="Center" />
                     <TextBlock
                         x:Name="txtLanShareStatus"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold" />
+                    <Border x:Name="chipLanUnsaved" Classes="chip" IsVisible="False">
+                        <TextBlock x:Name="txtLanUnsaved" />
+                    </Border>
                 </StackPanel>
                 <StackPanel
                     Grid.Column="1"
@@ -46,12 +58,6 @@
                 x:Name="txtLanShareStatusTip"
                 Margin="0,0,0,4"
                 Classes="secondary"
-                IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                TextWrapping="Wrap" />
-            <TextBlock
-                x:Name="txtLanShareApplied"
-                Margin="0,0,0,4"
-                Classes="secondary lanStatusOk"
                 IsVisible="{Binding $self.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                 TextWrapping="Wrap" />
 
@@ -107,8 +113,7 @@
                     x:Name="btnToggleLanPassword"
                     Margin="90,2,0,0"
                     HorizontalAlignment="Left"
-                    Classes="IconButton"
-                    Padding="10,0"
+                    Padding="10,2"
                     Content="{x:Static common:ForkText.LanShareShowPassword}" />
             </StackPanel>
 

@@ -23,6 +23,11 @@
             <Setter Property="Width" Value="180" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
         </Style>
+        <Style Selector="TabControl.settingsNav > TabItem /template/ Border#PART_RootBorder">
+            <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Margin" Value="0,1,8,1" />
+        </Style>
         <Style Selector="Border.settingsGroup">
             <Setter Property="Padding" Value="16,8,16,12" />
             <Setter Property="Margin" Value="0,0,0,12" />
@@ -110,7 +115,7 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbPort}" />
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -125,7 +130,7 @@
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSecondLocalPortEnabled}" />
                                     <ToggleSwitch
                                         x:Name="togSecondLocalPortEnabled"
@@ -137,28 +142,28 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAllowLAN}" />
                                     <ToggleSwitch
                                         x:Name="togAllowLANConn"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsNewPort4LAN}" />
                                     <ToggleSwitch
                                         x:Name="togNewPort4LAN"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUser}" />
                                     <TextBox
                                         x:Name="txtuser"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsPass}" />
                                     <TextBox
                                         x:Name="txtpass"
@@ -177,14 +182,14 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSniffingEnabled}" />
                                     <ToggleSwitch
                                         x:Name="togsniffingEnabled"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDestOverride}" />
                                     <ListBox
                                         x:Name="clbdestOverride"
@@ -194,7 +199,7 @@
                                         SelectionMode="Multiple,Toggle"
                                         Theme="{DynamicResource CardCheckGroupListBox}" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsRouteOnly}" />
                                         <Border Classes="coreBadge">
@@ -207,7 +212,7 @@
                                         HorizontalAlignment="Left"
                                         ToolTip.Tip="{x:Static resx:ResUI.TipSingboxIneffective}" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUdpEnabled}" />
                                         <Border Classes="coreBadge">
@@ -225,7 +230,7 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -241,7 +246,7 @@
                                         Width="200"
                                         PlaceholderText="0.0.0.0" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -268,7 +273,7 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -283,7 +288,7 @@
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDefFingerprint}" />
                                     <ComboBox
                                         x:Name="cmbdefFingerprint"
@@ -296,7 +301,7 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsMuxEnabled}" />
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4SboxProtocol}" />
                                         <Border Classes="coreBadge">
@@ -308,7 +313,7 @@
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMux4Ray}" />
                                         <Border Classes="coreBadge">
@@ -316,7 +321,7 @@
                                         </Border>
                                     </StackPanel>
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="24,4,0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="24,4,0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxConcurrency}" />
                                     <TextBox
                                         x:Name="txtmux4RayConcurrency"
@@ -324,7 +329,7 @@
                                         Width="200"
                                         PlaceholderText="8" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="24,4,0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="24,4,0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxXudpConcurrency}" />
                                     <TextBox
                                         x:Name="txtmux4RayXudpConcurrency"
@@ -332,7 +337,7 @@
                                         Width="200"
                                         PlaceholderText="16" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="24,4,0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="24,4,0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static common:ForkText.MuxXudpProxyUdp443}" />
                                     <ComboBox
                                         x:Name="cmbmux4RayXudpProxyUDP443"
@@ -344,7 +349,7 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsHysteriaBandwidth}" />
                                     <StackPanel
                                         Grid.Column="1"
@@ -387,7 +392,7 @@
                                         <ToggleSwitch
                                             x:Name="togenableFragment"
                                             HorizontalAlignment="Left" />
-                                        <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                        <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel
                                                     VerticalAlignment="Center"
@@ -408,7 +413,7 @@
                                                 Width="120"
                                                 HorizontalAlignment="Left" />
                                         </Grid>
-                                        <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                        <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel
                                                     VerticalAlignment="Center"
@@ -430,7 +435,7 @@
                                                 HorizontalAlignment="Left"
                                                 PlaceholderText="50-100" />
                                         </Grid>
-                                        <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                        <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel
                                                     VerticalAlignment="Center"
@@ -452,7 +457,7 @@
                                                 HorizontalAlignment="Left"
                                                 PlaceholderText="10-20" />
                                         </Grid>
-                                        <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                        <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel
                                                     VerticalAlignment="Center"
@@ -476,7 +481,7 @@
                                         </Grid>
                                     </StackPanel>
                                 </Expander>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,8,0,0">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,8,0,0">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -504,14 +509,14 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsLogEnabled}" />
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsLogEnabledToFile}" />
                                     <ToggleSwitch
                                         x:Name="toglogEnabled"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsLogLevel}" />
                                     <ComboBox
                                         x:Name="cmbloglevel"
@@ -523,7 +528,7 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableCacheFile4Sbox}" />
                                         <Border Classes="coreBadge">
@@ -547,7 +552,7 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsStartBoot}" />
                                     <ToggleSwitch
                                         x:Name="togAutoRun"
@@ -562,7 +567,7 @@
                                         IsVisible="{Binding BlIsWindows}"
                                         Text="{x:Static resx:ResUI.TbSettingsStartBootTip}" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAutoHideStartup}" />
                                     <ToggleSwitch
                                         x:Name="togAutoHideStartup"
@@ -575,35 +580,35 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbDisplayGUI}" />
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDoubleClick2Activate}" />
                                     <ToggleSwitch
                                         x:Name="togDoubleClick2Activate"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMainGirdOrientation}" />
                                     <ComboBox
                                         x:Name="cmbMainGirdOrientation"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsDisplayRealTimeSpeed}" />
                                     <ToggleSwitch
                                         x:Name="togDisplayRealTimeSpeed"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableHWA}" />
                                     <ToggleSwitch
                                         x:Name="togEnableHWA"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -625,7 +630,7 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <Grid
-                                    ColumnDefinitions="260,Auto,*"
+                                    ColumnDefinitions="300,Auto,*"
                                     RowDefinitions="Auto,Auto"
                                     Margin="0,4"
                                     IsVisible="{Binding BlIsLinux}">
@@ -648,7 +653,7 @@
                                         Text="{x:Static resx:ResUI.TbSettingsHide2TrayWhenCloseTip}" />
                                 </Grid>
                                 <Grid
-                                    ColumnDefinitions="260,Auto,*"
+                                    ColumnDefinitions="300,Auto,*"
                                     Margin="0,4"
                                     IsVisible="{Binding BlIsIsMacOS}">
                                     <TextBlock
@@ -661,7 +666,7 @@
                                         HorizontalAlignment="Left"
                                         IsVisible="{Binding BlIsIsMacOS}" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTrayMenuServersLimit}" />
                                     <TextBox
                                         x:Name="txttrayMenuServersLimit"
@@ -674,14 +679,14 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableDragDropSort}" />
                                     <ToggleSwitch
                                         x:Name="togEnableDragDropSort"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableAutoAdjustMainLvColWidth}" />
                                     <ToggleSwitch
                                         x:Name="togEnableAutoAdjustMainLvColWidth"
@@ -693,7 +698,7 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsStatistics}" />
                                     <ToggleSwitch
                                         x:Name="togEnableStatistics"
@@ -712,7 +717,7 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedTestUrl}" />
                                     <ComboBox
                                         Name="cmbSpeedTestUrl"
@@ -720,7 +725,7 @@
                                         Width="300"
                                         IsEditable="True" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedPingTestUrl}" />
                                     <ComboBox
                                         x:Name="cmbSpeedPingTestUrl"
@@ -728,7 +733,7 @@
                                         Width="300"
                                         IsEditable="True" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsUdpTestUrl}" />
                                     <ComboBox
                                         x:Name="cmbUdpTestTarget"
@@ -736,21 +741,21 @@
                                         Width="200"
                                         IsEditable="True" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSpeedTestTimeout}" />
                                     <ComboBox
                                         x:Name="cmbSpeedTestTimeout"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsMixedConcurrencyCount}" />
                                     <ComboBox
                                         x:Name="cmbMixedConcurrencyCount"
                                         Grid.Column="1"
                                         Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsIPAPIUrl}" />
                                     <ComboBox
                                         x:Name="cmbIPAPIUrl"
@@ -763,7 +768,7 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsSubConvert}" />
                                     <ComboBox
                                         x:Name="cmbSubConvertUrl"
@@ -771,7 +776,7 @@
                                         Width="300"
                                         IsEditable="True" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAutoUpdateInterval}" />
                                     <TextBox
                                         x:Name="txtautoUpdateInterval"
@@ -779,7 +784,7 @@
                                         Width="200"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsKeepOlderDedupl}" />
                                     <ToggleSwitch
                                         x:Name="togKeepOlderDedupl"
@@ -798,7 +803,7 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -814,7 +819,7 @@
                                         Width="300"
                                         IsEditable="True" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -830,7 +835,7 @@
                                         Width="300"
                                         IsEditable="True" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -851,7 +856,7 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -877,7 +882,7 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup" IsVisible="{Binding BlIsNonWindows}">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCustomSystemProxyScriptPath}" />
                                     <TextBox
                                         x:Name="txtCustomSystemProxyScriptPath"
@@ -898,21 +903,21 @@
 
                         <Border Classes="settingsGroup" IsVisible="{Binding BlIsWindows}">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsNotProxyLocalAddress}" />
                                     <ToggleSwitch
                                         x:Name="tognotProxyLocalAddress"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsAdvancedProtocol}" />
                                     <ComboBox
                                         x:Name="cmbsystemProxyAdvancedProtocol"
                                         Grid.Column="1"
                                         MinWidth="400" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsCustomSystemProxyPacPath}" />
                                     <TextBox
                                         x:Name="txtCustomSystemProxyPacPath"
@@ -959,7 +964,7 @@
                     <StackPanel Margin="{StaticResource Margin4}">
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunAutoRoute}" />
                                         <Border Classes="coreBadge">
@@ -972,14 +977,14 @@
                                         HorizontalAlignment="Left"
                                         ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunStrictRoute}" />
                                     <ToggleSwitch
                                         x:Name="togStrictRoute"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsTunStack}" />
                                         <Border Classes="coreBadge">
@@ -993,7 +998,7 @@
                                         ToolTip.Tip="{x:Static resx:ResUI.TipXrayTunIneffective}"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbMtu}" />
                                     <ComboBox
                                         x:Name="cmbMtu"
@@ -1002,7 +1007,7 @@
                                         HorizontalAlignment="Left"
                                         IsEditable="True" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIcmpRoutingPolicy}" />
                                         <Border Classes="coreBadge">
@@ -1021,14 +1026,14 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbSettingsEnableIPv6Address}" />
                                     <ToggleSwitch
                                         x:Name="togEnableIPv6Address"
                                         Grid.Column="1"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIpv4Address}" />
                                     <ComboBox
                                         x:Name="cmbIpv4Address"
@@ -1036,7 +1041,7 @@
                                         Width="200"
                                         HorizontalAlignment="Left" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto,*" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="{x:Static resx:ResUI.TbIpv6Address}" />
                                     <ComboBox
                                         x:Name="cmbIpv6Address"
@@ -1049,7 +1054,7 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -1069,7 +1074,7 @@
 
                         <Border Classes="settingsGroup">
                             <StackPanel>
-                                <Grid ColumnDefinitions="260,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto,*" RowDefinitions="Auto,Auto" Margin="0,4">
                                     <StackPanel
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
@@ -1099,39 +1104,39 @@
                         <Border Classes="settingsGroup">
                             <StackPanel>
                                 <TextBlock Classes="settingsGroupTitle" Text="{x:Static resx:ResUI.TbSettingsCoreType}" />
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="VMess" />
                                     <ComboBox x:Name="cmbCoreType1" Grid.Column="1" Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="Custom Pre" />
                                     <ComboBox x:Name="cmbCoreType2" Grid.Column="1" Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="Shadowsocks" />
                                     <ComboBox x:Name="cmbCoreType3" Grid.Column="1" Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="Socks" />
                                     <ComboBox x:Name="cmbCoreType4" Grid.Column="1" Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="VLESS" />
                                     <ComboBox x:Name="cmbCoreType5" Grid.Column="1" Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="Trojan" />
                                     <ComboBox x:Name="cmbCoreType6" Grid.Column="1" Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="Hysteria2" />
                                     <ComboBox x:Name="cmbCoreType7" Grid.Column="1" Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="Wireguard" />
                                     <ComboBox x:Name="cmbCoreType9" Grid.Column="1" Width="200" />
                                 </Grid>
-                                <Grid ColumnDefinitions="260,Auto" Margin="0,4">
+                                <Grid ColumnDefinitions="300,Auto" Margin="0,4">
                                     <TextBlock VerticalAlignment="Center" Text="MASQUE" />
                                     <ComboBox x:Name="cmbCoreType14" Grid.Column="1" Width="200" />
                                 </Grid>
