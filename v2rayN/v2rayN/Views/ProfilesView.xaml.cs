@@ -261,7 +261,6 @@ public partial class ProfilesView
             switch (e.Key)
             {
                 case Key.Enter:
-                    //case Key.Return:
                     ViewModel?.SetDefaultServer();
                     break;
 

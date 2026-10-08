@@ -39,7 +39,6 @@ public class QRCodeWindowsUtils
             using var g = Graphics.FromImage(fullImage);
 
             g.CopyFromScreen(left, top, 0, 0, fullImage.Size, CopyPixelOperation.SourceCopy);
-            //fullImage.Save("test1.png", ImageFormat.Png);
             return ImageToByte(fullImage);
         }
         catch

@@ -75,7 +75,6 @@ public sealed class WindowsManager
             SolidBrush drawBrush = new(color);
 
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            //graphics.FillRectangle(drawBrush, new Rectangle(0, 0, width, height));
             graphics.DrawImage(new Bitmap(item.CustomIcon), 0, 0, width, height);
             graphics.FillEllipse(drawBrush, width / 2, width / 2, width / 2, width / 2);
 

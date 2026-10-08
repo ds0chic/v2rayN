@@ -10,7 +10,6 @@ public class WindowDialog : IWindowDialog
         var owner = Application.Current.MainWindow;
 
         var viewFor = SimpleViewLocator.Instance.ResolveView(vm);
-        //var viewFor = SimpleViewLocator.Instance.ResolveView<TViewModel>();
 
         if (viewFor is not WindowBase<TViewModel> window)
         {

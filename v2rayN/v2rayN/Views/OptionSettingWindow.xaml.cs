@@ -177,11 +177,6 @@ public partial class OptionSettingWindow
                     foreach (var typeface in typefaces)
                     {
                         typeface.TryGetGlyphTypeface(out var glyph);
-                        //var fontFace = glyph.Win32FaceNames[new CultureInfo("en-us")];
-                        //if (!fontFace.Equals("Regular") && !fontFace.Equals("Normal"))
-                        //{
-                        //    continue;
-                        //}
                         var fontFamily = glyph.Win32FamilyNames[new CultureInfo(culture)];
                         if (fontFamily.IsNullOrEmpty())
                         {

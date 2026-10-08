@@ -65,7 +65,6 @@ public partial class RoutingSettingWindow
             switch (e.Key)
             {
                 case Key.Enter:
-                    //case Key.Return:
                     ViewModel?.RoutingAdvancedSetDefault();
                     break;
 
