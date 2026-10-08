@@ -7,20 +7,6 @@ public static class FileUtils
 {
     private static readonly string _tag = "FileManager";
 
-    public static bool ByteArrayToFile(string fileName, byte[] content)
-    {
-        try
-        {
-            File.WriteAllBytes(fileName, content);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Logging.SaveLog(_tag, ex);
-        }
-        return false;
-    }
-
     public static void DecompressFile(string fileName, byte[] content)
     {
         try

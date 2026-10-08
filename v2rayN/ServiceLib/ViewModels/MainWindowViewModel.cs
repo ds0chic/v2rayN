@@ -525,17 +525,6 @@ public partial class MainWindowViewModel : MyReactiveObject
         await AddScanResultAsync(imageFileName);
     }
 
-    public async Task ScanImageResult(string fileName)
-    {
-        if (fileName.IsNullOrEmpty())
-        {
-            return;
-        }
-
-        var result = QRCodeUtils.ParseBarcode(fileName);
-        await AddScanResultAsync(result);
-    }
-
     private async Task AddScanResultAsync(string? result)
     {
         if (result.IsNullOrEmpty())

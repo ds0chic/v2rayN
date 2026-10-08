@@ -200,11 +200,6 @@ public sealed class AppManager
         }
     }
 
-    public async Task<List<string>?> ProfileItemIndexes(string subid)
-    {
-        return (await ProfileItems(subid))?.Select(t => t.IndexId)?.ToList();
-    }
-
     public async Task<List<ProfileItemModel>?> ProfileModels(string subid, string filter)
     {
         var sql = @$"select a.IndexId
