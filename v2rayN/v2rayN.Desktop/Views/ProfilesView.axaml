@@ -25,7 +25,7 @@
         Classes="card">
         <DockPanel>
             <Grid
-                Margin="12,10,12,8"
+                Margin="12,6,12,6"
                 ColumnDefinitions="*,Auto"
                 DockPanel.Dock="Top">
                 <ListBox
