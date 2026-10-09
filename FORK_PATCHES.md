@@ -109,3 +109,5 @@ The Avalonia view layer was restyled with a fork design system (`v2rayN.Desktop/
 | Three font levels | Font size selector offers only 11/12/13 (default 12); each level also sets row height, card padding/margin, setting-row height and section gaps via ForkUser* resources | ViewModels/ThemeSettingViewModel.cs, Assets/ForkTheme.axaml, Views/ThemeSettingView.axaml.cs |
 
 | Profile list trim | Subscription column removed; IP info column follows the traffic columns toggle; traffic menu item hidden (not disabled) when statistics are off; rounded row blocks; MenuItem font follows user font size (tray menu) | Views/ProfilesView.axaml(.cs), Assets/ForkTheme.axaml |
+
+| Rounded DataGrid header hover | Header template sets CornerRadius inline (styles can't override), so App.Initialize sets it on HeaderBackground at Loaded | App.axaml.cs, Assets/ForkTheme.axaml |

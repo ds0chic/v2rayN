@@ -1,3 +1,4 @@
+using Avalonia.VisualTree;
 using v2rayN.Desktop.Common;
 using v2rayN.Desktop.Manager;
 using v2rayN.Desktop.Views;
@@ -12,6 +13,18 @@ public partial class App : Application
 
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+
+        // fork: the DataGrid header template sets its hover border's CornerRadius inline, which no style can override.
+        Control.LoadedEvent.AddClassHandler<DataGridColumnHeader>((header, _) =>
+        {
+            foreach (var border in header.GetVisualDescendants().OfType<Border>())
+            {
+                if (border.Name == "HeaderBackground")
+                {
+                    border.CornerRadius = new CornerRadius(6);
+                }
+            }
+        });
     }
 
     public override void OnFrameworkInitializationCompleted()

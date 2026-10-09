@@ -114,6 +114,16 @@
         <Setter Property="RowHeight" Value="28" />
         <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource SemiColorBorder}" />
     </Style>
+    <!-- The header hover block is the header's own Background (square); move it onto the rounded HeaderBackground border. -->
+    <Style Selector="DataGridColumnHeader /template/ Border#HeaderBackground">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
+    <Style Selector="DataGridColumnHeader:pointerover, DataGridColumnHeader:pressed">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="DataGridColumnHeader:pointerover /template/ Border#HeaderBackground, DataGridColumnHeader:pressed /template/ Border#HeaderBackground">
+        <Setter Property="Background" Value="{DynamicResource SemiColorFill1}" />
+    </Style>
     <Style Selector="DataGridColumnHeader">
         <Setter Property="FontSize" Value="{StaticResource ForkFontSmall}" />
         <Setter Property="FontWeight" Value="Normal" />
