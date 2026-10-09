@@ -251,6 +251,9 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
     private void LstProfiles_LoadingRow(object? sender, DataGridRowEventArgs e)
     {
         e.Row.Header = $" {e.Row.Index + 1}";
+
+        // fork: the active node's row gets a faint tint (style in ForkTheme.axaml, DataGridRow.activeNode)
+        e.Row.Classes.Set("activeNode", e.Row.DataContext is ProfileItemModel { IsActive: true });
     }
 
     private void menuSelectAll_Click(object? sender, RoutedEventArgs e)

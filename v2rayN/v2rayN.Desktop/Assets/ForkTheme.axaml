@@ -107,6 +107,10 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="AreSeparatorsVisible" Value="False" />
     </Style>
+    <!-- Active (in-use) node: a faint success tint. Selected rows keep the selection color, so :not(:selected) leaves them alone. -->
+    <Style Selector="DataGridRow.activeNode:not(:selected)">
+        <Setter Property="Background" Value="{DynamicResource SemiColorSuccessLight}" />
+    </Style>
 
     <!--
         Motion: one easing curve, short durations. Hover/press feedback is a quick color fade and a barely
