@@ -276,6 +276,10 @@
         <Setter Property="Opacity" Value="0.8" />
     </Style>
     <!-- Toasts: slide in from the right and slide back out to the right on close. -->
+    <!-- Drop the stock card motion (the grow-from-below transition) so only the slide below plays. -->
+    <Style Selector="NotificationCard, NotificationCard /template/ LayoutTransformControl, NotificationCard /template/ ContentControl">
+        <Setter Property="Transitions" Value="{x:Null}" />
+    </Style>
     <Style Selector="NotificationCard">
         <Setter Property="RenderTransform"><TranslateTransform /></Setter>
         <Style.Animations>
