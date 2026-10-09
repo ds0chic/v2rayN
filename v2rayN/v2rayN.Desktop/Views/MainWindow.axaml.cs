@@ -37,6 +37,11 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         menuClose.Click += MenuClose_Click;
         menuExit.Click += MenuExit_Click;
 
+        if (Utils.IsWindows())
+        {
+            LayoutUpdated += (_, _) => SyncCaptionReserve();
+        }
+
         conTheme.Content ??= new ThemeSettingView();
 
         this.WhenActivated(disposables =>
@@ -524,6 +529,40 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         else if (_config.UiItem.MainGirdOrientation == EGirdOrientation.Vertical)
         {
             ConfigHandler.SaveMainGirdHeight(_config, gridMain1.RowDefinitions[0].ActualHeight, gridMain1.RowDefinitions[2].ActualHeight);
+        }
+    }
+
+    // fork: the toolbar reserves room for the drawn caption buttons. A fixed 146 only matched them at 100% scaling;
+    // at 150% the caption group sits at a different offset from the window edge and the menu button ended up under
+    // the minimize button. Size the reserve from where the minimize button actually is.
+    private void SyncCaptionReserve()
+    {
+        try
+        {
+            var minimize = Avalonia.VisualTree.VisualExtensions.GetVisualDescendants(this).OfType<Button>().FirstOrDefault(b => b.Name == "PART_MinimizeButton");
+            if (minimize is null || !minimize.IsVisible || minimize.Bounds.Width <= 0)
+            {
+                return;
+            }
+
+            var origin = minimize.TranslatePoint(default, this);
+            if (origin is null)
+            {
+                return;
+            }
+
+            var parentWidth = (borderCaptionReserve.Parent as Visual)?.Bounds.Width ?? Bounds.Width;
+            var reserve = Math.Round(Bounds.Width - origin.Value.X + 4, 1); // 4 DIP gap before the first caption button
+            if (reserve < 60 || reserve > 400 || reserve > parentWidth || Math.Abs(borderCaptionReserve.Width - reserve) < 0.5)
+            {
+                return;
+            }
+
+            borderCaptionReserve.Width = reserve;
+        }
+        catch
+        {
+            // keep the static width
         }
     }
 
