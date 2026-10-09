@@ -14,7 +14,7 @@
         Padding="20,10"
         BorderBrush="{DynamicResource SemiColorBorder}"
         BorderThickness="0,1,0,0">
-        <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+        <Grid ColumnDefinitions="*,Auto,Auto,270">
             <!-- Running node: name on top, delay below. -->
             <StackPanel
                 Grid.Column="0"
@@ -82,22 +82,23 @@
                     ToolTip.Tip="{x:Static resx:ResUI.menuRouting}" />
             </StackPanel>
 
-            <!-- Throughput: fixed width, monospaced so digits do not jitter. -->
+            <!-- Throughput: fixed 270 px column (fits the longest "direct : 1023.9 MB/s up | 1023.9 MB/s down"), monospaced so digits do not jitter; the other columns never move. -->
             <StackPanel
                 Grid.Column="3"
-                MinWidth="170"
                 VerticalAlignment="Center">
                 <TextBlock
                     x:Name="txtSpeedProxyDisplay"
                     HorizontalAlignment="Right"
                     FontFamily="Cascadia Mono,Consolas,Menlo,monospace"
-                    FontSize="12" />
+                    FontSize="12"
+                    TextTrimming="CharacterEllipsis" />
                 <TextBlock
                     x:Name="txtSpeedDirectDisplay"
                     Margin="0,2,0,0"
                     HorizontalAlignment="Right"
                     FontFamily="Cascadia Mono,Consolas,Menlo,monospace"
                     FontSize="12"
+                    TextTrimming="CharacterEllipsis"
                     Foreground="{DynamicResource SemiColorText2}" />
             </StackPanel>
         </Grid>

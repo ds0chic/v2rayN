@@ -31,6 +31,13 @@
         <Setter Property="IsVisible" Value="False" />
     </Style>
 
+    <!-- Caption buttons: 46x44 so the hover area fills the 44 px title band and their icon centers sit on the toolbar's center line. -->
+    <Style Selector="WindowDrawnDecorations /template/ Button#PART_MinimizeButton, WindowDrawnDecorations /template/ Button#PART_MaximizeButton, WindowDrawnDecorations /template/ Button#PART_CloseButton">
+        <Setter Property="Width" Value="46" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
     <!-- Surfaces -->
     <Style Selector="Border.card">
         <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />

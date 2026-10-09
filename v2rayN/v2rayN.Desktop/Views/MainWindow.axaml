@@ -153,7 +153,7 @@
                 <!-- Room for the system caption buttons drawn over the extended client area. -->
                 <Border
                     Grid.Column="4"
-                    Width="140"
+                    Width="146"
                     IsVisible="{Binding BlIsWindows}" />
             </Grid>
 

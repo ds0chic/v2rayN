@@ -91,6 +91,7 @@ The Avalonia view layer was restyled with a fork design system (`v2rayN.Desktop/
 - Option hints: every setting row in `OptionSettingWindow` has a marker. A plain label is wrapped in a horizontal `StackPanel` (spacing 6) with the marker; the label column stays at 300 unless a badge would clip (then that row only is widened). Tooltips wrap at 360 px (`ToolTip` style in `ForkTheme.axaml`).
 - Sync rule: when upstream edits one of the views above, keep OUR file and port the new upstream controls by hand. Then check the `x:Name` set against upstream's version of the file (every upstream name must still exist) and that new bindings are present. The AI UI automation tool below makes the visual check cheap.
 - Title bar: the toolbar draws its own title, so `ForkTheme.axaml` fades Semi's drawn title (`PART_TitleTextPanel`, Opacity because the template binds IsVisible). Re-check the name after Semi upgrades; the toolbar must not set a Background (it would swallow title-bar drag).
+- Status bar speed block is a fixed 270 px grid column (not Auto), so the other status items never move when the numbers change; caption buttons are 46x44 (`ForkTheme.axaml`, `PART_MinimizeButton`/`PART_MaximizeButton`/`PART_CloseButton`) so their icon centers share the 44 px band with the ⋮ menu button (32x32, 4 px gap; `MainWindow` reserve column 146 px).
 - Do not remove named elements the code-behind toggles (for example `sepa2` in `AddServerWindow` is kept at opacity 0).
 
 ## Sync checklist
