@@ -275,18 +275,35 @@
         <Setter Property="Background" Value="{DynamicResource SemiColorFill2}" />
         <Setter Property="Opacity" Value="0.8" />
     </Style>
-    <!-- Toasts: slide in from the right (stock) and slide back out to the right on close. -->
+    <!-- Toasts: slide in from the right and slide back out to the right on close. -->
     <Style Selector="NotificationCard">
-        <Setter Property="Transitions">
-            <Transitions>
-                <TransformOperationsTransition Easing="CubicEaseOut" Property="RenderTransform" Duration="0:0:0.22" />
-                <DoubleTransition Easing="CubicEaseOut" Property="Opacity" Duration="0:0:0.22" />
-            </Transitions>
-        </Setter>
+        <Setter Property="RenderTransform"><TranslateTransform /></Setter>
+        <Style.Animations>
+            <Animation Duration="0:0:0.22" Easing="CubicEaseOut">
+                <KeyFrame Cue="0%">
+                    <Setter Property="TranslateTransform.X" Value="420" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="TranslateTransform.X" Value="0" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
     </Style>
     <Style Selector="NotificationCard:closing">
-        <Setter Property="RenderTransform" Value="translateX(420px)" />
-        <Setter Property="Opacity" Value="0" />
+        <Style.Animations>
+            <Animation Duration="0:0:0.22" Easing="CubicEaseIn" FillMode="Forward">
+                <KeyFrame Cue="0%">
+                    <Setter Property="TranslateTransform.X" Value="0" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="TranslateTransform.X" Value="420" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
     </Style>
     <!-- Group tabs (Semi radio-group list): the hover/selected block is drawn by the presenter, which ignores the item radius. -->
     <Style Selector="ListBox#lstGroup ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
