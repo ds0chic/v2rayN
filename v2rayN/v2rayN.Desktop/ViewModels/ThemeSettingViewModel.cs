@@ -115,42 +115,33 @@ public partial class ThemeSettingViewModel : MyReactiveObject
             return;
         }
 
-        // fork: the styles are added once and read their values from resources. Appending a new application style on
-        // every change (the old behavior) grew the style list without bound, and replacing styles at runtime made the
-        // log view's cached content be re-parented mid-measure, which crashed the app. Changing a resource only
-        // updates the bound setters.
+        // fork: the size styles live in ForkTheme.axaml under the `userFont` window class and read their values from
+        // these resources. Adding or replacing styles on Application.Styles at runtime (the old behavior) made the
+        // drawn caption buttons jump left and shrink for the rest of the session and, with cached views in a
+        // TabControl, crashed the app. A resource change and a class on the windows touch neither the style list.
         app.Resources["ForkUserFontSize"] = size;
         app.Resources["ForkUserRowHeight"] = 20 + (size / 2);
+        _userFontActive = true;
 
-        if (_fontStylesAdded)
+        if (app.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
         {
-            return;
+            foreach (var window in lifetime.Windows)
+            {
+                ApplyUserFontClass(window);
+            }
         }
-
-        _fontStylesAdded = true;
-        Style fontStyle = new(x => Selectors.Or(
-            x.OfType<Button>(),
-            x.OfType<TextBox>(),
-            x.OfType<TextBlock>(),
-            x.OfType<SelectableTextBlock>(),
-            x.OfType<Menu>(),
-            x.OfType<ContextMenu>(),
-            x.OfType<DataGridRow>(),
-            x.OfType<ListBoxItem>(),
-            x.OfType<HeaderedContentControl>(),
-            x.OfType<TextEditor>()
-        ));
-        fontStyle.Add(new Setter(TemplatedControl.FontSizeProperty, new Avalonia.Markup.Xaml.MarkupExtensions.DynamicResourceExtension("ForkUserFontSize")));
-
-        //DataGrid
-        Style rowStyle = new(x => x.OfType<DataGrid>());
-        rowStyle.Add(new Setter(DataGrid.RowHeightProperty, new Avalonia.Markup.Xaml.MarkupExtensions.DynamicResourceExtension("ForkUserRowHeight")));
-
-        app.Styles.Add(fontStyle);
-        app.Styles.Add(rowStyle);
     }
 
-    private static bool _fontStylesAdded;
+    private static bool _userFontActive;
+
+    /// <summary>Marks a window so the user's font size styles apply to it. Called for every window when it opens.</summary>
+    public static void ApplyUserFontClass(Window window)
+    {
+        if (_userFontActive)
+        {
+            window.Classes.Set("userFont", true);
+        }
+    }
 
     private void ModifyFontFamily()
     {

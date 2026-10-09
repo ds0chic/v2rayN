@@ -1,4 +1,4 @@
-<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Styles xmlns="https://github.com/avaloniaui" xmlns:ae="using:AvaloniaEdit" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--
         Fork design system. Colors come from Semi tokens so the user-selected theme variant keeps working;
         shape, spacing and type scale are defined here. Components are used through classes:
@@ -161,6 +161,17 @@
         </Setter>
     </Style>
 
+
+    <!--
+        User font size (top-right menu). ThemeSettingViewModel sets ForkUserFontSize / ForkUserRowHeight and puts the
+        `userFont` class on every window; nothing is added to the application styles at runtime.
+    -->
+    <Style Selector="Window.userFont Button, Window.userFont TextBox, Window.userFont TextBlock, Window.userFont SelectableTextBlock, Window.userFont Menu, Window.userFont ContextMenu, Window.userFont DataGridRow, Window.userFont ListBoxItem, Window.userFont HeaderedContentControl, Window.userFont ae|TextEditor">
+        <Setter Property="TextElement.FontSize" Value="{DynamicResource ForkUserFontSize}" />
+    </Style>
+    <Style Selector="Window.userFont DataGrid">
+        <Setter Property="RowHeight" Value="{DynamicResource ForkUserRowHeight}" />
+    </Style>
 
     <!-- Pages cross-fade briefly instead of snapping, so switching tabs never feels like a cut. -->
     <Style Selector="TabControl">

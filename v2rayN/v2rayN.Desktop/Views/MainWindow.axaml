@@ -152,7 +152,6 @@
                     VerticalAlignment="Center" />
                 <!-- Room for the system caption buttons drawn over the extended client area. -->
                 <Border
-                    x:Name="borderCaptionReserve"
                     Grid.Column="4"
                     Width="146"
                     IsVisible="{Binding BlIsWindows}" />

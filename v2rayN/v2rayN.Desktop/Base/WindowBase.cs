@@ -8,6 +8,7 @@ public class WindowBase<TViewModel> : ReactiveWindow<TViewModel> where TViewMode
     {
         Loaded += OnLoaded;
         Opened += (s, e) => DarkTitleBarHelper.Apply(this);
+        Opened += (s, e) => v2rayN.Desktop.ViewModels.ThemeSettingViewModel.ApplyUserFontClass(this);
         Loaded += (s, e) =>
         {
             if (Owner != null && !ShowInTaskbar)
