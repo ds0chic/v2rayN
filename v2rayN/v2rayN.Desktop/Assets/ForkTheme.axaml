@@ -241,6 +241,14 @@
     <Style Selector="ComboBoxItem">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
     </Style>
+    <Style Selector="TabItem, TreeViewItem, ToggleButton, SplitButton, DropDownButton, AutoCompleteBox, CalendarDatePicker, DatePicker, TimePicker, Calendar, CalendarItem, FlyoutPresenter, ScrollBar /template/ Thumb">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
+    <Style Selector="ListBox#lstGroup ListBoxItem">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="Padding" Value="12,0" />
+    </Style>
     <!-- Group tabs (Semi radio-group list): the hover/selected block is drawn by the presenter, which ignores the item radius. -->
     <Style Selector="ListBox#lstGroup ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
