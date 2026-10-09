@@ -23,7 +23,7 @@ public partial class ThemeSettingView : ReactiveUserControl<ThemeSettingViewMode
         };
         cmbCurrentTheme.DisplayMemberBinding = new Binding(nameof(ThemeOption.Display));
         cmbCurrentTheme.SelectedValueBinding = new Binding(nameof(ThemeOption.Value));
-        cmbCurrentFontSize.ItemsSource = Enumerable.Range(Global.MinFontSize, Global.MinFontSizeCount).ToList();
+        cmbCurrentFontSize.ItemsSource = new List<int> { 11, 12, 13 };
         cmbCurrentLanguage.ItemsSource = Global.LanguageOptions;
         cmbCurrentLanguage.DisplayMemberBinding = new Binding(nameof(LanguageOption.Display));
         cmbCurrentLanguage.SelectedValueBinding = new Binding(nameof(LanguageOption.Value));

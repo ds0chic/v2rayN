@@ -172,6 +172,22 @@
     <Style Selector="Window.userFont DataGrid">
         <Setter Property="RowHeight" Value="{DynamicResource ForkUserRowHeight}" />
     </Style>
+    <Style Selector="Window.userFont TextBlock.secondary, Window.userFont TextBlock.sectionTitle, Window.userFont Border.chip > TextBlock, Window.userFont DataGridColumnHeader">
+        <Setter Property="TextElement.FontSize" Value="{DynamicResource ForkUserSmallSize}" />
+    </Style>
+    <Style Selector="Window.userFont TextBlock.title">
+        <Setter Property="TextElement.FontSize" Value="{DynamicResource ForkUserFontSize}" />
+    </Style>
+    <Style Selector="Window.userFont Grid.settingRow">
+        <Setter Property="MinHeight" Value="{DynamicResource ForkUserSettingRowHeight}" />
+    </Style>
+    <Style Selector="Window.userFont Border.card">
+        <Setter Property="Padding" Value="{DynamicResource ForkUserCardPadding}" />
+        <Setter Property="Margin" Value="{DynamicResource ForkUserCardMargin}" />
+    </Style>
+    <Style Selector="Window.userFont TextBlock.sectionTitle">
+        <Setter Property="Margin" Value="{DynamicResource ForkUserSectionMargin}" />
+    </Style>
 
     <!-- Pages cross-fade briefly instead of snapping, so switching tabs never feels like a cut. -->
     <Style Selector="TabControl">

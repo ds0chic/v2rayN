@@ -122,8 +122,7 @@
                 GridLinesVisibility="Horizontal"
                 HeadersVisibility="Column"
                 IsReadOnly="True"
-                ItemsSource="{Binding ProfileItems}"
-                RowHeight="28">
+                ItemsSource="{Binding ProfileItems}">
                 <DataGrid.KeyBindings>
                     <KeyBinding Command="{Binding Export2ShareUrlCmd}" Gesture="Ctrl+C" />
                     <KeyBinding Command="{Binding SetDefaultServerCmd}" Gesture="Enter" />

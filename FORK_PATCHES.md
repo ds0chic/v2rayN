@@ -105,3 +105,5 @@ The Avalonia view layer was restyled with a fork design system (`v2rayN.Desktop/
 4. Build `v2rayN.Desktop`, run `dotnet test ServiceLib.Tests`.
 
 | Compact density | Base font 12 (was 13), small 11, tighter card/section/setting-row/DataGrid row spacing (28); group tab presenter radius | Assets/ForkTheme.axaml, Views/ProfilesView.axaml |
+
+| Three font levels | Font size selector offers only 11/12/13 (default 12); each level also sets row height, card padding/margin, setting-row height and section gaps via ForkUser* resources | ViewModels/ThemeSettingViewModel.cs, Assets/ForkTheme.axaml, Views/ThemeSettingView.axaml.cs |

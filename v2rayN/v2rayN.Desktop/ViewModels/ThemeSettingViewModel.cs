@@ -31,7 +31,7 @@ public partial class ThemeSettingViewModel : MyReactiveObject
     private void BindingUI()
     {
         CurrentTheme = NormalizeTheme(_config.UiItem.CurrentTheme);
-        CurrentFontSize = _config.UiItem.CurrentFontSize;
+        CurrentFontSize = _config.UiItem.CurrentFontSize is 11 or 13 ? _config.UiItem.CurrentFontSize : 12;
         CurrentLanguage = _config.UiItem.CurrentLanguage;
 
         this.WhenAnyValue(x => x.CurrentTheme)
@@ -103,11 +103,9 @@ public partial class ThemeSettingViewModel : MyReactiveObject
 
     private void ModifyFontSize()
     {
-        double size = CurrentFontSize;
-        if (size < Global.MinFontSize)
-        {
-            return;
-        }
+        // fork: three levels only (11 / 12 / 13); each also sets the density of rows, cards and gaps.
+        int level = CurrentFontSize is 11 or 13 ? CurrentFontSize : 12;
+        double size = level;
 
         var app = Application.Current;
         if (app is null)
@@ -120,7 +118,12 @@ public partial class ThemeSettingViewModel : MyReactiveObject
         // drawn caption buttons jump left and shrink for the rest of the session and, with cached views in a
         // TabControl, crashed the app. A resource change and a class on the windows touch neither the style list.
         app.Resources["ForkUserFontSize"] = size;
-        app.Resources["ForkUserRowHeight"] = 20 + (size / 2);
+        app.Resources["ForkUserSmallSize"] = size - 1;
+        app.Resources["ForkUserRowHeight"] = level switch { 11 => 26d, 13 => 30d, _ => 28d };
+        app.Resources["ForkUserSettingRowHeight"] = level switch { 11 => 34d, 13 => 42d, _ => 38d };
+        app.Resources["ForkUserCardPadding"] = level switch { 11 => new Thickness(12, 2), 13 => new Thickness(16, 3), _ => new Thickness(14, 2) };
+        app.Resources["ForkUserCardMargin"] = level switch { 11 => new Thickness(0, 0, 0, 8), 13 => new Thickness(0, 0, 0, 12), _ => new Thickness(0, 0, 0, 10) };
+        app.Resources["ForkUserSectionMargin"] = level switch { 11 => new Thickness(4, 10, 0, 5), 13 => new Thickness(4, 14, 0, 8), _ => new Thickness(4, 12, 0, 6) };
         _userFontActive = true;
 
         if (app.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
