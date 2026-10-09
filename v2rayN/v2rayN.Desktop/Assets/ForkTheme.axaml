@@ -139,6 +139,9 @@
         Active (in-use) node: a success tint. Semi paints a row's background (normal, hover, selected) on the
         BackgroundBorder template part, so the tint has to target that part. Selected rows stay green one step stronger.
     -->
+    <Style Selector="DataGridRow">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
     <Style Selector="DataGridRow /template/ Border#BackgroundBorder">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
     </Style>
