@@ -287,12 +287,10 @@
                 <KeyFrame Cue="0%">
                     <Setter Property="TranslateTransform.Y" Value="0" />
                     <Setter Property="TranslateTransform.X" Value="420" />
-                    <Setter Property="Opacity" Value="0" />
                 </KeyFrame>
                 <KeyFrame Cue="100%">
                     <Setter Property="TranslateTransform.X" Value="0" />
                     <Setter Property="TranslateTransform.Y" Value="0" />
-                    <Setter Property="Opacity" Value="1" />
                 </KeyFrame>
             </Animation>
         </Style.Animations>
