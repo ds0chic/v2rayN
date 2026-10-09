@@ -52,6 +52,10 @@
 		<Compile Update="Views\FullConfigTemplateWindow.axaml.cs">
 		  <DependentUpon>FullConfigTemplateWindow.axaml</DependentUpon>
 		</Compile>
+		<!-- fork: UWP loopback tool shipped with the app so Settings > UWP loopback works without the upstream core-bin package -->
+		<None Include="bundled\EnableLoopback.exe" Link="bin\EnableLoopback.exe">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="v2rayN.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -59,5 +63,10 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+
+	<!-- fork: single-file publish does not carry the Link item, so place the loopback tool next to the exe explicitly -->
+	<Target Name="ForkCopyEnableLoopback" AfterTargets="Publish" Condition="$(RuntimeIdentifier.StartsWith('win'))">
+		<Copy SourceFiles="bundled\EnableLoopback.exe" DestinationFolder="$(PublishDir)bin" />
+	</Target>
 
 </Project>

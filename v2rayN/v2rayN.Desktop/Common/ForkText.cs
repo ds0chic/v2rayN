@@ -29,9 +29,9 @@ public static class ForkText
         "Only useful for Microsoft Store/UWP apps going through the local proxy. Opens a small tool where you tick the apps.");
 
     public static string UwpLoopbackMissing => Pick(
-        "未找到 EnableLoopback.exe,发布包才附带",
-        "未找到 EnableLoopback.exe，發布包才附帶",
-        "EnableLoopback.exe not found; only release packages include it.");
+        "未找到 bin/EnableLoopback.exe,请重新下载完整发布包",
+        "未找到 bin/EnableLoopback.exe，請重新下載完整發布包",
+        "bin/EnableLoopback.exe not found; re-download the full release package.");
 
     public static string UwpLoopbackFailed => Pick("无法启动回环工具", "無法啟動回環工具", "Could not start the loopback tool.");
 
