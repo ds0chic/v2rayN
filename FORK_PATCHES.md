@@ -103,3 +103,5 @@ The Avalonia view layer was restyled with a fork design system (`v2rayN.Desktop/
 2. `git log --oneline HEAD..upstream/master` and read it for fixes overlapping the table above.
 3. Drop patches that upstream now covers; rebase the rest.
 4. Build `v2rayN.Desktop`, run `dotnet test ServiceLib.Tests`.
+
+| Compact density | Base font 12 (was 13), small 11, tighter card/section/setting-row/DataGrid row spacing (28); group tab presenter radius | Assets/ForkTheme.axaml, Views/ProfilesView.axaml |
