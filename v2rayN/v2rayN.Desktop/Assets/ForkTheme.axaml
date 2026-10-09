@@ -275,7 +275,7 @@
         <Setter Property="Background" Value="{DynamicResource SemiColorFill2}" />
         <Setter Property="Opacity" Value="0.8" />
     </Style>
-    <!-- Toasts have no motion: always fully opaque, no transitions, and closing hides the card at once. -->
+    <!-- Toasts: always fully opaque (pins out the stock fade) and no height collapse; the horizontal slide is set in App.Initialize. -->
     <Style Selector="NotificationCard">
         <Setter Property="Opacity" Value="1" />
         <Setter Property="Transitions" Value="{x:Null}" />
@@ -289,9 +289,6 @@
                 </KeyFrame>
             </Animation>
         </Style.Animations>
-    </Style>
-    <Style Selector="NotificationCard[IsClosing=True]">
-        <Setter Property="IsVisible" Value="False" />
     </Style>
     <Style Selector="NotificationCard /template/ LayoutTransformControl, NotificationCard /template/ ContentControl">
         <Setter Property="Transitions" Value="{x:Null}" />

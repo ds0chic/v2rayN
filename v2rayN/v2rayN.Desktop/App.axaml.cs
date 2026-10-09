@@ -27,11 +27,29 @@ public partial class App : Application
                 }
             }
         });
-        // fork: the stock toast starts scaled/offset and transitions into place; local values beat every style.
+        // fork: the stock toast scales/rises in; replace it with a plain horizontal slide (local values beat every style).
         Avalonia.Controls.Primitives.TemplatedControl.TemplateAppliedEvent.AddClassHandler<NotificationCard>((c, _) =>
         {
-            c.Transitions = null;
-            c.RenderTransform = null;
+            var off = Avalonia.Media.Transformation.TransformOperations.Parse("translateX(520px)");
+            var on = Avalonia.Media.Transformation.TransformOperations.Parse("translateX(0px)");
+            c.Transitions = new Avalonia.Animation.Transitions
+            {
+                new Avalonia.Animation.TransformOperationsTransition
+                {
+                    Property = Visual.RenderTransformProperty,
+                    Duration = TimeSpan.FromMilliseconds(220),
+                    Easing = new Avalonia.Animation.Easings.CubicEaseOut(),
+                },
+            };
+            c.RenderTransform = off;
+            c.Loaded += (_, _) => DispatcherTimer.RunOnce(() => c.RenderTransform = on, TimeSpan.FromMilliseconds(30));
+            c.GetObservable(NotificationCard.IsClosingProperty).Subscribe(closing =>
+            {
+                if (closing)
+                {
+                    c.RenderTransform = off;
+                }
+            });
         });
         Control.LoadedEvent.AddClassHandler<DataGridColumnHeader>((header, _) =>
         {
