@@ -68,10 +68,11 @@ public class SimpleViewLocator : IDataTemplate
 
     private static bool ShouldCache(Type vmType)
     {
-        return vmType == typeof(MsgViewModel)
-               || vmType == typeof(ClashProxiesViewModel)
-               || vmType == typeof(ClashConnectionsViewModel)
-               || vmType == typeof(ProfilesViewModel);
+        // fork: the views hosted inside a TabControl (log, Clash proxies/connections) are not cached. A TabControl
+        // presenter rebuilds its child when application resources or styles change (for example a font size change);
+        // handing it the same cached instance while the old presenter still owned it threw "already has a visual
+        // parent" from the layout pass and killed the app.
+        return vmType == typeof(ProfilesViewModel);
     }
 
     private static Control CreateView(Func<Control?> factory, Type vmType)

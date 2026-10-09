@@ -161,6 +161,7 @@
         </Setter>
     </Style>
 
+
     <!-- Pages cross-fade briefly instead of snapping, so switching tabs never feels like a cut. -->
     <Style Selector="TabControl">
         <Setter Property="PageTransition">

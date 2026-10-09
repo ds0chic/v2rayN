@@ -22,17 +22,30 @@ public class WindowBase<TViewModel> : ReactiveWindow<TViewModel> where TViewMode
         try
         {
             var sizeItem = ConfigHandler.GetWindowSizeItem(AppManager.Instance.Config, GetType().Name);
-            if (sizeItem is null)
+
+            var screen = Screens.ScreenFromWindow(this) ?? Screens.Primary;
+            if (screen is null)
+            {
+                return;
+            }
+            var scaling = screen.Scaling > 0 ? screen.Scaling : 1.0;
+            var workingArea = screen.WorkingArea;
+
+            // fork: with no saved size the XAML default (e.g. 1200x800) used to be kept as is, which on a scaled laptop
+            // screen (1920x1080 at 150% is 1280x720 logical) is larger than the screen. Clamp it like a saved size.
+            var wantWidth = sizeItem?.Width ?? Width;
+            var wantHeight = sizeItem?.Height ?? Height;
+            if (double.IsNaN(wantWidth) || double.IsNaN(wantHeight))
             {
                 return;
             }
 
-            var screen = Screens.ScreenFromWindow(this) ?? Screens.Primary;
-            var scaling = screen.Scaling > 0 ? screen.Scaling : 1.0;
-            var workingArea = screen.WorkingArea;
-
-            var width = Math.Min(sizeItem.Width, workingArea.Width / scaling);
-            var height = Math.Min(sizeItem.Height, workingArea.Height / scaling);
+            var width = Math.Min(wantWidth, workingArea.Width / scaling);
+            var height = Math.Min(wantHeight, workingArea.Height / scaling);
+            if (sizeItem is null && width >= wantWidth && height >= wantHeight)
+            {
+                return; // default already fits: keep the XAML placement (CenterOwner etc.)
+            }
 
             Width = width;
             Height = height;

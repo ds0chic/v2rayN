@@ -755,6 +755,12 @@ internal static class AiAutomationCommands
         {
             yield return child;
         }
+
+        // A button's flyout content is not part of the window's trees even while open; expose it under its button.
+        if (control is Button { Flyout: Flyout { Content: Control flyoutContent } })
+        {
+            yield return flyoutContent;
+        }
     }
 
     #endregion Tree and state
@@ -806,6 +812,22 @@ internal static class AiAutomationCommands
             if (found is not null)
             {
                 return found;
+            }
+
+            // Flyout and dropdown content lives in a separate popup root that the window's logical tree does not reach.
+            var popups = root.GetSelfAndVisualDescendants().OfType<Popup>()
+                .Concat(root.GetLogicalDescendants().OfType<Popup>())
+                .Distinct();
+            foreach (var popup in popups)
+            {
+                if (popup.IsOpen && popup.Child is Control popupChild)
+                {
+                    found = WalkAll(popupChild).FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+                    if (found is not null)
+                    {
+                        return found;
+                    }
+                }
             }
         }
 

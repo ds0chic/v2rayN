@@ -19,7 +19,7 @@
         </Style>
     </UserControl.Styles>
 
-    <Button Margin="8,0,4,0" Classes="IconButton">
+    <Button x:Name="btnThemeMenu" Margin="8,0,4,0" Classes="IconButton">
         <Button.Content>
             <PathIcon Width="16" Height="16" Data="{StaticResource SemiIconMore}">
                 <PathIcon.RenderTransform>

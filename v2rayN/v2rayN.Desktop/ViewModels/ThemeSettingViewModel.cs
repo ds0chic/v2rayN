@@ -109,7 +109,26 @@ public partial class ThemeSettingViewModel : MyReactiveObject
             return;
         }
 
-        Style style = new(x => Selectors.Or(
+        var app = Application.Current;
+        if (app is null)
+        {
+            return;
+        }
+
+        // fork: the styles are added once and read their values from resources. Appending a new application style on
+        // every change (the old behavior) grew the style list without bound, and replacing styles at runtime made the
+        // log view's cached content be re-parented mid-measure, which crashed the app. Changing a resource only
+        // updates the bound setters.
+        app.Resources["ForkUserFontSize"] = size;
+        app.Resources["ForkUserRowHeight"] = 20 + (size / 2);
+
+        if (_fontStylesAdded)
+        {
+            return;
+        }
+
+        _fontStylesAdded = true;
+        Style fontStyle = new(x => Selectors.Or(
             x.OfType<Button>(),
             x.OfType<TextBox>(),
             x.OfType<TextBlock>(),
@@ -121,24 +140,17 @@ public partial class ThemeSettingViewModel : MyReactiveObject
             x.OfType<HeaderedContentControl>(),
             x.OfType<TextEditor>()
         ));
-        style.Add(new Setter()
-        {
-            Property = TemplatedControl.FontSizeProperty,
-            Value = size,
-        });
-        Application.Current?.Styles.Add(style);
+        fontStyle.Add(new Setter(TemplatedControl.FontSizeProperty, new Avalonia.Markup.Xaml.MarkupExtensions.DynamicResourceExtension("ForkUserFontSize")));
 
-        ModifyFontSizeEx(size);
-    }
-
-    private void ModifyFontSizeEx(double size)
-    {
         //DataGrid
-        var rowHeight = 20 + (size / 2);
-        var style = new Style(x => x.OfType<DataGrid>());
-        style.Add(new Setter(DataGrid.RowHeightProperty, rowHeight));
-        Application.Current?.Styles.Add(style);
+        Style rowStyle = new(x => x.OfType<DataGrid>());
+        rowStyle.Add(new Setter(DataGrid.RowHeightProperty, new Avalonia.Markup.Xaml.MarkupExtensions.DynamicResourceExtension("ForkUserRowHeight")));
+
+        app.Styles.Add(fontStyle);
+        app.Styles.Add(rowStyle);
     }
+
+    private static bool _fontStylesAdded;
 
     private void ModifyFontFamily()
     {
