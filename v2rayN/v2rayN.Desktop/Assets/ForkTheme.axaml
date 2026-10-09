@@ -275,6 +275,19 @@
         <Setter Property="Background" Value="{DynamicResource SemiColorFill2}" />
         <Setter Property="Opacity" Value="0.8" />
     </Style>
+    <!-- Toasts: slide in from the right (stock) and slide back out to the right on close. -->
+    <Style Selector="NotificationCard">
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Easing="CubicEaseOut" Property="RenderTransform" Duration="0:0:0.22" />
+                <DoubleTransition Easing="CubicEaseOut" Property="Opacity" Duration="0:0:0.22" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="NotificationCard:closing">
+        <Setter Property="RenderTransform" Value="translateX(420px)" />
+        <Setter Property="Opacity" Value="0" />
+    </Style>
     <!-- Group tabs (Semi radio-group list): the hover/selected block is drawn by the presenter, which ignores the item radius. -->
     <Style Selector="ListBox#lstGroup ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
