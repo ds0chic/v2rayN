@@ -142,13 +142,6 @@
     <Style Selector="DataGridRow">
         <Setter Property="Background" Value="Transparent" />
     </Style>
-    <!-- Row separators sit inside the rounded blocks instead of running to the edge; no vertical cell lines. -->
-    <Style Selector="DataGridRow /template/ Rectangle#PART_BottomGridLine">
-        <Setter Property="Margin" Value="10,0" />
-    </Style>
-    <Style Selector="DataGridCell /template/ Rectangle#PART_RightGridLine">
-        <Setter Property="IsVisible" Value="False" />
-    </Style>
     <Style Selector="DataGridRow /template/ Border#BackgroundBorder">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
     </Style>
