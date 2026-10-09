@@ -1,3 +1,4 @@
+using Avalonia.Controls.Notifications;
 using Avalonia.VisualTree;
 using v2rayN.Desktop.Common;
 using v2rayN.Desktop.Manager;
@@ -25,6 +26,12 @@ public partial class App : Application
                     border.CornerRadius = new CornerRadius(6);
                 }
             }
+        });
+        // fork: the stock toast starts scaled/offset and transitions into place; local values beat every style.
+        Avalonia.Controls.Primitives.TemplatedControl.TemplateAppliedEvent.AddClassHandler<NotificationCard>((c, _) =>
+        {
+            c.Transitions = null;
+            c.RenderTransform = null;
         });
         Control.LoadedEvent.AddClassHandler<DataGridColumnHeader>((header, _) =>
         {
