@@ -111,3 +111,7 @@ The Avalonia view layer was restyled with a fork design system (`v2rayN.Desktop/
 | Profile list trim | Subscription column removed; IP info column follows the traffic columns toggle; traffic menu item hidden (not disabled) when statistics are off; rounded row blocks; MenuItem font follows user font size (tray menu) | Views/ProfilesView.axaml(.cs), Assets/ForkTheme.axaml |
 
 | Rounded DataGrid header hover | Header template sets CornerRadius inline (styles can't override), so App.Initialize sets it on HeaderBackground at Loaded | App.axaml.cs, Assets/ForkTheme.axaml |
+
+| List scrollbars and lines | Slim 10px scrollbars without arrow buttons (list and log aligned); row separators at 0.7 opacity; current-cell outline hidden; delay colours are theme-aware (DelayColorConverter) | Assets/ForkTheme.axaml, Converters/DelayColorConverter.cs, Views/MsgView.axaml |
+
+| Toast motion | Stock toast scales/rises in with a fade and collapses on close; replaced by a plain 0.22s horizontal slide in/out. Card Transitions and RenderTransform are set as local values on TemplateApplied (styles cannot beat the stock transition), opacity pinned by an infinite 1-to-1 animation, height collapse disabled | App.axaml.cs, Assets/ForkTheme.axaml |
