@@ -259,6 +259,22 @@
         <Setter Property="MinHeight" Value="0" />
         <Setter Property="Padding" Value="12,0" />
     </Style>
+    <!-- Scrollbars: no arrow buttons, a slim quiet thumb. -->
+    <Style Selector="ScrollBar /template/ RepeatButton">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="ScrollBar:vertical">
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Margin" Value="0,2,2,2" />
+    </Style>
+    <Style Selector="ScrollBar:horizontal">
+        <Setter Property="Height" Value="10" />
+        <Setter Property="Margin" Value="2,0,2,2" />
+    </Style>
+    <Style Selector="ScrollBar /template/ Thumb">
+        <Setter Property="Background" Value="{DynamicResource SemiColorFill2}" />
+        <Setter Property="Opacity" Value="0.8" />
+    </Style>
     <!-- Group tabs (Semi radio-group list): the hover/selected block is drawn by the presenter, which ignores the item radius. -->
     <Style Selector="ListBox#lstGroup ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />

@@ -82,7 +82,7 @@
 
         <avaloniaEdit:TextEditor
             Name="txtMsg"
-            Margin="12,6,4,6"
+            Margin="12,6,8,6"
             FontFamily="Cascadia Mono,Consolas,Menlo,monospace"
             FontSize="12"
             IsReadOnly="True"
