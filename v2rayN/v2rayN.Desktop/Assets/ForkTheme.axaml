@@ -125,6 +125,9 @@
         Active (in-use) node: a success tint. Semi paints a row's background (normal, hover, selected) on the
         BackgroundBorder template part, so the tint has to target that part. Selected rows stay green one step stronger.
     -->
+    <Style Selector="DataGridRow /template/ Border#BackgroundBorder">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
     <Style Selector="DataGridRow.activeNode /template/ Border#BackgroundBorder">
         <Setter Property="Background" Value="{DynamicResource ForkActiveRow}" />
     </Style>
@@ -168,6 +171,10 @@
     -->
     <Style Selector="Window.userFont Button, Window.userFont TextBox, Window.userFont TextBlock, Window.userFont SelectableTextBlock, Window.userFont Menu, Window.userFont ContextMenu, Window.userFont DataGridRow, Window.userFont ListBoxItem, Window.userFont HeaderedContentControl, Window.userFont ae|TextEditor">
         <Setter Property="TextElement.FontSize" Value="{DynamicResource ForkUserFontSize}" />
+    </Style>
+    <!-- The tray menu is a popup root, not a child of any Window, so the window class never reaches it. -->
+    <Style Selector="MenuItem">
+        <Setter Property="FontSize" Value="{DynamicResource ForkUserFontSize}" />
     </Style>
     <Style Selector="Window.userFont DataGrid">
         <Setter Property="RowHeight" Value="{DynamicResource ForkUserRowHeight}" />

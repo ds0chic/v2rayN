@@ -215,7 +215,7 @@
                             <MenuItem x:Name="menuGenGroupAllServer" Header="{x:Static resx:ResUI.menuAllServers}" />
                             <MenuItem x:Name="menuGenGroupRegionServer" Header="{x:Static resx:ResUI.menuGenRegionGroup}" />
                         </MenuItem>
-                        <Separator />
+                        <Separator x:Name="menuTrafficSeparator" />
                         <MenuItem
                             x:Name="menuShowTrafficColumns"
                             Header="{x:Static common:ForkText.ShowTrafficColumns}"
@@ -277,11 +277,6 @@
                         Binding="{Binding StreamSecurity}"
                         Header="{x:Static resx:ResUI.LvTLS}"
                         Tag="StreamSecurity" />
-                    <DataGridTextColumn
-                        Width="100"
-                        Binding="{Binding SubRemarks}"
-                        Header="{x:Static resx:ResUI.LvSubscription}"
-                        Tag="SubRemarks" />
                     <DataGridTemplateColumn SortMemberPath="Delay" Tag="DelayVal">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{x:Static resx:ResUI.LvTestDelay}" />

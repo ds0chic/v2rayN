@@ -218,6 +218,8 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         SetTrafficColumnsVisible(visible);
     }
 
+    private bool IpInfoAllowed() => _config.SpeedTestItem.IPAPIUrl.IsNotEmpty() && !_config.UiItem.HideColumnIpInfo;
+
     private void SetTrafficColumnsVisible(bool visible)
     {
         foreach (var it in lstProfiles.Columns)
@@ -225,6 +227,10 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
             if (it.Tag is "TodayUp" or "TodayDown" or "TotalUp" or "TotalDown")
             {
                 it.IsVisible = visible;
+            }
+            if (it.Tag is "IpInfo")
+            {
+                it.IsVisible = visible && IpInfoAllowed();
             }
         }
         menuShowTrafficColumns.IsChecked = visible;
@@ -418,13 +424,15 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
                         }
                         if (item.Name.Equals("IpInfo", StringComparison.CurrentCultureIgnoreCase))
                         {
-                            item2.IsVisible = _config.SpeedTestItem.IPAPIUrl.IsNotEmpty() && !_config.UiItem.HideColumnIpInfo;
+                            item2.IsVisible = _config.GuiItem.EnableStatistics && item.Width >= 0 && IpInfoAllowed();
                         }
                     }
                 }
             }
-            menuShowTrafficColumns.IsEnabled = _config.GuiItem.EnableStatistics;
-            menuShowTrafficColumns.IsChecked = lstProfiles.Columns.Any(t => t.Tag is "TodayUp" && t.IsVisible);
+            menuShowTrafficColumns.IsVisible = _config.GuiItem.EnableStatistics;
+            menuTrafficSeparator.IsVisible = _config.GuiItem.EnableStatistics;
+            // IP info follows the traffic statistics columns toggle.
+            SetTrafficColumnsVisible(lstProfiles.Columns.Any(t => t.Tag is "TodayUp" && t.IsVisible));
         }
         catch (Exception ex)
         {
