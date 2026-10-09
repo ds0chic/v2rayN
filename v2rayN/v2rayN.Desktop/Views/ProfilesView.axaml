@@ -112,8 +112,11 @@
                 </StackPanel>
 
             </Grid>
+            <Grid Margin="8,0,8,8">
+                <Border Height="32" VerticalAlignment="Top" Background="{DynamicResource SemiColorFill0}" CornerRadius="6" />
             <DataGrid
                 x:Name="lstProfiles"
+                ColumnHeaderHeight="32"
                 AutoGenerateColumns="False"
                 BorderThickness="0"
                 CanUserReorderColumns="True"
@@ -334,6 +337,7 @@
                         Tag="TotalDown" />
                 </DataGrid.Columns>
             </DataGrid>
+            </Grid>
         </DockPanel>
     </Border>
 </UserControl>

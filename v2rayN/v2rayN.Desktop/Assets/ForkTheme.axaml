@@ -116,7 +116,7 @@
     </Style>
     <!-- The header row sits on its own faint band so it reads apart from the group tabs above it. -->
     <Style Selector="DataGridColumnHeadersPresenter">
-        <Setter Property="Background" Value="{DynamicResource SemiColorFill0}" />
+        <Setter Property="Background" Value="Transparent" />
     </Style>
     <!-- The header hover block is the header's own Background (square); move it onto the rounded HeaderBackground border. -->
     <Style Selector="DataGridColumnHeader /template/ Border#HeaderBackground">
