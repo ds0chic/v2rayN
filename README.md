@@ -28,12 +28,13 @@ The full patch registry, with the reason for each patch and the condition for dr
 
 - **Avalonia-only front end.** The WPF front end is removed. One UI project (`v2rayN.Desktop`) is built for Windows, Linux and macOS.
 - **Redesigned UI.** Two corner-radius tiers (10 for surfaces, 6 for controls). One menu button in the title-bar toolbar. A hover info marker on every setting. Light and dark themes only. Toasts appear bottom-right and dismiss themselves. The caption fullscreen button is hidden and the promotion entry is removed.
+- **Node list.** The active node row has its own tint, separate from the selection color. Drag up/down to select several nodes (auto-scrolls near the edges). Traffic columns are hidden by default (right-click to show) and column widths fit content by default. The status-bar speed block has a fixed width, so the other items do not shift.
 - **Startup and tray.** The window is cloaked and pre-warmed so tray start/show does not flash white. Single-instance wake-up.
 - **TUN.** The last TUN choice is remembered across non-admin starts. Declining the UAC prompt keeps the app running. TUN is stopped before the core, and the stop/start order is corrected.
 - **sing-box.** The stack is not forced to gvisor when unset. Sniffing is wired to sing-box's sniffer. QUIC is no longer sniffed by default.
 - **LAN sharing card.** Dedicated port with generated credentials, status display, copyable addresses, and a firewall rule button.
 - **Dual-stack routing.** Built-in white, black and global sets are IPv4+IPv6-aware and more precise. Unmodified old `V4-` sets are replaced by `V4V6-` automatically. Edited sets are merged, keeping the user's rules first.
-- **UWP loopback.** Result feedback is shown as a toast.
+- **UWP loopback.** Result feedback is shown as a toast. `EnableLoopback.exe` is bundled and copied to `bin/` on build and publish.
 - **Publish.** ReadyToRun is enabled for Release publish (larger single file, faster startup).
 - **AI UI automation (test only).** A local named pipe for scripted UI tests. Opt-in with `V2RAYN_AI_AUTOMATION=1`, Windows only, intended for test instances only.
 
