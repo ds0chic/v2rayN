@@ -13,6 +13,7 @@
     Width="1200"
     Height="800"
     MinWidth="600"
+    MinHeight="480"
     x:DataType="vms:MainWindowViewModel"
     Design.DataContext="{x:Static dd:DesignData.MainWindow}"
     Background="{DynamicResource SemiColorBackground0}"
@@ -182,10 +183,12 @@
                         </TabControl>
                     </Border>
                 </Grid>
-                <Grid
-                    x:Name="gridMain1"
-                    IsVisible="False"
-                    RowDefinitions="1*,10,1*">
+                <Grid x:Name="gridMain1" IsVisible="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" MinHeight="140" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="1*" MinHeight="100" />
+                    </Grid.RowDefinitions>
                     <ContentControl x:Name="tabProfiles1" Grid.Row="0" />
                     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" />
                     <Border
