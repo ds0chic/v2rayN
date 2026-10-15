@@ -50,6 +50,8 @@ public partial class StatusBarView : ReactiveUserControl<StatusBarViewModel>
             }).DisposeWith(disposables);
         });
 
+        CdsMotion.AttachSegmentedThumb(cmbSystemProxy, thumbProxy);
+
         //spEnableTun.IsVisible = (Utils.IsWindows() || AppHandler.Instance.IsAdministrator);
 
         if (Utils.IsNonWindows() && cmbSystemProxy.Items.IsReadOnly == false)

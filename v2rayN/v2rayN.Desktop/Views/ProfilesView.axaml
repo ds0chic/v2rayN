@@ -28,9 +28,13 @@
                 Margin="12,6,12,6"
                 ColumnDefinitions="*,Auto"
                 DockPanel.Dock="Top">
+                <Grid Margin="{StaticResource MarginLr4}" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Border Classes="segTrack" />
+                <Border x:Name="thumbGroup" Classes="segThumb" />
                 <ListBox
                     x:Name="lstGroup"
-                    Margin="{StaticResource MarginLr4}"
+                    Classes="segmented"
+                    Margin="2"
                     DisplayMemberBinding="{Binding Remarks}"
                     ItemsSource="{Binding SubItems}"
                     Theme="{DynamicResource PureCardRadioGroupListBox}">
@@ -48,6 +52,7 @@
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>
+                </Grid>
 
                 <StackPanel
                     Grid.Column="1"

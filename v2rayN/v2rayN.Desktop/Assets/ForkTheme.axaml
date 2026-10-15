@@ -273,8 +273,8 @@
     <Style Selector="TabItem, TreeViewItem, ToggleButton, SplitButton, DropDownButton, AutoCompleteBox, CalendarDatePicker, DatePicker, TimePicker, Calendar, CalendarItem, FlyoutPresenter, ScrollBar /template/ Thumb">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
     </Style>
-    <Style Selector="ListBox#lstGroup ListBoxItem">
-        <Setter Property="Height" Value="30" />
+    <Style Selector="ListBox.segmented ListBoxItem">
+        <Setter Property="Height" Value="28" />
         <Setter Property="MinHeight" Value="0" />
         <Setter Property="Padding" Value="12,0" />
     </Style>
@@ -313,14 +313,56 @@
         <Setter Property="Transitions" Value="{x:Null}" />
     </Style>
     <!-- Group tabs (Semi radio-group list): the hover/selected block is drawn by the presenter, which ignores the item radius. -->
-    <Style Selector="ListBox#lstGroup">
+    <Style Selector="ListBox.segmented">
         <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style Selector="Border.segTrack">
         <Setter Property="Background" Value="{DynamicResource ForkTrack}" />
         <Setter Property="CornerRadius" Value="999" />
-        <Setter Property="Padding" Value="2" />
-        <Setter Property="BorderThickness" Value="0" />
     </Style>
-    <Style Selector="ListBox#lstGroup ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="Border.segThumb">
+        <Setter Property="Background" Value="{DynamicResource ForkThumb}" />
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowSm}" />
+        <Setter Property="CornerRadius" Value="999" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <ThicknessTransition Property="Margin" Duration="0:0:0.42">
+                    <ThicknessTransition.Easing>
+                        <SpringEasing Mass="1" Stiffness="380" Damping="28" />
+                    </ThicknessTransition.Easing>
+                </ThicknessTransition>
+                <DoubleTransition Property="Width" Duration="0:0:0.42">
+                    <DoubleTransition.Easing>
+                        <SpringEasing Mass="1" Stiffness="380" Damping="28" />
+                    </DoubleTransition.Easing>
+                </DoubleTransition>
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="TextBlock.logLabel">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LetterSpacing" Value="1.2" />
+        <Setter Property="Foreground" Value="{DynamicResource SemiColorText2}" />
+    </Style>
+    <Style Selector="ListBox.segmented.compact ListBoxItem">
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Padding" Value="7,0" />
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+    <Style Selector="ListBox.segmented ListBoxItem:selected">
+        <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+    <Style Selector="ListBox.segmented ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter, ListBox.segmented ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="ListBox.segmented ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="CornerRadius" Value="999" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
@@ -330,13 +372,8 @@
             </Transitions>
         </Setter>
     </Style>
-    <Style Selector="ListBox#lstGroup ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="ListBox.segmented ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource SemiColorFill0}" />
-    </Style>
-    <Style Selector="ListBox#lstGroup ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter, ListBox#lstGroup ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ForkThumb}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowSm}" />
     </Style>
     <Style Selector="MenuItem">
         <Setter Property="CornerRadius" Value="6" />
@@ -367,6 +404,41 @@
     <Style Selector="MenuFlyoutPresenter /template/ Border">
         <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowPopover}" />
         <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <!-- Switch knob: spring (see CDS spring presets). -->
+    <Style Selector="ToggleSwitch">
+        <Setter Property="KnobTransitions">
+            <Transitions>
+                <DoubleTransition Property="Canvas.Left" Duration="0:0:0.4">
+                    <DoubleTransition.Easing>
+                        <SpringEasing Mass="1" Stiffness="500" Damping="30" />
+                    </DoubleTransition.Easing>
+                </DoubleTransition>
+            </Transitions>
+        </Setter>
+    </Style>
+    <!-- Focus: the clay triple ring. -->
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowFocus}" />
+    </Style>
+    <Style Selector="TextBox.pill:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowFocusPill}" />
+    </Style>
+    <Style Selector="Button:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowFocus}" />
+    </Style>
+    <!-- Popups fade in quickly (opacity only: a keyframed RenderTransform crashes this Avalonia build). -->
+    <Style Selector="ContextMenu /template/ Border, MenuFlyoutPresenter /template/ Border">
+        <Style.Animations>
+            <Animation Duration="0:0:0.14" Easing="ExponentialEaseOut" FillMode="Both">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
     </Style>
     <Style Selector="Expander">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />

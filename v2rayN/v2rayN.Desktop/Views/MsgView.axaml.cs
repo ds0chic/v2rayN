@@ -9,6 +9,13 @@ public partial class MsgView : ReactiveUserControl<MsgViewModel>
     {
         InitializeComponent();
         txtMsg.TextArea.TextView.Options.EnableHyperlinks = false;
+        txtMsg.Loaded += (_, _) =>
+        {
+            if (Avalonia.VisualTree.VisualExtensions.GetVisualDescendants(txtMsg).OfType<ScrollViewer>().FirstOrDefault() is { } sv)
+            {
+                CdsMotion.AttachScrollFade(sv, txtMsg);
+            }
+        };
 
         this.WhenActivated(disposables =>
         {

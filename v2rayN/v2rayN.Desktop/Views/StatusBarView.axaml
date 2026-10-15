@@ -11,14 +11,15 @@
     Design.DataContext="{x:Static dd:DesignData.StatusBar}"
     mc:Ignorable="d">
     <Border
-        Padding="20,10"
+        Padding="16,10"
         BorderBrush="{DynamicResource SemiColorBorder}"
         BorderThickness="0,1,0,0">
-        <Grid ColumnDefinitions="*,Auto,Auto,270">
+        <Grid ColumnDefinitions="*,Auto,Auto,236">
             <!-- Running node: name on top, delay below. -->
             <StackPanel
                 Grid.Column="0"
-                Margin="0,0,16,0"
+                MinWidth="90"
+                Margin="0,0,8,0"
                 VerticalAlignment="Center">
                 <TextBlock
                     x:Name="txtRunningServerDisplay"
@@ -36,7 +37,7 @@
             <!-- Where the proxy listens. -->
             <StackPanel
                 Grid.Column="1"
-                Margin="0,0,24,0"
+                Margin="0,0,12,0"
                 VerticalAlignment="Center">
                 <TextBlock x:Name="txtInboundDisplay" Classes="secondary" />
                 <TextBlock
@@ -48,7 +49,7 @@
             <!-- Quick controls. -->
             <StackPanel
                 Grid.Column="2"
-                Margin="0,0,24,0"
+                Margin="0,0,12,0"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
@@ -63,19 +64,24 @@
                         VerticalAlignment="Center"
                         Theme="{DynamicResource SimpleToggleSwitch}" />
                 </StackPanel>
-                <ComboBox
-                    x:Name="cmbSystemProxy"
-                    MinWidth="150"
-                    VerticalAlignment="Center"
-                    ToolTip.Tip="{x:Static resx:ResUI.menuSystemproxy}">
-                    <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxyClear}" />
-                    <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxySet}" />
-                    <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxyNothing}" />
-                    <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxyPac}" />
-                </ComboBox>
+                <Grid VerticalAlignment="Center" ToolTip.Tip="{x:Static resx:ResUI.menuSystemproxy}">
+                    <Border Classes="segTrack" />
+                    <Border x:Name="thumbProxy" Classes="segThumb" />
+                    <ListBox x:Name="cmbSystemProxy" Margin="2" Classes="segmented compact">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBoxItem Content="{x:Static resx:ResUI.menuSystemProxyClear}" />
+                        <ListBoxItem Content="{x:Static resx:ResUI.menuSystemProxySet}" />
+                        <ListBoxItem Content="{x:Static resx:ResUI.menuSystemProxyNothing}" />
+                        <ListBoxItem Content="{x:Static resx:ResUI.menuSystemProxyPac}" />
+                    </ListBox>
+                </Grid>
                 <ComboBox
                     x:Name="cmbRoutings2"
-                    MinWidth="150"
+                    MinWidth="110"
                     VerticalAlignment="Center"
                     DisplayMemberBinding="{Binding Remarks}"
                     ItemsSource="{Binding RoutingItems}"
@@ -90,14 +96,14 @@
                     x:Name="txtSpeedProxyDisplay"
                     HorizontalAlignment="Right"
                     FontFamily="Cascadia Mono,Consolas,Menlo,monospace"
-                    FontSize="12"
+                    FontSize="11"
                     TextTrimming="CharacterEllipsis" />
                 <TextBlock
                     x:Name="txtSpeedDirectDisplay"
                     Margin="0,2,0,0"
                     HorizontalAlignment="Right"
                     FontFamily="Cascadia Mono,Consolas,Menlo,monospace"
-                    FontSize="12"
+                    FontSize="11"
                     TextTrimming="CharacterEllipsis"
                     Foreground="{DynamicResource SemiColorText2}" />
             </StackPanel>

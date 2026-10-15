@@ -12,6 +12,8 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
     public ProfilesView()
     {
         InitializeComponent();
+        CdsMotion.AttachSegmentedThumb(lstGroup, thumbGroup);
+        CdsMotion.AttachScrollFade(lstProfiles);
 
         _config = AppManager.Instance.Config;
 

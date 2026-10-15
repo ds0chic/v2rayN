@@ -30,7 +30,7 @@
             <Setter Property="Background" Value="{DynamicResource SemiColorFill0}" />
 
             <Setter Property="dialogHost:DialogHostStyle.BoxShadow" Value="{DynamicResource SemiShadowElevated}" />
-            <Setter Property="dialogHost:DialogHostStyle.CornerRadius" Value="10" />
+            <Setter Property="dialogHost:DialogHostStyle.CornerRadius" Value="16" />
         </Style>
     </Application.Styles>
 

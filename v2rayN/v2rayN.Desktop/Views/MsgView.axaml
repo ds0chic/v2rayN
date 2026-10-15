@@ -12,8 +12,13 @@
     Design.DataContext="{x:Static dd:DesignData.Msg}"
     mc:Ignorable="d">
     <DockPanel>
+        <TextBlock
+            Margin="18,10,0,0"
+            Classes="logLabel"
+            DockPanel.Dock="Top"
+            Text="LOG" />
         <Grid
-            Margin="12,8"
+            Margin="12,6,12,8"
             ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto"
             DockPanel.Dock="Top">
             <TextBox
