@@ -1,7 +1,6 @@
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
 using AvaloniaEdit;
-using Semi.Avalonia;
 
 namespace v2rayN.Desktop.ViewModels;
 
@@ -72,7 +71,7 @@ public partial class ThemeSettingViewModel : MyReactiveObject
             });
     }
 
-    // Only Dark and Light are offered; anything else (follow system, the colored variants) maps to the closest of the two.
+    // Only Dark and Light are offered; anything else (follow system) maps to the closest of the two.
     private static string NormalizeTheme(string? theme)
     {
         if (theme is nameof(ETheme.Dark) or nameof(ETheme.Light))
@@ -92,10 +91,6 @@ public partial class ThemeSettingViewModel : MyReactiveObject
             {
                 nameof(ETheme.Dark) => ThemeVariant.Dark,
                 nameof(ETheme.Light) => ThemeVariant.Light,
-                nameof(ETheme.Aquatic) => SemiTheme.Aquatic,
-                nameof(ETheme.Desert) => SemiTheme.Desert,
-                nameof(ETheme.Dusk) => SemiTheme.Dusk,
-                nameof(ETheme.NightSky) => SemiTheme.NightSky,
                 _ => ThemeVariant.Default,
             };
         }

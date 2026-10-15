@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:semi="https://irihi.tech/semi">
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- fork: Claude design system palette mapped onto the Semi tokens. Lives in Application.Resources so Semi templates see it. -->
     <CornerRadius x:Key="ComboBoxSelectorCornerRadius">8</CornerRadius>
     <ResourceDictionary.ThemeDictionaries>
@@ -8,26 +8,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="CdsDark.axaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="{x:Static semi:SemiTheme.Desert}">
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="CdsLight.axaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="{x:Static semi:SemiTheme.Aquatic}">
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="CdsDark.axaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="{x:Static semi:SemiTheme.Dusk}">
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="CdsDark.axaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="{x:Static semi:SemiTheme.NightSky}">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="CdsDark.axaml" />
             </ResourceDictionary.MergedDictionaries>

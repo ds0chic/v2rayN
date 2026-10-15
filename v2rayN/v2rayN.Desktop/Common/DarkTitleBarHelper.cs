@@ -45,7 +45,7 @@ internal static partial class DarkTitleBarHelper
         }
     }
 
-    // Semi variants (Dusk, NightSky, ...) are custom ThemeVariants that inherit from Dark or Light.
+    // Walks the variant chain so any ThemeVariant that inherits from Dark or Light resolves correctly.
     private static bool IsDark(ThemeVariant? variant)
     {
         for (var v = variant; v is not null; v = v.InheritVariant)

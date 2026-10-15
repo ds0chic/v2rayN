@@ -39,15 +39,15 @@
     <SolidColorBrush x:Key="SemiColorSuccessActive" Color="#D97757" />
     <SolidColorBrush x:Key="SemiColorSuccessDisabled" Color="#80E08264" />
     <SolidColorBrush x:Key="SemiColorInformation" Color="#E08264" />
-    <SolidColorBrush x:Key="TextBoxSelectionBackground" Color="#66E08264" />
-    <SolidColorBrush x:Key="TextBlockSelectionBackground" Color="#66E08264" />
-            <SolidColorBrush x:Key="ListBoxItemSelectedBackground" Color="#26E08264" />
-    <SolidColorBrush x:Key="ListBoxItemSelectedPointeroverBackground" Color="#33E08264" />
+    <SolidColorBrush x:Key="TextBoxSelectionBackground" Color="#6660A5FA" />
+    <SolidColorBrush x:Key="TextBlockSelectionBackground" Color="#6660A5FA" />
+            <SolidColorBrush x:Key="ListBoxItemSelectedBackground" Color="#2E60A5FA" />
+    <SolidColorBrush x:Key="ListBoxItemSelectedPointeroverBackground" Color="#3C60A5FA" />
     <SolidColorBrush x:Key="ToggleSwitchContainerCheckedDefaultBackground" Color="#E08264" />
     <SolidColorBrush x:Key="ToggleSwitchContainerCheckedPointeroverBackground" Color="#E8957A" />
     <SolidColorBrush x:Key="ToggleSwitchContainerCheckedPressedBackground" Color="#D97757" />
-    <SolidColorBrush x:Key="DataGridRowSelectedBackground" Color="#26E08264" />
-    <SolidColorBrush x:Key="DataGridRowSelectedPointeroverBackground" Color="#33E08264" />
+    <SolidColorBrush x:Key="DataGridRowSelectedBackground" Color="#2E60A5FA" />
+    <SolidColorBrush x:Key="DataGridRowSelectedPointeroverBackground" Color="#3C60A5FA" />
     <SolidColorBrush x:Key="DataGridDropLocationIndicatorBackground" Color="#40E08264" />
     <SolidColorBrush x:Key="ButtonDefaultPrimaryForeground" Color="#E08264" />
     <SolidColorBrush x:Key="ButtonSolidPrimaryBackground" Color="#E08264" />
@@ -86,7 +86,7 @@
     <SolidColorBrush x:Key="ComboBoxSelectorFocusBorderBrush" Color="#E08264" />
     <SolidColorBrush x:Key="ComboBoxSelectorPressedBorderBrush" Color="#E08264" />
     <SolidColorBrush x:Key="ComboBoxSelectorBorderedFocusBorderBrush" Color="#E8957A" />
-    <SolidColorBrush x:Key="ComboBoxItemSelectedBackground" Color="#26E08264" />
+    <SolidColorBrush x:Key="ComboBoxItemSelectedBackground" Color="#2E60A5FA" />
     <SolidColorBrush x:Key="CheckBoxCheckedDefaultBackground" Color="#E08264" />
     <SolidColorBrush x:Key="CheckBoxCheckedDefaultBorderBrush" Color="#E08264" />
     <SolidColorBrush x:Key="CheckBoxCheckedPointeroverBackground" Color="#E8957A" />
@@ -102,7 +102,7 @@
     <SolidColorBrush x:Key="ProgressBarIndicatorBrush" Color="#E08264" />
     <SolidColorBrush x:Key="ProgressBarPrimaryForeground" Color="#E08264" />
     <SolidColorBrush x:Key="TabItemLinePipeSelectedBackground" Color="#E08264" />
-    <SolidColorBrush x:Key="TabItemLineHeaderSelectedBackground" Color="#26E08264" />
+    <SolidColorBrush x:Key="TabItemLineHeaderSelectedBackground" Color="#2E60A5FA" />
     <SolidColorBrush x:Key="SliderTrackForeground" Color="#E08264" />
     <SolidColorBrush x:Key="SliderThumbBorderBrush" Color="#E08264" />
     <SolidColorBrush x:Key="SliderThumbPointeroverBorderBrush" Color="#E8957A" />

@@ -16,14 +16,14 @@
         <x:Double x:Key="ForkFontTitle">16</x:Double>
         <ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary x:Key="Light">
-                <SolidColorBrush x:Key="ForkActiveRow" Color="#1A22C55E" />
-                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#2422C55E" />
-                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#3222C55E" />
+                <SolidColorBrush x:Key="ForkActiveRow" Color="#1AD97757" />
+                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#26D97757" />
+                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#2E3B82F6" />
             </ResourceDictionary>
             <ResourceDictionary x:Key="Dark">
-                <SolidColorBrush x:Key="ForkActiveRow" Color="#3322C55E" />
-                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#4022C55E" />
-                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#6622C55E" />
+                <SolidColorBrush x:Key="ForkActiveRow" Color="#26E08264" />
+                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#33E08264" />
+                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#3C60A5FA" />
             </ResourceDictionary>
         </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -141,8 +141,8 @@
         <Setter Property="AreSeparatorsVisible" Value="False" />
     </Style>
     <!--
-        Active (in-use) node: a success tint. Semi paints a row's background (normal, hover, selected) on the
-        BackgroundBorder template part, so the tint has to target that part. Selected rows stay green one step stronger.
+        Active (in-use) node: an orange tint. Semi paints a row's background (normal, hover, selected) on the
+        BackgroundBorder template part, so the tint has to target that part. Selected rows turn blue, even on the active one.
     -->
     <Style Selector="DataGridRow">
         <Setter Property="Background" Value="Transparent" />

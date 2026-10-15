@@ -249,12 +249,18 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="{StaticResource MarginLr8}" Orientation="Horizontal">
-                                    <Label
+                                    <Border
                                         Margin="{StaticResource MarginLr4}"
-                                        Classes="Solid Green"
-                                        Content="{x:Static resx:ResUI.TipActiveServer}"
-                                        IsVisible="{Binding IsActive}"
-                                        Theme="{DynamicResource TagLabel}" />
+                                        Padding="6,1"
+                                        VerticalAlignment="Center"
+                                        Background="{DynamicResource SemiColorPrimary}"
+                                        CornerRadius="4"
+                                        IsVisible="{Binding IsActive}">
+                                        <TextBlock
+                                            FontSize="11"
+                                            Foreground="White"
+                                            Text="{x:Static resx:ResUI.TipActiveServer}" />
+                                    </Border>
                                     <TextBlock
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
