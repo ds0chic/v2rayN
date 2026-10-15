@@ -84,6 +84,10 @@
             <SolidColorBrush x:Key="SliderThumbBorderBrush" Color="#D97757" />
             <SolidColorBrush x:Key="SliderThumbPointeroverBorderBrush" Color="#CC5A36" />
             <SolidColorBrush x:Key="SliderThumbPressedBorderBrush" Color="#B94E2E" />
+                    <SolidColorBrush x:Key="CheckBoxCheckedDisabledBackground" Color="#80D97757" />
+            <SolidColorBrush x:Key="CheckBoxCheckedDisabledBorderBrush" Color="#80D97757" />
+            <SolidColorBrush x:Key="RadioButtonCheckIconDisabledBackground" Color="#80D97757" />
+            <SolidColorBrush x:Key="ToggleSwitchContainerCheckedDisabledBackground" Color="#80D97757" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="SemiColorBackground0" Color="#0B0B0A" />
@@ -168,6 +172,10 @@
             <SolidColorBrush x:Key="SliderThumbBorderBrush" Color="#E08264" />
             <SolidColorBrush x:Key="SliderThumbPointeroverBorderBrush" Color="#E8957A" />
             <SolidColorBrush x:Key="SliderThumbPressedBorderBrush" Color="#D97757" />
+                    <SolidColorBrush x:Key="CheckBoxCheckedDisabledBackground" Color="#80E08264" />
+            <SolidColorBrush x:Key="CheckBoxCheckedDisabledBorderBrush" Color="#80E08264" />
+            <SolidColorBrush x:Key="RadioButtonCheckIconDisabledBackground" Color="#80E08264" />
+            <SolidColorBrush x:Key="ToggleSwitchContainerCheckedDisabledBackground" Color="#80E08264" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

@@ -17,8 +17,10 @@
         <Grid ColumnDefinitions="*,Auto,Auto,236">
             <!-- Running node: name on top, delay below. -->
             <StackPanel
+                x:Name="pnlNode"
                 Grid.Column="0"
                 MinWidth="90"
+                ClipToBounds="True"
                 Margin="0,0,8,0"
                 VerticalAlignment="Center">
                 <TextBlock
@@ -36,6 +38,7 @@
 
             <!-- Where the proxy listens. -->
             <StackPanel
+                x:Name="pnlInbound"
                 Grid.Column="1"
                 Margin="0,0,12,0"
                 VerticalAlignment="Center">
@@ -81,6 +84,7 @@
                 </Grid>
                 <ComboBox
                     x:Name="cmbRoutings2"
+                    Classes="pill"
                     MinWidth="110"
                     VerticalAlignment="Center"
                     DisplayMemberBinding="{Binding Remarks}"
@@ -90,6 +94,7 @@
 
             <!-- Throughput: fixed 270 px column (fits the longest "direct : 1023.9 MB/s up | 1023.9 MB/s down"), monospaced so digits do not jitter; the other columns never move. -->
             <StackPanel
+                x:Name="pnlSpeed"
                 Grid.Column="3"
                 VerticalAlignment="Center">
                 <TextBlock

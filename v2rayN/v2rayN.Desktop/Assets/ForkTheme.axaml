@@ -253,8 +253,20 @@
     <Style Selector="TextBox.pill /template/ Border#PART_BorderElement">
         <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowComposer}" />
     </Style>
-    <Style Selector="ComboBox">
+    <Style Selector="ComboBox.pill">
         <Setter Property="CornerRadius" Value="20" />
+    </Style>
+    <Style Selector="HyperlinkButton">
+        <Setter Property="Foreground" Value="{DynamicResource SemiColorLink}" />
+    </Style>
+    <Style Selector="HyperlinkButton:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource SemiColorLinkHover}" />
+    </Style>
+    <Style Selector="HyperlinkButton /template/ ContentPresenter">
+        <Setter Property="Foreground" Value="{Binding $parent[HyperlinkButton].Foreground}" />
+    </Style>
+    <Style Selector="ComboBox">
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusMd}" />
     </Style>
 
     <!--

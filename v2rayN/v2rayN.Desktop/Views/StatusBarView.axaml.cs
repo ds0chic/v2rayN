@@ -51,6 +51,13 @@ public partial class StatusBarView : ReactiveUserControl<StatusBarViewModel>
         });
 
         CdsMotion.AttachSegmentedThumb(cmbSystemProxy, thumbProxy);
+        // fork: the status bar cannot fit everything below ~1000 px; drop the least important blocks first
+        SizeChanged += (_, e) =>
+        {
+            pnlNode.IsVisible = e.NewSize.Width >= 880;
+            pnlInbound.IsVisible = e.NewSize.Width >= 1180;
+            pnlSpeed.IsVisible = e.NewSize.Width >= 1060;
+        };
 
         //spEnableTun.IsVisible = (Utils.IsWindows() || AppHandler.Instance.IsAdministrator);
 
