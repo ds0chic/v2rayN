@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- fork: light CDS token set; shared by the base variant and the Semi variants built on it -->
+    <SolidColorBrush x:Key="SemiColorBackground0" Color="#F5F5F3" />
+    <SolidColorBrush x:Key="SemiColorBackground1" Color="#FCFCFB" />
+    <SolidColorBrush x:Key="SemiColorBackground2" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="SemiColorBackground3" Color="#F0F0EE" />
+    <SolidColorBrush x:Key="SemiColorBackground4" Color="#E8E8E6" />
+    <SolidColorBrush x:Key="SemiColorFill0" Color="#0F151515" />
+    <SolidColorBrush x:Key="SemiColorFill1" Color="#18151515" />
+    <SolidColorBrush x:Key="SemiColorFill2" Color="#22151515" />
+    <SolidColorBrush x:Key="SemiColorBorder" Color="#1A151515" />
+    <SolidColorBrush x:Key="SemiColorText0" Color="#151515" />
+    <SolidColorBrush x:Key="SemiColorText1" Color="#525252" />
+    <SolidColorBrush x:Key="SemiColorText2" Color="#8A8A8A" />
+    <SolidColorBrush x:Key="SemiColorText3" Color="#B0B0B0" />
+    <SolidColorBrush x:Key="SemiColorPrimary" Color="#D97757" />
+    <SolidColorBrush x:Key="SemiColorPrimaryPointerover" Color="#CC5A36" />
+    <SolidColorBrush x:Key="SemiColorPrimaryActive" Color="#B94E2E" />
+    <SolidColorBrush x:Key="SemiColorPrimaryLight" Color="#1FD97757" />
+    <SolidColorBrush x:Key="SemiColorPrimaryLightPointerover" Color="#2CD97757" />
+    <SolidColorBrush x:Key="SemiColorPrimaryLightActive" Color="#3AD97757" />
+    <SolidColorBrush x:Key="SemiColorFocusBorder" Color="#D97757" />
+    <SolidColorBrush x:Key="SemiColorLink" Color="#CC5A36" />
+    <SolidColorBrush x:Key="SemiColorLinkHover" Color="#B94E2E" />
+    <SolidColorBrush x:Key="SemiColorLinkActive" Color="#A04427" />
+    <SolidColorBrush x:Key="ForkPopupRing" Color="#00000000" />
+    <SolidColorBrush x:Key="ForkTrack" Color="#0F000000" />
+    <SolidColorBrush x:Key="ForkThumb" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ForkClayTag" Color="#D97757" />
+    <BoxShadows x:Key="ForkShadowSm">0 1 2 0 #0D000000</BoxShadows>
+    <BoxShadows x:Key="ForkShadowFocus">0 0 0 1 #D97757, 0 0 0 4 #33D97757</BoxShadows>
+    <BoxShadows x:Key="ForkShadowFocusPill">0 0 0 1 #D97757, 0 0 0 4 #33D97757, 0 4 16 0 #0F000000</BoxShadows>
+    <BoxShadows x:Key="ForkShadowPanel">0 0 0 1 #1A000000, 0 1 2 0 #0D000000, 0 2 8 0 #0A000000</BoxShadows>
+    <BoxShadows x:Key="ForkShadowPopover">0 0 0 1 #1F000000, 0 8 24 0 #1F000000, 0 2 6 0 #14000000</BoxShadows>
+    <BoxShadows x:Key="ForkShadowComposer">0 0 0 1 #1A000000, 0 4 16 0 #0F000000</BoxShadows>
+            <SolidColorBrush x:Key="SemiColorPrimaryDisabled" Color="#80D97757" />
+    <SolidColorBrush x:Key="SemiColorSuccess" Color="#D97757" />
+    <SolidColorBrush x:Key="SemiColorSuccessPointerover" Color="#CC5A36" />
+    <SolidColorBrush x:Key="SemiColorSuccessActive" Color="#B94E2E" />
+    <SolidColorBrush x:Key="SemiColorSuccessDisabled" Color="#80D97757" />
+    <SolidColorBrush x:Key="SemiColorInformation" Color="#D97757" />
+    <SolidColorBrush x:Key="TextBoxSelectionBackground" Color="#66D97757" />
+    <SolidColorBrush x:Key="TextBlockSelectionBackground" Color="#66D97757" />
+            <SolidColorBrush x:Key="ListBoxItemSelectedBackground" Color="#1FD97757" />
+    <SolidColorBrush x:Key="ListBoxItemSelectedPointeroverBackground" Color="#2CD97757" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerCheckedDefaultBackground" Color="#D97757" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerCheckedPointeroverBackground" Color="#CC5A36" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerCheckedPressedBackground" Color="#B94E2E" />
+    <SolidColorBrush x:Key="DataGridRowSelectedBackground" Color="#1FD97757" />
+    <SolidColorBrush x:Key="DataGridRowSelectedPointeroverBackground" Color="#2CD97757" />
+    <SolidColorBrush x:Key="DataGridDropLocationIndicatorBackground" Color="#3AD97757" />
+    <SolidColorBrush x:Key="ButtonDefaultPrimaryForeground" Color="#D97757" />
+    <SolidColorBrush x:Key="ButtonSolidPrimaryBackground" Color="#D97757" />
+    <SolidColorBrush x:Key="ButtonSolidPrimaryPointeroverBackground" Color="#CC5A36" />
+    <SolidColorBrush x:Key="ButtonSolidPrimaryPressedBackground" Color="#B94E2E" />
+    <SolidColorBrush x:Key="ButtonSolidPrimaryBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="ButtonSolidPrimaryPointeroverBorderBrush" Color="#CC5A36" />
+    <SolidColorBrush x:Key="ButtonSolidPrimaryPressedBorderBrush" Color="#B94E2E" />
+    <SolidColorBrush x:Key="TextBoxFocusBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="TextBoxDefaultBorderBrush" Color="#1A151515" />
+    <SolidColorBrush x:Key="TextBoxBorderedDefaultBorderBrush" Color="#1A151515" />
+    <SolidColorBrush x:Key="ComboBoxSelectorBorderBrush" Color="#1A151515" />
+    <SolidColorBrush x:Key="ComboBoxSelectorBorderedBorderBrush" Color="#1A151515" />
+    <SolidColorBrush x:Key="TextBoxPointeroverBorderBrush" Color="#33151515" />
+    <SolidColorBrush x:Key="ComboBoxSelectorPointeroverBorderBrush" Color="#33151515" />
+    <SolidColorBrush x:Key="ComboBoxSelectorBorderedPointeroverBorderBrush" Color="#33151515" />
+    <SolidColorBrush x:Key="TextBoxBorderedPointeroverBorderBrush" Color="#CC5A36" />
+    <SolidColorBrush x:Key="ComboBoxSelectorFocusBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="ComboBoxSelectorPressedBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="ComboBoxSelectorBorderedFocusBorderBrush" Color="#CC5A36" />
+    <SolidColorBrush x:Key="ComboBoxItemSelectedBackground" Color="#1FD97757" />
+    <SolidColorBrush x:Key="CheckBoxCheckedDefaultBackground" Color="#D97757" />
+    <SolidColorBrush x:Key="CheckBoxCheckedDefaultBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="CheckBoxCheckedPointeroverBackground" Color="#CC5A36" />
+    <SolidColorBrush x:Key="CheckBoxCheckedPointeroverBorderBrush" Color="#CC5A36" />
+    <SolidColorBrush x:Key="CheckBoxCheckedPressedBackground" Color="#B94E2E" />
+    <SolidColorBrush x:Key="CheckBoxCheckedPressedBorderBrush" Color="#B94E2E" />
+    <SolidColorBrush x:Key="CheckBoxPointeroverBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="RadioButtonCheckIconDefaultBackground" Color="#D97757" />
+    <SolidColorBrush x:Key="RadioButtonCheckIconDefaultBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="RadioButtonButtonCheckedForeground" Color="#D97757" />
+    <SolidColorBrush x:Key="RadioButtonCardCheckedBackground" Color="#1FD97757" />
+    <SolidColorBrush x:Key="RadioButtonCardCheckDefaultBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="ProgressBarIndicatorBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="ProgressBarPrimaryForeground" Color="#D97757" />
+    <SolidColorBrush x:Key="TabItemLinePipeSelectedBackground" Color="#D97757" />
+    <SolidColorBrush x:Key="TabItemLineHeaderSelectedBackground" Color="#1FD97757" />
+    <SolidColorBrush x:Key="SliderTrackForeground" Color="#D97757" />
+    <SolidColorBrush x:Key="SliderThumbBorderBrush" Color="#D97757" />
+    <SolidColorBrush x:Key="SliderThumbPointeroverBorderBrush" Color="#CC5A36" />
+    <SolidColorBrush x:Key="SliderThumbPressedBorderBrush" Color="#B94E2E" />
+            <SolidColorBrush x:Key="CheckBoxCheckedDisabledBackground" Color="#80D97757" />
+    <SolidColorBrush x:Key="CheckBoxCheckedDisabledBorderBrush" Color="#80D97757" />
+    <SolidColorBrush x:Key="RadioButtonCheckIconDisabledBackground" Color="#80D97757" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerCheckedDisabledBackground" Color="#80D97757" />
+</ResourceDictionary>
