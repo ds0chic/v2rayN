@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- fork: Claude design system palette mapped onto the Semi tokens. Lives in Application.Resources so Semi templates see it. -->
+    <CornerRadius x:Key="ComboBoxSelectorCornerRadius">8</CornerRadius>
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="SemiColorBackground0" Color="#F5F5F3" />
