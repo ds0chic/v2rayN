@@ -17,13 +17,13 @@
         <ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary x:Key="Light">
                 <SolidColorBrush x:Key="ForkActiveRow" Color="#1AD97757" />
-                <SolidColorBrush x:Key="ForkSelectedOutline" Color="#3B82F6" />
+                <SolidColorBrush x:Key="ForkSelectedOutline" Color="#D97757" />
                 <SolidColorBrush x:Key="ForkActiveRowHover" Color="#26D97757" />
                 <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#38D97757" />
             </ResourceDictionary>
             <ResourceDictionary x:Key="Dark">
                 <SolidColorBrush x:Key="ForkActiveRow" Color="#26E08264" />
-                <SolidColorBrush x:Key="ForkSelectedOutline" Color="#60A5FA" />
+                <SolidColorBrush x:Key="ForkSelectedOutline" Color="#E08264" />
                 <SolidColorBrush x:Key="ForkActiveRowHover" Color="#33E08264" />
                 <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#47E08264" />
             </ResourceDictionary>
@@ -144,7 +144,7 @@
     </Style>
     <!--
         Active (in-use) node: an orange tint. Semi paints a row's background (normal, hover, selected) on the
-        BackgroundBorder template part, so the tint has to target that part. A selected row turns blue; on the active row it stays orange (stronger) and gains a blue outline.
+        BackgroundBorder template part, so the tint has to target that part. A selected row turns blue; on the active row it stays orange (stronger) and gains a clay outline.
     -->
     <Style Selector="DataGridRow">
         <Setter Property="Background" Value="Transparent" />
