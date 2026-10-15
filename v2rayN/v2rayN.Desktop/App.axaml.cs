@@ -52,8 +52,6 @@ public partial class App : Application
             });
         });
         // fork: popups grow in from their top-left corner (scale .96 -> 1, 160 ms) as well as fading; local values, no keyframes.
-        Avalonia.Controls.Primitives.TemplatedControl.TemplateAppliedEvent.AddClassHandler<ContextMenu>((m, _) => GrowIn(m));
-        Avalonia.Controls.Primitives.TemplatedControl.TemplateAppliedEvent.AddClassHandler<MenuFlyoutPresenter>((m, _) => GrowIn(m));
         Control.LoadedEvent.AddClassHandler<DataGridColumnHeader>((header, _) =>
         {
             foreach (var border in header.GetVisualDescendants().OfType<Border>())
@@ -64,24 +62,6 @@ public partial class App : Application
                 }
             }
         });
-    }
-
-    private static void GrowIn(Control c)
-    {
-        var from = Avalonia.Media.Transformation.TransformOperations.Parse("scale(0.96)");
-        var to = Avalonia.Media.Transformation.TransformOperations.Parse("scale(1)");
-        c.RenderTransformOrigin = new RelativePoint(0, 0, RelativeUnit.Relative);
-        c.Transitions = new Avalonia.Animation.Transitions
-        {
-            new Avalonia.Animation.TransformOperationsTransition
-            {
-                Property = Visual.RenderTransformProperty,
-                Duration = TimeSpan.FromMilliseconds(160),
-                Easing = new Avalonia.Animation.Easings.CubicEaseOut(),
-            },
-        };
-        c.RenderTransform = from;
-        c.Loaded += (_, _) => DispatcherTimer.RunOnce(() => c.RenderTransform = to, TimeSpan.FromMilliseconds(16));
     }
 
     public override void OnFrameworkInitializationCompleted()
