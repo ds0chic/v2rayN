@@ -17,13 +17,15 @@
         <ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary x:Key="Light">
                 <SolidColorBrush x:Key="ForkActiveRow" Color="#1AD97757" />
+                <SolidColorBrush x:Key="ForkSelectedOutline" Color="#3B82F6" />
                 <SolidColorBrush x:Key="ForkActiveRowHover" Color="#26D97757" />
-                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#2E3B82F6" />
+                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#38D97757" />
             </ResourceDictionary>
             <ResourceDictionary x:Key="Dark">
                 <SolidColorBrush x:Key="ForkActiveRow" Color="#26E08264" />
+                <SolidColorBrush x:Key="ForkSelectedOutline" Color="#60A5FA" />
                 <SolidColorBrush x:Key="ForkActiveRowHover" Color="#33E08264" />
-                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#3C60A5FA" />
+                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#47E08264" />
             </ResourceDictionary>
         </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -142,7 +144,7 @@
     </Style>
     <!--
         Active (in-use) node: an orange tint. Semi paints a row's background (normal, hover, selected) on the
-        BackgroundBorder template part, so the tint has to target that part. Selected rows turn blue, even on the active one.
+        BackgroundBorder template part, so the tint has to target that part. A selected row turns blue; on the active row it stays orange (stronger) and gains a blue outline.
     -->
     <Style Selector="DataGridRow">
         <Setter Property="Background" Value="Transparent" />
@@ -170,9 +172,13 @@
     </Style>
     <Style Selector="DataGridRow.activeNode:selected /template/ Border#BackgroundBorder">
         <Setter Property="Background" Value="{DynamicResource ForkActiveRowSelected}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ForkSelectedOutline}" />
+        <Setter Property="BorderThickness" Value="1.5" />
     </Style>
     <Style Selector="DataGridRow.activeNode:selected:pointerover /template/ Border#BackgroundBorder">
         <Setter Property="Background" Value="{DynamicResource ForkActiveRowSelected}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ForkSelectedOutline}" />
+        <Setter Property="BorderThickness" Value="1.5" />
     </Style>
 
     <!--
