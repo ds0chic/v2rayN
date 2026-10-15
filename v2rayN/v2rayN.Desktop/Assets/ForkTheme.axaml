@@ -16,9 +16,9 @@
         <x:Double x:Key="ForkFontTitle">16</x:Double>
         <ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary x:Key="Light">
-                <SolidColorBrush x:Key="ForkActiveRow" Color="#2622C55E" />
-                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#3322C55E" />
-                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#5522C55E" />
+                <SolidColorBrush x:Key="ForkActiveRow" Color="#1A22C55E" />
+                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#2422C55E" />
+                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#3222C55E" />
             </ResourceDictionary>
             <ResourceDictionary x:Key="Dark">
                 <SolidColorBrush x:Key="ForkActiveRow" Color="#3322C55E" />
