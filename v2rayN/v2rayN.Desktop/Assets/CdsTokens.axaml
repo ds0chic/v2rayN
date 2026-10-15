@@ -41,9 +41,6 @@
             <SolidColorBrush x:Key="SemiColorInformation" Color="#D97757" />
             <SolidColorBrush x:Key="TextBoxSelectionBackground" Color="#66D97757" />
             <SolidColorBrush x:Key="TextBlockSelectionBackground" Color="#66D97757" />
-            <SolidColorBrush x:Key="ForkActiveRow" Color="#1FD97757" />
-            <SolidColorBrush x:Key="ForkActiveRowHover" Color="#2CD97757" />
-            <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#40D97757" />
                     <SolidColorBrush x:Key="ListBoxItemSelectedBackground" Color="#1FD97757" />
             <SolidColorBrush x:Key="ListBoxItemSelectedPointeroverBackground" Color="#2CD97757" />
             <SolidColorBrush x:Key="ToggleSwitchContainerCheckedDefaultBackground" Color="#D97757" />
@@ -126,9 +123,6 @@
             <SolidColorBrush x:Key="SemiColorInformation" Color="#E08264" />
             <SolidColorBrush x:Key="TextBoxSelectionBackground" Color="#66E08264" />
             <SolidColorBrush x:Key="TextBlockSelectionBackground" Color="#66E08264" />
-            <SolidColorBrush x:Key="ForkActiveRow" Color="#33E08264" />
-            <SolidColorBrush x:Key="ForkActiveRowHover" Color="#33E08264" />
-            <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#4DE08264" />
                     <SolidColorBrush x:Key="ListBoxItemSelectedBackground" Color="#26E08264" />
             <SolidColorBrush x:Key="ListBoxItemSelectedPointeroverBackground" Color="#33E08264" />
             <SolidColorBrush x:Key="ToggleSwitchContainerCheckedDefaultBackground" Color="#E08264" />

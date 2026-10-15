@@ -246,7 +246,7 @@
                                 <StackPanel Margin="{StaticResource MarginLr8}" Orientation="Horizontal">
                                     <Label
                                         Margin="{StaticResource MarginLr4}"
-                                        Classes="Solid Red"
+                                        Classes="Solid Green"
                                         Content="{x:Static resx:ResUI.TipActiveServer}"
                                         IsVisible="{Binding IsActive}"
                                         Theme="{DynamicResource TagLabel}" />
