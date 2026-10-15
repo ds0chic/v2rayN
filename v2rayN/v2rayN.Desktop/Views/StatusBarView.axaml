@@ -67,21 +67,17 @@
                         VerticalAlignment="Center"
                         Theme="{DynamicResource SimpleToggleSwitch}" />
                 </StackPanel>
-                <Grid VerticalAlignment="Center" ToolTip.Tip="{x:Static resx:ResUI.menuSystemproxy}">
-                    <Border Classes="segTrack" />
-                    <Border x:Name="thumbProxy" Classes="segThumb" />
-                    <ListBox x:Name="cmbSystemProxy" Margin="2" Classes="segmented compact">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBoxItem Content="{x:Static resx:ResUI.menuSystemProxyClear}" />
-                        <ListBoxItem Content="{x:Static resx:ResUI.menuSystemProxySet}" />
-                        <ListBoxItem Content="{x:Static resx:ResUI.menuSystemProxyNothing}" />
-                        <ListBoxItem Content="{x:Static resx:ResUI.menuSystemProxyPac}" />
-                    </ListBox>
-                </Grid>
+                <ComboBox
+                    x:Name="cmbSystemProxy"
+                    MinWidth="150"
+                    Classes="pill"
+                    VerticalAlignment="Center"
+                    ToolTip.Tip="{x:Static resx:ResUI.menuSystemproxy}">
+                    <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxyClear}" />
+                    <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxySet}" />
+                    <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxyNothing}" />
+                    <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxyPac}" />
+                </ComboBox>
                 <ComboBox
                     x:Name="cmbRoutings2"
                     Classes="pill"

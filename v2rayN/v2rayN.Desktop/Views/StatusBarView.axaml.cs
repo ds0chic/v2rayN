@@ -50,13 +50,11 @@ public partial class StatusBarView : ReactiveUserControl<StatusBarViewModel>
             }).DisposeWith(disposables);
         });
 
-        CdsMotion.AttachSegmentedThumb(cmbSystemProxy, thumbProxy);
         // fork: the status bar cannot fit everything below ~1000 px; drop the least important blocks first
         SizeChanged += (_, e) =>
         {
-            pnlNode.IsVisible = e.NewSize.Width >= 880;
-            pnlInbound.IsVisible = e.NewSize.Width >= 1180;
-            pnlSpeed.IsVisible = e.NewSize.Width >= 1060;
+            pnlInbound.IsVisible = e.NewSize.Width >= 1060;
+            pnlSpeed.IsVisible = e.NewSize.Width >= 880;
             gridStatus.ColumnDefinitions[3].Width = pnlSpeed.IsVisible ? new GridLength(236) : new GridLength(0);
         };
 
