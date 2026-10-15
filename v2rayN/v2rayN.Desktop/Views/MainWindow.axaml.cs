@@ -24,6 +24,16 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
 
         // The unified toolbar replaces the native title bar on Windows only; macOS/Linux keep their native frame.
         ExtendClientAreaToDecorationsHint = Utils.IsWindows();
+        if (Utils.IsWindows())
+        {
+            // Native caption buttons are replaced by btnCap* (see the toolbar); the border and resize grips stay native.
+            WindowDecorations = WindowDecorations.BorderOnly;
+            btnCapMin.Click += (_, _) => WindowState = WindowState.Minimized;
+            btnCapMax.Click += (_, _) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            btnCapClose.Click += (_, _) => Close();
+            this.GetObservable(WindowStateProperty).Subscribe(state =>
+                pathCapMax.Data = Geometry.Parse(state == WindowState.Maximized ? "M2.5 0.5h7v7h-2M0.5 2.5h7v7h-7z" : "M0.5 0.5h9v9h-9z"));
+        }
 
         _config = AppManager.Instance.Config;
         _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.BottomRight, Margin = new Thickness(0, 0, 0, 56) };

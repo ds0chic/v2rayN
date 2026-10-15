@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:chrome="clr-namespace:Avalonia.Controls.Chrome;assembly=Avalonia.Controls"
     xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
     xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
@@ -39,7 +40,9 @@
             <Grid
                 Height="44"
                 ColumnDefinitions="Auto,Auto,*,Auto,Auto"
-                DockPanel.Dock="Top">
+                Background="Transparent"
+                DockPanel.Dock="Top"
+                chrome:WindowDecorationProperties.ElementRole="TitleBar">
                 <Menu
                     Grid.Column="0"
                     Margin="12,0,0,0"
@@ -151,11 +154,49 @@
                     x:Name="conTheme"
                     Grid.Column="3"
                     VerticalAlignment="Center" />
-                <!-- Room for the system caption buttons drawn over the extended client area. -->
-                <Border
+                <!-- Caption buttons: Avalonia maps the element roles to the system min/max/close hit-tests, so snap layouts keep working. -->
+                <StackPanel
                     Grid.Column="4"
-                    Width="146"
-                    IsVisible="{Binding BlIsWindows}" />
+                    Orientation="Horizontal"
+                    IsVisible="{Binding BlIsWindows}">
+                    <Button
+                        x:Name="btnCapMin"
+                        Classes="caption"
+                        chrome:WindowDecorationProperties.ElementRole="MinimizeButton">
+                        <Path
+                            Width="10"
+                            Height="10"
+                            Data="M0 5.5h10"
+                            IsHitTestVisible="False"
+                            Stroke="{Binding $parent[Button].Foreground}"
+                            StrokeThickness="1" />
+                    </Button>
+                    <Button
+                        x:Name="btnCapMax"
+                        Classes="caption"
+                        chrome:WindowDecorationProperties.ElementRole="MaximizeButton">
+                        <Path
+                            x:Name="pathCapMax"
+                            Width="10"
+                            Height="10"
+                            Data="M0.5 0.5h9v9h-9z"
+                            IsHitTestVisible="False"
+                            Stroke="{Binding $parent[Button].Foreground}"
+                            StrokeThickness="1" />
+                    </Button>
+                    <Button
+                        x:Name="btnCapClose"
+                        Classes="caption close"
+                        chrome:WindowDecorationProperties.ElementRole="CloseButton">
+                        <Path
+                            Width="10"
+                            Height="10"
+                            Data="M0 0L10 10M10 0L0 10"
+                            IsHitTestVisible="False"
+                            Stroke="{Binding $parent[Button].Foreground}"
+                            StrokeThickness="1" />
+                    </Button>
+                </StackPanel>
             </Grid>
 
             <ContentControl x:Name="contentStatusBarView" DockPanel.Dock="Bottom" />
