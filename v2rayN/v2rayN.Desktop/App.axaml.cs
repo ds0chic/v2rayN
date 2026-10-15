@@ -51,7 +51,7 @@ public partial class App : Application
                 }
             });
         });
-        // fork: popups grow in from their top-left corner (scale .96 -> 1, 160 ms) as well as fading; local values, no keyframes.
+        Avalonia.Controls.Primitives.TemplatedControl.TemplateAppliedEvent.AddClassHandler<Window>((w, _) => CdsChrome.Attach(w));
         Control.LoadedEvent.AddClassHandler<DataGridColumnHeader>((header, _) =>
         {
             foreach (var border in header.GetVisualDescendants().OfType<Border>())
