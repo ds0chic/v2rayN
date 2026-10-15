@@ -1,3 +1,4 @@
+using v2rayN.Desktop.Common;
 using Avalonia.VisualTree;
 using v2rayN.Desktop.Base;
 
@@ -8,6 +9,7 @@ public partial class ProfilesSelectWindow : WindowBase<ProfilesSelectViewModel>
     public ProfilesSelectWindow()
     {
         InitializeComponent();
+        CdsMotion.AttachSegmentedThumb(lstGroup, thumbGroup);
 
         btnCancel.Click += (_, _) => Close();
         btnAutofitColumnWidth.Click += BtnAutofitColumnWidth_Click;

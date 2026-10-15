@@ -14,7 +14,7 @@
         Padding="16,10"
         BorderBrush="{DynamicResource SemiColorBorder}"
         BorderThickness="0,1,0,0">
-        <Grid ColumnDefinitions="*,Auto,Auto,236">
+        <Grid x:Name="gridStatus" ColumnDefinitions="*,Auto,Auto,236">
             <!-- Running node: name on top, delay below. -->
             <StackPanel
                 x:Name="pnlNode"

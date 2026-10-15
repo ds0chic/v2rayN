@@ -14,6 +14,20 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         InitializeComponent();
         CdsMotion.AttachSegmentedThumb(lstGroup, thumbGroup);
         CdsMotion.AttachScrollFade(lstProfiles);
+        // fork: the delay colour converter reads the theme at bind time; re-run it when the theme flips at runtime
+        if (Application.Current is { } app)
+        {
+            app.ActualThemeVariantChanged += (_, _) => Dispatcher.UIThread.Post(() =>
+            {
+                if (ViewModel?.ProfileItems is { } items)
+                {
+                    foreach (var item in items.ToList())
+                    {
+                        item.RaisePropertyChanged(nameof(item.Delay));
+                    }
+                }
+            }, DispatcherPriority.Background);
+        }
 
         _config = AppManager.Instance.Config;
 

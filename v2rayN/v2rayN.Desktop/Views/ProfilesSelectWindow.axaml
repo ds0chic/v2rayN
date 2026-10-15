@@ -43,18 +43,23 @@
             <DockPanel>
                 <!--  Top tools  -->
                 <WrapPanel Margin="{StaticResource Margin4}" DockPanel.Dock="Top">
+                    <Grid Margin="{StaticResource MarginLr4}" VerticalAlignment="Center">
+                    <Border Classes="segTrack" />
+                    <Border x:Name="thumbGroup" Classes="segThumb" />
                     <ListBox
                         x:Name="lstGroup"
-                        Margin="{StaticResource MarginLr4}"
+                        Classes="segmented"
+                        Margin="2"
                         DisplayMemberBinding="{Binding Remarks}"
                         ItemsSource="{Binding SubItems}"
-                        Theme="{DynamicResource ButtonRadioGroupListBox}">
+                        Theme="{DynamicResource PureCardRadioGroupListBox}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                     </ListBox>
+                    </Grid>
 
                     <Button
                         x:Name="btnAutofitColumnWidth"
@@ -68,6 +73,7 @@
 
                     <TextBox
                         x:Name="txtServerFilter"
+                        Classes="pill"
                         Width="200"
                         Margin="{StaticResource MarginLr4}"
                         VerticalContentAlignment="Center"

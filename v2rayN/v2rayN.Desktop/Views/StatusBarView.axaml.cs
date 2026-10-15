@@ -57,6 +57,7 @@ public partial class StatusBarView : ReactiveUserControl<StatusBarViewModel>
             pnlNode.IsVisible = e.NewSize.Width >= 880;
             pnlInbound.IsVisible = e.NewSize.Width >= 1180;
             pnlSpeed.IsVisible = e.NewSize.Width >= 1060;
+            gridStatus.ColumnDefinitions[3].Width = pnlSpeed.IsVisible ? new GridLength(236) : new GridLength(0);
         };
 
         //spEnableTun.IsVisible = (Utils.IsWindows() || AppHandler.Instance.IsAdministrator);

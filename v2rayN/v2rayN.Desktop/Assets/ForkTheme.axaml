@@ -151,6 +151,10 @@
     <Style Selector="DataGridRow /template/ Rectangle#PART_BottomGridLine">
         <Setter Property="Opacity" Value="0" />
     </Style>
+    <Style Selector="DataGridCell TextBlock">
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
     <Style Selector="DataGridCell /template/ Rectangle#CurrencyVisual">
         <Setter Property="Opacity" Value="0" />
     </Style>
