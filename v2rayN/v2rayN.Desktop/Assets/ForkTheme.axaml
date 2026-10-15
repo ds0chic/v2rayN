@@ -443,15 +443,17 @@
     <Style Selector="Button:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowFocus}" />
     </Style>
-    <!-- Popups fade in quickly (opacity only: a keyframed RenderTransform crashes this Avalonia build). -->
+    <!-- Popups fade in and rise 8 px (RenderTransform is not rendered by the popup host and keyframed RenderTransform crashes this build, so the template Border margin is animated). -->
     <Style Selector="ContextMenu /template/ Border, MenuFlyoutPresenter /template/ Border">
         <Style.Animations>
-            <Animation Duration="0:0:0.14" Easing="ExponentialEaseOut" FillMode="Both">
+            <Animation Duration="0:0:0.18" Easing="ExponentialEaseOut" FillMode="Both">
                 <KeyFrame Cue="0%">
                     <Setter Property="Opacity" Value="0" />
+                    <Setter Property="Margin" Value="0,8,0,0" />
                 </KeyFrame>
                 <KeyFrame Cue="100%">
                     <Setter Property="Opacity" Value="1" />
+                    <Setter Property="Margin" Value="0" />
                 </KeyFrame>
             </Animation>
         </Style.Animations>
