@@ -86,10 +86,10 @@
                 <DataGrid
                     x:Name="lstProfiles"
                     AutoGenerateColumns="False"
-                    BorderThickness="1"
+                    BorderThickness="0"
                     CanUserReorderColumns="True"
                     CanUserResizeColumns="True"
-                    GridLinesVisibility="All"
+                    GridLinesVisibility="Horizontal"
                     HeadersVisibility="All"
                     IsReadOnly="True"
                     ItemsSource="{Binding ProfileItems}"

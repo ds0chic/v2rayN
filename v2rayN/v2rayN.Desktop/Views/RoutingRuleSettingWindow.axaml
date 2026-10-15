@@ -150,9 +150,9 @@
                     x:Name="lstRules"
                     AutoGenerateColumns="False"
                     Background="Transparent"
-                    BorderThickness="1"
+                    BorderThickness="0"
                     CanUserResizeColumns="True"
-                    GridLinesVisibility="All"
+                    GridLinesVisibility="Horizontal"
                     HeadersVisibility="Column"
                     IsReadOnly="True"
                     ItemsSource="{Binding RulesItems}">
