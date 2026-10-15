@@ -23,7 +23,7 @@ public partial class App : Application
             {
                 if (border.Name == "BackgroundBorder")
                 {
-                    border.CornerRadius = new CornerRadius(6);
+                    border.CornerRadius = new CornerRadius(8);
                 }
             }
         });
@@ -57,7 +57,7 @@ public partial class App : Application
             {
                 if (border.Name == "HeaderBackground")
                 {
-                    border.CornerRadius = new CornerRadius(6);
+                    border.CornerRadius = new CornerRadius(8);
                 }
             }
         });

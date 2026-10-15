@@ -7,7 +7,9 @@
 
     <Styles.Resources>
         <ResourceDictionary>
-        <CornerRadius x:Key="ForkRadius">10</CornerRadius>
+        <CornerRadius x:Key="ForkRadius">12</CornerRadius>
+        <CornerRadius x:Key="ForkRadiusMd">8</CornerRadius>
+        <CornerRadius x:Key="ForkRadiusPill">999</CornerRadius>
         <CornerRadius x:Key="ForkRadiusSm">6</CornerRadius>
         <x:Double x:Key="ForkFontBase">12</x:Double>
         <x:Double x:Key="ForkFontSmall">11</x:Double>
@@ -55,8 +57,8 @@
     <!-- Surfaces -->
     <Style Selector="Border.card">
         <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource SemiColorBorder}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowPanel}" />
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadius}" />
         <Setter Property="Padding" Value="14,2" />
         <Setter Property="Margin" Value="0,0,0,10" />
@@ -118,9 +120,12 @@
     <Style Selector="DataGridColumnHeadersPresenter">
         <Setter Property="Background" Value="Transparent" />
     </Style>
+    <Style Selector="DataGridColumnHeader /template/ Rectangle#VerticalSeparator">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
     <!-- The header hover block is the header's own Background (square); move it onto the rounded HeaderBackground border. -->
     <Style Selector="DataGridColumnHeader /template/ Border#HeaderBackground">
-        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusMd}" />
     </Style>
     <Style Selector="DataGridColumnHeader:pointerover, DataGridColumnHeader:pressed">
         <Setter Property="Background" Value="Transparent" />
@@ -144,13 +149,14 @@
     </Style>
     <!-- One line style: row separators match Border.divider; the current-cell outline (a stray vertical line in the focused row) is hidden. -->
     <Style Selector="DataGridRow /template/ Rectangle#PART_BottomGridLine">
-        <Setter Property="Opacity" Value="0.7" />
+        <Setter Property="Opacity" Value="0" />
     </Style>
     <Style Selector="DataGridCell /template/ Rectangle#CurrencyVisual">
         <Setter Property="Opacity" Value="0" />
     </Style>
     <Style Selector="DataGridRow /template/ Border#BackgroundBorder">
-        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusMd}" />
+        <Setter Property="Margin" Value="0,1" />
     </Style>
     <Style Selector="DataGridRow.activeNode /template/ Border#BackgroundBorder">
         <Setter Property="Background" Value="{DynamicResource ForkActiveRow}" />
@@ -172,18 +178,22 @@
     <Style Selector="Button">
         <Setter Property="Transitions">
             <Transitions>
-                <TransformOperationsTransition Easing="CubicEaseOut" Property="RenderTransform" Duration="0:0:0.10" />
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.38">
+                    <TransformOperationsTransition.Easing>
+                        <SpringEasing Mass="1" Stiffness="600" Damping="30" />
+                    </TransformOperationsTransition.Easing>
+                </TransformOperationsTransition>
             </Transitions>
         </Setter>
     </Style>
     <Style Selector="Button:pressed">
-        <Setter Property="RenderTransform" Value="scale(0.97)" />
+        <Setter Property="RenderTransform" Value="scale(0.98)" />
     </Style>
     <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Transitions">
             <Transitions>
-                <BrushTransition Easing="CubicEaseOut" Property="Background" Duration="0:0:0.14" />
-                <BrushTransition Easing="CubicEaseOut" Property="BorderBrush" Duration="0:0:0.14" />
+                <BrushTransition Easing="ExponentialEaseOut" Property="Background" Duration="0:0:0.15" />
+                <BrushTransition Easing="ExponentialEaseOut" Property="BorderBrush" Duration="0:0:0.15" />
             </Transitions>
         </Setter>
     </Style>
@@ -232,10 +242,19 @@
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
     </Style>
     <Style Selector="TextBox">
-        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusMd}" />
+    </Style>
+    <Style Selector="TextBox.pill">
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Padding" Value="12,0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource SemiColorBackground2}" />
+    </Style>
+    <Style Selector="TextBox.pill /template/ Border#PART_BorderElement">
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowComposer}" />
     </Style>
     <Style Selector="ComboBox">
-        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="CornerRadius" Value="20" />
     </Style>
 
     <!--
@@ -294,11 +313,33 @@
         <Setter Property="Transitions" Value="{x:Null}" />
     </Style>
     <!-- Group tabs (Semi radio-group list): the hover/selected block is drawn by the presenter, which ignores the item radius. -->
+    <Style Selector="ListBox#lstGroup">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="{DynamicResource ForkTrack}" />
+        <Setter Property="CornerRadius" Value="999" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
     <Style Selector="ListBox#lstGroup ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="CornerRadius" Value="999" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Easing="ExponentialEaseOut" Property="Background" Duration="0:0:0.15" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="ListBox#lstGroup ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource SemiColorFill0}" />
+    </Style>
+    <Style Selector="ListBox#lstGroup ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter, ListBox#lstGroup ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ForkThumb}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowSm}" />
     </Style>
     <Style Selector="MenuItem">
-        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="CornerRadius" Value="6" />
     </Style>
     <Style Selector="ToolTip">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
@@ -310,9 +351,22 @@
     </Style>
     <Style Selector="ContextMenu">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadius}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="4" />
+    </Style>
+    <Style Selector="ContextMenu /template/ Border">
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowPopover}" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
     <Style Selector="MenuFlyoutPresenter">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadius}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="4" />
+
+    </Style>
+    <Style Selector="MenuFlyoutPresenter /template/ Border">
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowPopover}" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
     <Style Selector="Expander">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />

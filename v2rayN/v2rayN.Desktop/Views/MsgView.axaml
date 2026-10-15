@@ -18,6 +18,7 @@
             DockPanel.Dock="Top">
             <TextBox
                 x:Name="cmbMsgFilter"
+                Classes="pill"
                 Grid.Column="0"
                 Width="220"
                 VerticalContentAlignment="Center"
