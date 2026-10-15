@@ -62,6 +62,10 @@
     <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedDefaultBackground" Color="#2E151515" />
     <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedPointeroverBackground" Color="#3D151515" />
     <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedPressedBackground" Color="#4D151515" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedAccentBackground" Color="#2E151515" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedAccentPointeroverBackground" Color="#3D151515" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedAccentPressedBackground" Color="#4D151515" />
+    <SolidColorBrush x:Key="ToggleSwitchDefaultBorderBrush" Color="Transparent" />
     <SolidColorBrush x:Key="TextBoxDefaultBorderBrush" Color="#1A151515" />
     <SolidColorBrush x:Key="TextBoxBorderedDefaultBorderBrush" Color="#1A151515" />
     <SolidColorBrush x:Key="ComboBoxSelectorBorderBrush" Color="#1A151515" />
