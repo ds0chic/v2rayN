@@ -57,6 +57,11 @@
     <SolidColorBrush x:Key="ButtonSolidPrimaryPointeroverBorderBrush" Color="#E8957A" />
     <SolidColorBrush x:Key="ButtonSolidPrimaryPressedBorderBrush" Color="#D97757" />
     <SolidColorBrush x:Key="TextBoxFocusBorderBrush" Color="#E08264" />
+    <SolidColorBrush x:Key="ScrollBarThumbForeground" Color="#40FFFFFF" />
+    <SolidColorBrush x:Key="ScrollBarThumbPointeroverForeground" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedDefaultBackground" Color="#2EFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedPointeroverBackground" Color="#3DFFFFFF" />
+    <SolidColorBrush x:Key="ToggleSwitchContainerUnCheckedPressedBackground" Color="#4DFFFFFF" />
     <SolidColorBrush x:Key="TextBoxDefaultBorderBrush" Color="#17FFFFFF" />
     <SolidColorBrush x:Key="TextBoxBorderedDefaultBorderBrush" Color="#17FFFFFF" />
     <SolidColorBrush x:Key="ComboBoxSelectorBorderBrush" Color="#17FFFFFF" />
