@@ -46,8 +46,8 @@
     <SolidColorBrush x:Key="ToggleSwitchContainerCheckedDefaultBackground" Color="#D97757" />
     <SolidColorBrush x:Key="ToggleSwitchContainerCheckedPointeroverBackground" Color="#CC5A36" />
     <SolidColorBrush x:Key="ToggleSwitchContainerCheckedPressedBackground" Color="#B94E2E" />
-    <SolidColorBrush x:Key="DataGridRowSelectedBackground" Color="#1F3B82F6" />
-    <SolidColorBrush x:Key="DataGridRowSelectedPointeroverBackground" Color="#2C3B82F6" />
+    <SolidColorBrush x:Key="DataGridRowSelectedBackground" Color="#E4EAF3" />
+    <SolidColorBrush x:Key="DataGridRowSelectedPointeroverBackground" Color="#D9E2F0" />
     <SolidColorBrush x:Key="DataGridDropLocationIndicatorBackground" Color="#3AD97757" />
     <SolidColorBrush x:Key="ButtonDefaultPrimaryForeground" Color="#D97757" />
     <SolidColorBrush x:Key="ButtonSolidPrimaryBackground" Color="#D97757" />

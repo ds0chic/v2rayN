@@ -13,9 +13,9 @@ public class DelayColorConverter : IValueConverter
 
         return delay switch
         {
-            <= 0 => new SolidColorBrush(Color.Parse(dark ? "#FCA5A5" : "#B91C1C")),
-            <= 500 => new SolidColorBrush(Color.Parse(dark ? "#86EFAC" : "#15803D")),
-            _ => new SolidColorBrush(Color.Parse(dark ? "#FDBA74" : "#C2410C"))
+            <= 0 => new SolidColorBrush(Color.Parse(dark ? "#E08A8A" : "#B04A4A")),
+            <= 500 => new SolidColorBrush(Color.Parse(dark ? "#8DBF9A" : "#4A8A5C")),
+            _ => new SolidColorBrush(Color.Parse(dark ? "#D9B26A" : "#A8741A"))
         };
     }
 

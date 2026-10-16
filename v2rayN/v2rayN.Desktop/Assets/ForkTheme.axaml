@@ -16,16 +16,16 @@
         <x:Double x:Key="ForkFontTitle">16</x:Double>
         <ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary x:Key="Light">
-                <SolidColorBrush x:Key="ForkActiveRow" Color="#1AD97757" />
+                <SolidColorBrush x:Key="ForkActiveRow" Color="#F8EBE3" />
                 <SolidColorBrush x:Key="ForkSelectedOutline" Color="#D97757" />
-                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#26D97757" />
-                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#38D97757" />
+                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#F5E1D5" />
+                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#F2D9C9" />
             </ResourceDictionary>
             <ResourceDictionary x:Key="Dark">
-                <SolidColorBrush x:Key="ForkActiveRow" Color="#26E08264" />
+                <SolidColorBrush x:Key="ForkActiveRow" Color="#33271F" />
                 <SolidColorBrush x:Key="ForkSelectedOutline" Color="#E08264" />
-                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#33E08264" />
-                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#47E08264" />
+                <SolidColorBrush x:Key="ForkActiveRowHover" Color="#3B2D24" />
+                <SolidColorBrush x:Key="ForkActiveRowSelected" Color="#473328" />
             </ResourceDictionary>
         </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -173,12 +173,12 @@
     <Style Selector="DataGridRow.activeNode:selected /template/ Border#BackgroundBorder">
         <Setter Property="Background" Value="{DynamicResource ForkActiveRowSelected}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ForkSelectedOutline}" />
-        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="BorderThickness" Value="1" />
     </Style>
     <Style Selector="DataGridRow.activeNode:selected:pointerover /template/ Border#BackgroundBorder">
         <Setter Property="Background" Value="{DynamicResource ForkActiveRowSelected}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ForkSelectedOutline}" />
-        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="BorderThickness" Value="1" />
     </Style>
 
     <!--
