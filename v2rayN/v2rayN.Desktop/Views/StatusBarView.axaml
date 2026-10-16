@@ -70,7 +70,7 @@
                 <ComboBox
                     x:Name="cmbSystemProxy"
                     MinWidth="150"
-                    Classes="pill"
+                    Classes="pill dropUp"
                     VerticalAlignment="Center"
                     ToolTip.Tip="{x:Static resx:ResUI.menuSystemproxy}">
                     <ComboBoxItem Content="{x:Static resx:ResUI.menuSystemProxyClear}" />
@@ -80,7 +80,7 @@
                 </ComboBox>
                 <ComboBox
                     x:Name="cmbRoutings2"
-                    Classes="pill"
+                    Classes="pill dropUp"
                     MinWidth="110"
                     VerticalAlignment="Center"
                     DisplayMemberBinding="{Binding Remarks}"

@@ -498,6 +498,10 @@
     <Style Selector="Button.caption.close:pointerover, Button.caption.close:pressed">
         <Setter Property="Foreground" Value="White" />
     </Style>
+    <!-- Status bar combos sit at the bottom edge: their list opens upward. -->
+    <Style Selector="ComboBox.dropUp /template/ Popup#PART_Popup">
+        <Setter Property="Placement" Value="TopEdgeAlignedLeft" />
+    </Style>
     <Style Selector="Expander">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
     </Style>
