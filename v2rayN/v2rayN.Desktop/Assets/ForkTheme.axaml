@@ -499,6 +499,9 @@
         <Setter Property="Foreground" Value="White" />
     </Style>
     <!-- Status bar combos sit at the bottom edge: their list opens upward. -->
+    <Style Selector="ComboBox.dropUp">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
     <Style Selector="ComboBox.dropUp /template/ Popup#PART_Popup">
         <Setter Property="Placement" Value="TopEdgeAlignedLeft" />
     </Style>
