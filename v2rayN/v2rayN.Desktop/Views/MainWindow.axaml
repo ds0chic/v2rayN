@@ -19,7 +19,7 @@
     Design.DataContext="{x:Static dd:DesignData.MainWindow}"
     Background="{DynamicResource SemiColorBackground0}"
     ExtendClientAreaTitleBarHeightHint="44"
-    Icon="/Assets/NotifyIcon1.ico"
+    Icon="/Assets/NotifyIcon3.ico"
     ShowInTaskbar="True"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
