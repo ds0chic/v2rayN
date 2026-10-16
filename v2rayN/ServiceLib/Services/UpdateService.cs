@@ -38,7 +38,7 @@ public partial class UpdateService(Config config, Func<bool, string, Task> updat
 
             url = result.Url!;
             fileName = Utils.GetTempPath(Utils.GetGuid());
-            await downloadHandle.DownloadFileAsync(new() { FileUrl = url, FilePath = fileName }, blProxy, cancellationToken);
+            await DownloadWithDirectFallbackAsync(downloadHandle, new() { FileUrl = url, FilePath = fileName }, blProxy, cancellationToken);
         }
         else
         {
@@ -88,7 +88,7 @@ public partial class UpdateService(Config config, Func<bool, string, Task> updat
             url = result.Url!;
             var ext = url.Contains(".tar.gz") ? ".tar.gz" : Path.GetExtension(url);
             fileName = Utils.GetTempPath(Utils.GetGuid() + ext);
-            await downloadHandle.DownloadFileAsync(new() { FileUrl = url, FilePath = fileName }, blProxy, cancellationToken);
+            await DownloadWithDirectFallbackAsync(downloadHandle, new() { FileUrl = url, FilePath = fileName }, blProxy, cancellationToken);
         }
         else
         {
@@ -151,11 +151,39 @@ public partial class UpdateService(Config config, Func<bool, string, Task> updat
 
     #region CheckUpdate private
 
+    private async Task DownloadWithDirectFallbackAsync(DownloadService downloadHandle, FileDownloadRequest request, bool blProxy, CancellationToken cancellationToken)
+    {
+        var failed = false;
+        void MarkFailed(object? sender, ErrorEventArgs args) => failed = true;
+        downloadHandle.Error += MarkFailed;
+        try
+        {
+            await downloadHandle.DownloadFileAsync(request, blProxy, cancellationToken);
+        }
+        finally
+        {
+            downloadHandle.Error -= MarkFailed;
+        }
+
+        if (failed && blProxy && !cancellationToken.IsCancellationRequested)
+        {
+            await UpdateFunc(false, "Proxy download failed, retrying over the direct connection");
+            await downloadHandle.DownloadFileAsync(request, false, cancellationToken);
+        }
+    }
+
     private async Task<UpdateResult> CheckUpdateAsync(DownloadService downloadHandle, ECoreType type, bool preRelease, bool blProxy, CancellationToken cancellationToken = default)
     {
         try
         {
             var result = await GetRemoteVersion(downloadHandle, type, preRelease, blProxy, cancellationToken);
+            if ((!result.Success || result.Version is null) && blProxy && !cancellationToken.IsCancellationRequested)
+            {
+                // fork: a dead proxy node made every update check fail; retry once over the direct connection.
+                await UpdateFunc(false, "Proxy request failed, retrying over the direct connection");
+                result = await GetRemoteVersion(downloadHandle, type, preRelease, false, cancellationToken);
+            }
+
             if (!result.Success || result.Version is null)
             {
                 return result;
