@@ -143,8 +143,8 @@
                     Spacing="10">
                     <Image
                         x:Name="imgAppIcon"
-                        Width="30"
-                        Height="30"
+                        Width="26"
+                        Height="26"
                         VerticalAlignment="Center" />
                     <TextBlock
                         VerticalAlignment="Center"
