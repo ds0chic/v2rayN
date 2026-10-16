@@ -64,4 +64,14 @@ public class SpeedtestServiceBatchTests
 
         await resolved.Should().BeEqualTo(null);
     }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1000)]
+    public async Task GetTestBatchItem_EmptySelection_ReturnsNoBatches(int pageSize)
+    {
+        var batches = SpeedtestService.GetTestBatchItem([], pageSize);
+
+        await batches.Count.Should().BeEqualTo(0);
+    }
 }

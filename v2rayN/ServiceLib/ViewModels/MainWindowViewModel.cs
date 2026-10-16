@@ -530,7 +530,18 @@ public partial class MainWindowViewModel : MyReactiveObject
     public async Task AddServerViaImageAsync()
     {
         var imageFileName = await BrowseImageFileInteraction.HandleSafe(RxVoid.Default);
-        await AddScanResultAsync(imageFileName);
+        await ScanImageResult(imageFileName);
+    }
+
+    public async Task ScanImageResult(string fileName)
+    {
+        if (fileName.IsNullOrEmpty())
+        {
+            return;
+        }
+
+        var result = QRCodeUtils.ParseBarcode(fileName);
+        await AddScanResultAsync(result);
     }
 
     private async Task AddScanResultAsync(string? result)
