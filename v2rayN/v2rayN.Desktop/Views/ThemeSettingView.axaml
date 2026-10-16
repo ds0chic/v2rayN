@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:chrome="clr-namespace:Avalonia.Controls.Chrome;assembly=Avalonia.Controls"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:resx="clr-namespace:ServiceLib.Resx;assembly=ServiceLib"
@@ -19,7 +20,11 @@
         </Style>
     </UserControl.Styles>
 
-    <Button x:Name="btnThemeMenu" Margin="8,0,4,0" Classes="IconButton">
+    <Button
+        x:Name="btnThemeMenu"
+        Margin="8,0,4,0"
+        Classes="IconButton"
+        chrome:WindowDecorationProperties.ElementRole="User">
         <Button.Content>
             <PathIcon Width="16" Height="16" Data="{StaticResource SemiIconMore}">
                 <PathIcon.RenderTransform>
