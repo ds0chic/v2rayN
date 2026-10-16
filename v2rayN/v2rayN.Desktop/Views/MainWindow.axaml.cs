@@ -18,6 +18,19 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
     private BackupAndRestoreView? _backupAndRestoreView;
     private bool _blCloseByUser = false;
 
+    /// <summary>Shows the current proxy state icon beside the menu in the toolbar.</summary>
+    public void SetTitleIcon(ESysProxyType type)
+    {
+        try
+        {
+            imgAppIcon.Source = AvaUtils.GetAppIconBitmap(type);
+        }
+        catch (Exception ex)
+        {
+            Logging.SaveLog("SetTitleIcon", ex);
+        }
+    }
+
     public MainWindow()
     {
         InitializeComponent();
@@ -36,6 +49,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         }
 
         _config = AppManager.Instance.Config;
+        SetTitleIcon(_config.SystemProxyItem.SysProxyType);
         _manager = new WindowNotificationManager(TopLevel.GetTopLevel(this)) { MaxItems = 3, Position = NotificationPosition.BottomRight, Margin = new Thickness(0, 0, 0, 56) };
 
         KeyDown += MainWindow_KeyDown;

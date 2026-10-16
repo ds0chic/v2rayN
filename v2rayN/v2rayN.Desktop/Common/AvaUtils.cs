@@ -39,6 +39,18 @@ internal class AvaUtils
         }
     }
 
+    public static Bitmap GetAppIconBitmap(ESysProxyType sysProxyType)
+    {
+        var index = (int)sysProxyType + 1;
+        var fileName = Utils.GetPath($"NotifyIcon{index}.ico");
+        if (File.Exists(fileName))
+        {
+            return new Bitmap(fileName);
+        }
+
+        return new Bitmap(AssetLoader.Open(new Uri(Path.Combine(Global.AvaAssets, $"NotifyIcon{index}.ico"))));
+    }
+
     public static WindowIcon GetAppIcon(ESysProxyType sysProxyType)
     {
         var index = (int)sysProxyType + 1;

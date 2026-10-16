@@ -50,7 +50,7 @@
                     VerticalAlignment="Center">
                     <MenuItem Classes="mainMenu" ToolTip.Tip="{x:Static resx:ResUI.menuSetting}">
                         <MenuItem.Header>
-                            <PathIcon Width="16" Height="16" Data="M4 6h16v2H4z M4 11h16v2H4z M4 16h16v2H4z" />
+                            <PathIcon Width="20" Height="20" Data="M4 6h16v2H4z M4 11h16v2H4z M4 16h16v2H4z" />
                         </MenuItem.Header>
                             <MenuItem Header="{x:Static resx:ResUI.menuServers}">
                                 <MenuItem
@@ -134,15 +134,25 @@
                         
                     </MenuItem>
                 </Menu>
-                <TextBlock
+                <StackPanel
                     Grid.Column="1"
-                    Margin="10,0,8,0"
+                    Margin="8,0,8,0"
                     VerticalAlignment="Center"
-                    FontSize="13"
-                    FontWeight="SemiBold"
                     IsHitTestVisible="False"
-                    Text="{Binding $parent[Window].Title}"
-                    TextTrimming="CharacterEllipsis" />
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <Image
+                        x:Name="imgAppIcon"
+                        Width="26"
+                        Height="26"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Text="{Binding $parent[Window].Title}"
+                        TextTrimming="CharacterEllipsis" />
+                </StackPanel>
                 <Button
                     x:Name="btnNewUpdate"
                     Grid.Column="2"
