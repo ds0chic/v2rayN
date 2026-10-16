@@ -18,7 +18,7 @@
     x:DataType="vms:MainWindowViewModel"
     Design.DataContext="{x:Static dd:DesignData.MainWindow}"
     Background="{DynamicResource SemiColorBackground0}"
-    ExtendClientAreaTitleBarHeightHint="44"
+    ExtendClientAreaTitleBarHeightHint="36"
     Icon="/Assets/NotifyIcon3.ico"
     ShowInTaskbar="True"
     WindowStartupLocation="CenterScreen"
@@ -38,7 +38,7 @@
     <dialogHost:DialogHost CloseOnClickAway="True" DisableOpeningAnimation="True">
         <DockPanel>
             <Grid
-                Height="44"
+                Height="36"
                 ColumnDefinitions="Auto,Auto,*,Auto,Auto"
                 Background="Transparent"
                 DockPanel.Dock="Top"
@@ -143,8 +143,8 @@
                     Spacing="10">
                     <Image
                         x:Name="imgAppIcon"
-                        Width="26"
-                        Height="26"
+                        Width="22"
+                        Height="22"
                         VerticalAlignment="Center" />
                     <TextBlock
                         VerticalAlignment="Center"
