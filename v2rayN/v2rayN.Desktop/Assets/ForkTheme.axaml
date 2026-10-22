@@ -276,8 +276,9 @@
     <Style Selector="TextBox.pill:pointerover /template/ Border#PART_BorderElement">
         <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowComposerHover}" />
     </Style>
+    <!-- Same end radius as the switch track beside it in the status bar (Semi ToggleSwitch track is 24 px tall). -->
     <Style Selector="ComboBox.pill">
-        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="CornerRadius" Value="12" />
     </Style>
     <Style Selector="HyperlinkButton">
         <Setter Property="Foreground" Value="{DynamicResource SemiColorLink}" />
@@ -489,6 +490,33 @@
                 </KeyFrame>
                 <KeyFrame Cue="100%">
                     <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <!-- Title-bar app icon: idles, then hops 3 px and lands with a small squash-free settle every 3.2 s (Margin only;
+         a keyframed RenderTransform is not safe in this build). -->
+    <Style Selector="Image.appIcon">
+        <Setter Property="Margin" Value="0,3,0,0" />
+        <Style.Animations>
+            <Animation Duration="0:0:3.2" IterationCount="INFINITE">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Margin" Value="0,3,0,0" />
+                </KeyFrame>
+                <KeyFrame Cue="72%">
+                    <Setter Property="Margin" Value="0,3,0,0" />
+                </KeyFrame>
+                <KeyFrame Cue="80%" KeySpline="0.22,1,0.36,1">
+                    <Setter Property="Margin" Value="0,0,0,3" />
+                </KeyFrame>
+                <KeyFrame Cue="88%" KeySpline="0.4,0,1,1">
+                    <Setter Property="Margin" Value="0,3,0,0" />
+                </KeyFrame>
+                <KeyFrame Cue="93%" KeySpline="0.22,1,0.36,1">
+                    <Setter Property="Margin" Value="0,2,0,1" />
+                </KeyFrame>
+                <KeyFrame Cue="100%" KeySpline="0.4,0,1,1">
+                    <Setter Property="Margin" Value="0,3,0,0" />
                 </KeyFrame>
             </Animation>
         </Style.Animations>

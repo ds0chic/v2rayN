@@ -141,17 +141,13 @@
                     IsHitTestVisible="False"
                     Orientation="Horizontal"
                     Spacing="10">
+                    <!-- fork: the app icon alone (no title text); it hops now and then, see Image.appIcon in ForkTheme.axaml -->
                     <Image
                         x:Name="imgAppIcon"
-                        Width="22"
-                        Height="22"
+                        Width="30"
+                        Height="30"
+                        Classes="appIcon"
                         VerticalAlignment="Center" />
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="13"
-                        FontWeight="SemiBold"
-                        Text="{Binding $parent[Window].Title}"
-                        TextTrimming="CharacterEllipsis" />
                 </StackPanel>
                 <Button
                     x:Name="btnNewUpdate"
