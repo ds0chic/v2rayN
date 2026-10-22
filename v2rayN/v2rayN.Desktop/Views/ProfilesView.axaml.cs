@@ -528,6 +528,8 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
     private double _dragSelectLastY;
     private IPointer? _dragSelectPointer;
     private DispatcherTimer? _dragSelectTimer;
+    private readonly System.Diagnostics.Stopwatch _dragSelectClock = new();
+    private double _dragSelectCarry; // fractional rows of auto-scroll not applied yet
 
     // Tunnel, so it runs before the DataGrid changes the selection for this press.
     private void LstProfiles_DragSelectPressed(object? sender, PointerPressedEventArgs e)
@@ -598,16 +600,19 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
             _dragSelectActive = true;
             _dragSelectPointer = e.Pointer;
             e.Pointer.Capture(lstProfiles);
-            _dragSelectTimer ??= new DispatcherTimer(TimeSpan.FromMilliseconds(60), DispatcherPriority.Normal, (_, _) =>
+            // fork: auto-scroll runs on a 16 ms tick; its speed follows the pointer's distance past the edge
+            _dragSelectTimer ??= new DispatcherTimer(TimeSpan.FromMilliseconds(16), DispatcherPriority.Normal, (_, _) =>
             {
                 if (_dragSelectActive)
                 {
-                    UpdateDragSelection();
+                    UpdateDragSelection(tick: true);
                 }
             });
+            _dragSelectCarry = 0;
+            _dragSelectClock.Restart();
             _dragSelectTimer.Start();
         }
-        UpdateDragSelection();
+        UpdateDragSelection(tick: false);
     }
 
     private void LstProfiles_DragSelectReleased(object? sender, PointerReleasedEventArgs e)
@@ -634,6 +639,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         _dragSelectFirst = -1;
         _dragSelectLast = -1;
         _dragSelectCurrent = -1;
+        _dragSelectCarry = 0;
     }
 
     // Rows currently drawn in the list, in list coordinates, with the band the rows are drawn in.
@@ -672,8 +678,9 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
 
     // Finds the row under the pointer. While the pointer is above or below the rows, the range keeps growing by
     // item index (not by realized rows): the first tick outside starts at the visible edge row, every later tick
-    // moves the index by the auto-scroll step, and the grid scrolls to that item so it becomes realized.
-    private void UpdateDragSelection()
+    // moves the index by the rows the auto-scroll speed covered since the last tick (pointer moves never advance it),
+    // and the grid scrolls to that item so it becomes realized.
+    private void UpdateDragSelection(bool tick)
     {
         var items = ViewModel?.ProfileItems;
         if (items == null || items.Count == 0 || _dragSelectAnchor < 0)
@@ -686,10 +693,20 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         }
 
         var y = _dragSelectLastY;
-        var step = DragSelectionHelper.GetAutoScrollStep(y, bodyTop, bodyBottom);
-        int target;
-        if (step == 0)
+        var speed = DragSelectionHelper.GetAutoScrollSpeed(y, bodyTop, bodyBottom);
+        var elapsed = _dragSelectClock.Elapsed.TotalSeconds;
+        _dragSelectClock.Restart();
+        var step = 0;
+        if (speed != 0 && tick)
         {
+            _dragSelectCarry += speed * Math.Min(elapsed, 0.1);
+            step = (int)_dragSelectCarry;
+            _dragSelectCarry -= step;
+        }
+        int target;
+        if (speed == 0)
+        {
+            _dragSelectCarry = 0;
             _dragSelectCurrent = -1;
             var rowIndex = DragSelectionHelper.GetRowIndexAt(rows.Select(r => (r.Top, r.Height)).ToList(), y);
             if (rowIndex < 0)
@@ -702,7 +719,7 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         {
             if (_dragSelectCurrent < 0)
             {
-                var direction = Math.Sign(step);
+                var direction = Math.Sign(speed);
                 var candidates = direction < 0
                     ? rows.Where(r => r.Top + r.Height > bodyTop).ToList()
                     : rows.Where(r => r.Top < bodyBottom).ToList();

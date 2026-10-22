@@ -70,7 +70,10 @@ public static class CdsChrome
         WindowDecorationProperties.SetElementRole(bar, WindowDecorationsElementRole.TitleBar);
         try
         {
-            bar.Children.Add(new Image { Source = new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(new Uri("avares://v2rayN/Assets/NotifyIcon3.ico"))), Width = 14, Height = 14, Margin = new Thickness(12, 0, 8, 0), IsHitTestVisible = false });
+            // fork: the plain pixel-art creature (AppCreature.ico, drawn on its own grid) scaled without smoothing
+            var icon = new Image { Source = new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(new Uri("avares://v2rayN/Assets/AppCreature.ico"))), Width = 16, Height = 16, Margin = new Thickness(12, 0, 8, 0), IsHitTestVisible = false };
+            RenderOptions.SetBitmapInterpolationMode(icon, Avalonia.Media.Imaging.BitmapInterpolationMode.None);
+            bar.Children.Add(icon);
         }
         catch
         {

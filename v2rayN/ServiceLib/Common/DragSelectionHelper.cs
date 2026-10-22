@@ -54,10 +54,11 @@ public static class DragSelectionHelper
     }
 
     /// <summary>
-    /// Rows to move per auto-scroll tick: 0 inside the viewport, otherwise -1 to -4 above it and 1 to 4 below it.
-    /// One row near the edge, one more for every 40 px further away, capped at 4.
+    /// Auto-scroll speed in rows per second, signed (negative = up): 0 inside the viewport; outside it grows
+    /// continuously with the distance past the edge, so the pointer works like a throttle. 4 rows/s at the edge,
+    /// rising with the square of the distance (about 29 rows/s at 100 px, 104 at 200 px), capped at 160.
     /// </summary>
-    public static int GetAutoScrollStep(double y, double top, double bottom)
+    public static double GetAutoScrollSpeed(double y, double top, double bottom)
     {
         var direction = GetScrollDirection(y, top, bottom);
         if (direction == 0)
@@ -65,8 +66,8 @@ public static class DragSelectionHelper
             return 0;
         }
         var distance = direction < 0 ? top - y : y - bottom;
-        var rows = Math.Clamp(1 + (int)(distance / 40), 1, 4);
-        return direction * rows;
+        var speed = Math.Min(4 + (0.0025 * distance * distance), 160);
+        return direction * speed;
     }
 
     /// <summary>
