@@ -26,6 +26,7 @@
                 <!-- fork: a clay dot breathes beside the running node (open-claude-ui quiet pulse, 1.9 s) -->
                 <DockPanel>
                     <Ellipse
+                        x:Name="dotRunning"
                         Margin="0,0,7,0"
                         Classes="pulseDot"
                         DockPanel.Dock="Left"

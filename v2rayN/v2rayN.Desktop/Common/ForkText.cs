@@ -480,9 +480,9 @@ public static class ForkText
     // Empty, loading and error states
     public static string EmptyServersTitle => Pick("这里还没有节点", "這裡還沒有節點", "No servers yet");
     public static string EmptyServersHint => Pick(
-        "复制节点分享链接后从剪贴板导入，或在订阅分组里添加订阅并更新。",
-        "複製節點分享連結後從剪貼簿匯入，或在訂閱分組中新增訂閱並更新。",
-        "Copy a share link and import it from the clipboard, or add a subscription and update it.");
+        "复制分享链接后从剪贴板导入，或添加订阅并更新。",
+        "複製分享連結後從剪貼簿匯入，或新增訂閱並更新。",
+        "Import a share link from the clipboard, or add a subscription and update it.");
     public static string EmptyImportClipboard => Pick("从剪贴板导入", "從剪貼簿匯入", "Import from clipboard");
     public static string EmptyAddSub => Pick("添加订阅", "新增訂閱", "Add subscription");
     public static string NoMatchTitle => Pick("没有匹配的节点", "沒有符合的節點", "No matching servers");

@@ -37,9 +37,6 @@
     <BoxShadows x:Key="ForkShadowLg">0 4 8 0 #0F000000, 0 12 28 -2 #14000000</BoxShadows>
     <SolidColorBrush x:Key="ForkClayLight" Color="#FBF3EF" />
     <SolidColorBrush x:Key="ForkClay" Color="#D97757" />
-    <SolidColorBrush x:Key="ForkSkeleton" Color="#0D141414" />
-    <SolidColorBrush x:Key="ForkDanger" Color="#DC2626" />
-    <SolidColorBrush x:Key="ForkDangerSoft" Color="#14DC2626" />
             <SolidColorBrush x:Key="SemiColorPrimaryDisabled" Color="#80D97757" />
     <SolidColorBrush x:Key="SemiColorSuccess" Color="#D97757" />
     <SolidColorBrush x:Key="SemiColorSuccessPointerover" Color="#CC5A36" />

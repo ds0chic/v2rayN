@@ -376,6 +376,14 @@ internal static class AiAutomationCommands
 
                 tabControl.SelectedIndex = tabIndex;
                 break;
+            case ListBox listBox:
+                if (!int.TryParse(value, out var listIndex) || listIndex < 0 || listIndex >= listBox.ItemCount)
+                {
+                    return Error($"value for a ListBox must be an item index 0-{listBox.ItemCount - 1}");
+                }
+
+                listBox.SelectedIndex = listIndex;
+                break;
             default:
                 return Error($"set not supported for {control.GetType().Name}: {name}");
         }

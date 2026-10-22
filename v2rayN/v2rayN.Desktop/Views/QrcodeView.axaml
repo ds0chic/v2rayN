@@ -11,6 +11,8 @@
         <sys:Double x:Key="QrcodeWidth">400</sys:Double>
     </UserControl.Resources>
 
+    <!-- fork: the dialog host draws no box of its own, so the content carries its card -->
+    <Border Theme="{DynamicResource CardBorder}">
     <Grid Margin="{StaticResource Margin8}" RowDefinitions="Auto,Auto">
         <Image
             Name="imgQrcode"
@@ -28,4 +30,5 @@
             TextWrapping="WrapWithOverflow" />
 
     </Grid>
+    </Border>
 </UserControl>

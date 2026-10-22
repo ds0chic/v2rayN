@@ -94,6 +94,7 @@ public partial class MsgView : ReactiveUserControl<MsgViewModel>
 
     private void menuMsgViewClear_Click(object? sender, RoutedEventArgs e)
     {
-        ClearMsg();
+        // fork: a cleared log is empty (shows the empty state); the marker line stays for the automatic trim only
+        txtMsg.Clear();
     }
 }
