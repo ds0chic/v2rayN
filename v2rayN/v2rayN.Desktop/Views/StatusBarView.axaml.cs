@@ -87,7 +87,7 @@ public partial class StatusBarView : ReactiveUserControl<StatusBarViewModel>
             desktop.MainWindow.Icon = AvaUtils.GetAppIcon(_config.SystemProxyItem.SysProxyType);
             (desktop.MainWindow as MainWindow)?.SetTitleIcon(_config.SystemProxyItem.SysProxyType);
             var iconslist = TrayIcon.GetIcons(Application.Current);
-            iconslist[0].Icon = desktop.MainWindow.Icon;
+            iconslist[0].Icon = AvaUtils.GetTrayIcon(_config.SystemProxyItem.SysProxyType);
             TrayIcon.SetIcons(Application.Current, iconslist);
         }
     }

@@ -51,6 +51,24 @@ internal class AvaUtils
         return new Bitmap(AssetLoader.Open(new Uri(Path.Combine(Global.AvaAssets, $"NotifyIcon{index}.ico"))));
     }
 
+    /// <summary>
+    /// Tray icon for a system proxy mode: the creature fills the icon and the mode's prop is a badge in the corner
+    /// (Assets/TrayIcon1-4.ico). A user's own NotifyIcon{n}.ico next to the program still wins.
+    /// </summary>
+    public static WindowIcon GetTrayIcon(ESysProxyType sysProxyType)
+    {
+        var index = (int)sysProxyType + 1;
+        var fileName = Utils.GetPath($"NotifyIcon{index}.ico");
+        if (File.Exists(fileName))
+        {
+            return new(fileName);
+        }
+
+        var uri = new Uri(Path.Combine(Global.AvaAssets, $"TrayIcon{index}.ico"));
+        using var bitmap = new Bitmap(AssetLoader.Open(uri));
+        return new(bitmap);
+    }
+
     public static WindowIcon GetAppIcon(ESysProxyType sysProxyType)
     {
         var index = (int)sysProxyType + 1;
