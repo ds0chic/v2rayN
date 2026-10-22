@@ -13,6 +13,20 @@ public partial class CheckUpdateView : ReactiveUserControl<CheckUpdateViewModel>
             this.Bind(ViewModel, vm => vm.EnableUpdateViaProxy, v => v.togEnableUpdateViaProxy.IsChecked).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.CheckOnlyCmd, v => v.btnCheckOnly).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.CheckUpdateCmd, v => v.btnCheckUpdate).DisposeWith(disposables);
+
+            if (ViewModel is { } vm)
+            {
+                bool checkingOnly = false, checkingUpdate = false;
+                void UpdateChecking() => barChecking.IsVisible = checkingOnly || checkingUpdate;
+                vm.CheckOnlyCmd.IsExecuting
+                    .ObserveOn(RxSchedulers.MainThreadScheduler)
+                    .Subscribe(running => { checkingOnly = running; UpdateChecking(); })
+                    .DisposeWith(disposables);
+                vm.CheckUpdateCmd.IsExecuting
+                    .ObserveOn(RxSchedulers.MainThreadScheduler)
+                    .Subscribe(running => { checkingUpdate = running; UpdateChecking(); })
+                    .DisposeWith(disposables);
+            }
         });
     }
 }

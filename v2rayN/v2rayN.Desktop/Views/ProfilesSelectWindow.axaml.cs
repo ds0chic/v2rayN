@@ -14,6 +14,11 @@ public partial class ProfilesSelectWindow : WindowBase<ProfilesSelectViewModel>
         btnCancel.Click += (_, _) => Close();
         btnAutofitColumnWidth.Click += BtnAutofitColumnWidth_Click;
         txtServerFilter.KeyDown += TxtServerFilter_KeyDown;
+        btnEmptyClearFilter.Click += (_, _) =>
+        {
+            txtServerFilter.Text = string.Empty;
+            ViewModel?.RefreshServers();
+        };
         lstProfiles.KeyDown += LstProfiles_KeyDown;
         lstProfiles.SelectionChanged += LstProfiles_SelectionChanged;
         lstProfiles.LoadingRow += LstProfiles_LoadingRow;
@@ -23,6 +28,10 @@ public partial class ProfilesSelectWindow : WindowBase<ProfilesSelectViewModel>
         this.WhenActivated(disposables =>
         {
             this.OneWayBind(ViewModel, vm => vm.ProfileItems, v => v.lstProfiles.ItemsSource).DisposeWith(disposables);
+            if (ViewModel is { } vmEmpty)
+            {
+                CdsStates.BindEmpty(emptyProfiles, vmEmpty.ProfileItems, UpdateEmptyProfiles).DisposeWith(disposables);
+            }
             this.Bind(ViewModel, vm => vm.SelectedProfile, v => v.lstProfiles.SelectedItem).DisposeWith(disposables);
 
             this.Bind(ViewModel, vm => vm.SelectedSub, v => v.lstGroup.SelectedItem).DisposeWith(disposables);
@@ -138,6 +147,15 @@ public partial class ProfilesSelectWindow : WindowBase<ProfilesSelectViewModel>
         catch
         {
         }
+    }
+
+    private void UpdateEmptyProfiles()
+    {
+        var filtered = !string.IsNullOrWhiteSpace(ViewModel?.ServerFilter);
+        iconEmptyProfiles.Data = this.FindResource(filtered ? "SemiIconSearchStroked" : "SemiIconServerStroked") as Geometry;
+        txtEmptyProfilesTitle.Text = filtered ? ForkText.NoMatchTitle : ForkText.EmptyServersTitle;
+        txtEmptyProfilesHint.Text = filtered ? ForkText.NoMatchHint : ForkText.EmptySelectServersHint;
+        btnEmptyClearFilter.IsVisible = filtered;
     }
 
     private void TxtServerFilter_KeyDown(object? sender, KeyEventArgs e)

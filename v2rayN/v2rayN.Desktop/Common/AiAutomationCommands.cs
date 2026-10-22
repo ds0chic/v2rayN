@@ -1,3 +1,4 @@
+using Avalonia.Input;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
@@ -49,6 +50,8 @@ internal static class AiAutomationCommands
         {
             case "wait":
                 return (await WaitAsync(tokens), false);
+            case "burst":
+                return (await BurstAsync(tokens), false);
             case "exit":
                 return (Ok(new JsonObject { ["exiting"] = true }), true);
         }
@@ -94,6 +97,10 @@ internal static class AiAutomationCommands
             "shot" => Shot(tokens),
             "close" => Close(tokens),
             "radii" => Radii(tokens),
+            "size" => Size(tokens),
+            "dismiss" => Dismiss(tokens),
+            "key" => KeyPress(tokens),
+            "open" => OpenPopup(tokens),
             _ => Error($"unknown command: {cmd}"),
         };
     }
@@ -107,6 +114,108 @@ internal static class AiAutomationCommands
 
         await Task.Delay(ms);
         return Ok();
+    }
+
+    // burst <output dir> <frames 1-120> <interval ms 0-500> [window title text]
+    // Renders consecutive frames of a window (open popups composited) to <dir>/f000.png...; nothing is captured from
+    // the screen, so the window may be covered or in the background. Each frame records its elapsed milliseconds.
+    private static async Task<JsonObject> BurstAsync(List<string> tokens)
+    {
+        if (tokens.Count < 4
+            || !int.TryParse(tokens[2], out var frames) || frames is < 1 or > 120
+            || !int.TryParse(tokens[3], out var interval) || interval is < 0 or > 500)
+        {
+            return Error("usage: burst <output dir> <frames 1-120> <interval ms 0-500> [window title text]");
+        }
+
+        var dir = Path.GetFullPath(tokens[1]);
+        var title = string.Join(' ', tokens.Skip(4));
+        Directory.CreateDirectory(dir);
+        var times = new JsonArray();
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        for (var i = 0; i < frames; i++)
+        {
+            var file = Path.Combine(dir, $"f{i:000}.png");
+            var error = await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                var window = FindWindow(title);
+                if (window is null || !window.IsVisible)
+                {
+                    return "window not found or hidden";
+                }
+
+                using var bitmap = RenderFrame(window, out var renderError);
+                bitmap?.Save(file, new PngBitmapEncoderOptions());
+                return bitmap is null ? renderError : null;
+            });
+            if (error is not null)
+            {
+                return Error(error);
+            }
+
+            times.Add(clock.ElapsedMilliseconds);
+            if (interval > 0)
+            {
+                await Task.Delay(interval);
+            }
+        }
+
+        return Ok(new JsonObject { ["dir"] = dir, ["frames"] = frames, ["ms"] = times });
+    }
+
+    // Renders a window at its render scaling, then draws every open popup (menus, combo drop-downs, tooltips) that
+    // lives in its own top-level on top, at its on-screen offset from the window's client area.
+    private static RenderTargetBitmap? RenderFrame(Window window, out string error)
+    {
+        error = string.Empty;
+        var scale = window.RenderScaling;
+        var widthDip = window.ClientSize.Width;
+        var heightDip = window.ClientSize.Height;
+        if (!double.IsFinite(widthDip) || !double.IsFinite(heightDip) || widthDip <= 0 || heightDip <= 0 || !double.IsFinite(scale) || scale <= 0)
+        {
+            error = "window has no measured size yet";
+            return null;
+        }
+
+        var dpi = new Vector(96 * scale, 96 * scale);
+        var bitmap = new RenderTargetBitmap(new PixelSize((int)Math.Round(widthDip * scale), (int)Math.Round(heightDip * scale)), dpi);
+        bitmap.Render(window);
+
+        var origin = window.PointToScreen(new Point(0, 0));
+        var hosts = window.GetSelfAndVisualDescendants().OfType<Popup>()
+            .Concat(window.GetLogicalDescendants().OfType<Popup>())
+            .Distinct()
+            .Where(p => p.IsOpen && p.Child is not null)
+            .Select(p => TopLevel.GetTopLevel(p.Child))
+            .OfType<TopLevel>()
+            .Where(t => !ReferenceEquals(t, window))
+            .Distinct()
+            .ToList();
+        if (hosts.Count == 0)
+        {
+            return bitmap;
+        }
+
+        using (var ctx = bitmap.CreateDrawingContext(false))
+        {
+            foreach (var host in hosts)
+            {
+                var size = host.ClientSize;
+                if (size.Width <= 0 || size.Height <= 0)
+                {
+                    continue;
+                }
+
+                using var layer = new RenderTargetBitmap(new PixelSize((int)Math.Round(size.Width * scale), (int)Math.Round(size.Height * scale)), dpi);
+                layer.Render(host);
+                var at = host.PointToScreen(new Point(0, 0));
+                var x = (at.X - origin.X) / scale;
+                var y = (at.Y - origin.Y) / scale;
+                ctx.DrawImage(layer, new Rect(0, 0, size.Width, size.Height), new Rect(x, y, size.Width, size.Height));
+            }
+        }
+
+        return bitmap;
     }
 
     #region Commands
@@ -274,6 +383,76 @@ internal static class AiAutomationCommands
         return Ok(new JsonObject { ["name"] = name, ["type"] = control.GetType().Name });
     }
 
+    // key <x:Name> <Key>: raises KeyDown then KeyUp with that Avalonia Key (for example Enter, Escape) on a control.
+    private static JsonObject KeyPress(List<string> tokens)
+    {
+        if (tokens.Count != 3 || !Enum.TryParse<Key>(tokens[2], true, out var key))
+        {
+            return Error("usage: key <x:Name> <Avalonia Key name, e.g. Enter>");
+        }
+
+        if (DeniedNameParts.Any(p => tokens[1].Contains(p, StringComparison.OrdinalIgnoreCase)))
+        {
+            return Error("refused: control name is on the deny list");
+        }
+
+        var control = FindControl(tokens[1]);
+        if (control is null)
+        {
+            return Error($"control not found: {tokens[1]}");
+        }
+
+        control.Focus();
+        control.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = key, Source = control });
+        control.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyUpEvent, Key = key, Source = control });
+        return Ok(new JsonObject { ["name"] = tokens[1], ["key"] = key.ToString() });
+    }
+
+    // open <x:Name> [close]: opens (or closes) a popup without the mouse: a MenuItem's submenu, a ComboBox drop-down,
+    // or the control's ContextMenu. Used to capture popup motion with burst.
+    private static JsonObject OpenPopup(List<string> tokens)
+    {
+        if (tokens.Count is < 2 or > 3)
+        {
+            return Error("usage: open <x:Name> [close]");
+        }
+
+        var control = FindControl(tokens[1]);
+        if (control is null)
+        {
+            return Error($"control not found: {tokens[1]}");
+        }
+
+        var open = tokens.Count == 2;
+        switch (control)
+        {
+            case MenuItem item:
+                item.IsSubMenuOpen = open;
+                break;
+            case ComboBox combo:
+                combo.IsDropDownOpen = open;
+                break;
+            default:
+                if (control.ContextMenu is not { } menu)
+                {
+                    return Error("control has no submenu, drop-down or context menu");
+                }
+
+                if (open)
+                {
+                    menu.Open(control);
+                }
+                else
+                {
+                    menu.Close();
+                }
+
+                break;
+        }
+
+        return Ok(new JsonObject { ["name"] = tokens[1], ["open"] = open });
+    }
+
     private static JsonObject Text(List<string> tokens)
     {
         if (tokens.Count != 2)
@@ -316,21 +495,15 @@ internal static class AiAutomationCommands
             return Error("window is hidden; nothing to render");
         }
 
-        var scale = window.RenderScaling;
-        var widthDip = window.ClientSize.Width;
-        var heightDip = window.ClientSize.Height;
-        if (!double.IsFinite(widthDip) || !double.IsFinite(heightDip) || widthDip <= 0 || heightDip <= 0 || !double.IsFinite(scale) || scale <= 0)
+        var fullPath = Path.GetFullPath(path);
+        using var bitmap = RenderFrame(window, out var renderError);
+        if (bitmap is null)
         {
-            return Error("window has no measured size yet");
+            return Error(renderError);
         }
 
-        var pixelWidth = (int)Math.Round(widthDip * scale);
-        var pixelHeight = (int)Math.Round(heightDip * scale);
-        var fullPath = Path.GetFullPath(path);
-
-        using var bitmap = new RenderTargetBitmap(new PixelSize(pixelWidth, pixelHeight), new Vector(96 * scale, 96 * scale));
-        bitmap.Render(window);
-
+        var pixelWidth = bitmap.PixelSize.Width;
+        var pixelHeight = bitmap.PixelSize.Height;
         var dir = Path.GetDirectoryName(fullPath);
         if (!string.IsNullOrEmpty(dir))
         {
@@ -344,6 +517,46 @@ internal static class AiAutomationCommands
             ["width"] = pixelWidth,
             ["height"] = pixelHeight,
         });
+    }
+
+    // size <width> <height> [window title text]: resizes a window (DIPs), for checking narrow layouts.
+    private static JsonObject Size(List<string> tokens)
+    {
+        if (tokens.Count < 3 || !double.TryParse(tokens[1], out var width) || !double.TryParse(tokens[2], out var height)
+            || width is < 200 or > 4000 || height is < 200 or > 4000)
+        {
+            return Error("usage: size <width 200-4000> <height 200-4000> [window title text]");
+        }
+
+        var window = FindWindow(string.Join(' ', tokens.Skip(3)));
+        if (window is null)
+        {
+            return Error("window not found");
+        }
+
+        window.WindowState = WindowState.Normal;
+        window.Width = width;
+        window.Height = height;
+        return Ok(new JsonObject { ["width"] = width, ["height"] = height, ["minWidth"] = window.MinWidth, ["minHeight"] = window.MinHeight });
+    }
+
+    // dismiss [window title text]: closes open in-window overlays (DialogHost sessions such as backup or check update).
+    private static JsonObject Dismiss(List<string> tokens)
+    {
+        var window = FindWindow(string.Join(' ', tokens.Skip(1)));
+        if (window is null)
+        {
+            return Error("window not found");
+        }
+
+        var closed = 0;
+        foreach (var host in window.GetVisualDescendants().OfType<DialogHostAvalonia.DialogHost>().Where(h => h.IsOpen).ToList())
+        {
+            host.CurrentSession?.Close();
+            closed++;
+        }
+
+        return Ok(new JsonObject { ["closed"] = closed });
     }
 
     private static JsonObject Close(List<string> tokens)
@@ -809,6 +1022,13 @@ internal static class AiAutomationCommands
         foreach (var root in roots)
         {
             var found = WalkAll(root).FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+            if (found is not null)
+            {
+                return found;
+            }
+
+            // In-window overlays (DialogHost sessions) are reached only through the visual tree.
+            found = root.GetVisualDescendants().OfType<Control>().FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
             if (found is not null)
             {
                 return found;

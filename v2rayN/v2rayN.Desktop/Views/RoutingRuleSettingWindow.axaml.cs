@@ -23,6 +23,12 @@ public partial class RoutingRuleSettingWindow : WindowBase<RoutingRuleSettingVie
         this.WhenActivated(disposables =>
         {
             this.OneWayBind(ViewModel, vm => vm.RulesItems, v => v.lstRules.ItemsSource).DisposeWith(disposables);
+            if (ViewModel is { } vmEmpty)
+            {
+                CdsStates.BindEmpty(emptyRules, vmEmpty.RulesItems).DisposeWith(disposables);
+            }
+            this.BindCommand(ViewModel, vm => vm.RuleAddCmd, v => v.btnEmptyRuleAdd).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.ImportRulesFromClipboardCmd, v => v.btnEmptyRuleImportClipboard).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SelectedSource, v => v.lstRules.SelectedItem).DisposeWith(disposables);
 
             this.Bind(ViewModel, vm => vm.SelectedRouting.Remarks, v => v.txtRemarks.Text).DisposeWith(disposables);

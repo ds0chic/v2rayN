@@ -1,3 +1,5 @@
+using v2rayN.Desktop.Common;
+
 namespace v2rayN.Desktop.Views;
 
 public partial class ClashConnectionsView : ReactiveUserControl<ClashConnectionsViewModel>
@@ -16,6 +18,10 @@ public partial class ClashConnectionsView : ReactiveUserControl<ClashConnections
         this.WhenActivated(disposables =>
         {
             this.OneWayBind(ViewModel, vm => vm.ConnectionItems, v => v.lstConnections.ItemsSource).DisposeWith(disposables);
+            if (ViewModel is { } vmEmpty)
+            {
+                CdsStates.BindEmpty(emptyConnections, vmEmpty.ConnectionItems).DisposeWith(disposables);
+            }
             this.Bind(ViewModel, vm => vm.SelectedSource, v => v.lstConnections.SelectedItem).DisposeWith(disposables);
 
             this.BindCommand(ViewModel, vm => vm.ConnectionCloseCmd, v => v.menuConnectionClose).DisposeWith(disposables);

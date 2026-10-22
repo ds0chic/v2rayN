@@ -14,6 +14,20 @@
         <x:Double x:Key="ForkFontBase">12</x:Double>
         <x:Double x:Key="ForkFontSmall">11</x:Double>
         <x:Double x:Key="ForkFontTitle">16</x:Double>
+        <!--
+            Motion tokens from open-claude-ui (ClaudeMotionPresets / cds-theme.css). Pick by interaction:
+              Snappy (600/30): segmented, tab and press feedback. Bouncy (380/18): switches and badges.
+              Gentle (320/28): dialogs, expanders, entering blocks. HeavySnap (1200/80): drag and snap, no overshoot.
+            Curves: Swift for hover fades, Enter for blocks and popups, Pulse for breathing dots.
+        -->
+        <SpringEasing x:Key="CdsSpringSnappy" Mass="1" Stiffness="600" Damping="30" />
+        <SpringEasing x:Key="CdsSpringBouncy" Mass="1" Stiffness="380" Damping="18" />
+        <SpringEasing x:Key="CdsSpringGentle" Mass="1" Stiffness="320" Damping="28" />
+        <SpringEasing x:Key="CdsSpringHeavySnap" Mass="1" Stiffness="1200" Damping="80" />
+        <SplineEasing x:Key="CdsEaseSwift" X1="0.16" Y1="1" X2="0.3" Y2="1" />
+        <SplineEasing x:Key="CdsEaseEnter" X1="0.22" Y1="1" X2="0.36" Y2="1" />
+        <SplineEasing x:Key="CdsEaseExpand" X1="0.19" Y1="1" X2="0.22" Y2="1" />
+        <SplineEasing x:Key="CdsEasePulse" X1="0.4" Y1="0" X2="0.2" Y2="1" />
         <ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary x:Key="Light">
                 <SolidColorBrush x:Key="ForkActiveRow" Color="#F8EBE3" />
@@ -188,11 +202,7 @@
     <Style Selector="Button">
         <Setter Property="Transitions">
             <Transitions>
-                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.38">
-                    <TransformOperationsTransition.Easing>
-                        <SpringEasing Mass="1" Stiffness="600" Damping="30" />
-                    </TransformOperationsTransition.Easing>
-                </TransformOperationsTransition>
+                <TransformOperationsTransition Easing="{StaticResource CdsSpringSnappy}" Property="RenderTransform" Duration="0:0:0.3" />
             </Transitions>
         </Setter>
     </Style>
@@ -202,8 +212,8 @@
     <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Transitions">
             <Transitions>
-                <BrushTransition Easing="ExponentialEaseOut" Property="Background" Duration="0:0:0.15" />
-                <BrushTransition Easing="ExponentialEaseOut" Property="BorderBrush" Duration="0:0:0.15" />
+                <BrushTransition Easing="{StaticResource CdsEaseSwift}" Property="Background" Duration="0:0:0.15" />
+                <BrushTransition Easing="{StaticResource CdsEaseSwift}" Property="BorderBrush" Duration="0:0:0.15" />
             </Transitions>
         </Setter>
     </Style>
@@ -243,13 +253,13 @@
     <!-- Pages cross-fade briefly instead of snapping, so switching tabs never feels like a cut. -->
     <Style Selector="TabControl">
         <Setter Property="PageTransition">
-            <CrossFade Duration="0:0:0.16" />
+            <CrossFade Duration="0:0:0.2" />
         </Setter>
     </Style>
 
     <!-- Controls: a little more compact and rounded than the Semi default. -->
     <Style Selector="Button">
-        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusMd}" />
     </Style>
     <Style Selector="TextBox">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusMd}" />
@@ -262,6 +272,9 @@
     </Style>
     <Style Selector="TextBox.pill /template/ Border#PART_BorderElement">
         <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowComposer}" />
+    </Style>
+    <Style Selector="TextBox.pill:pointerover /template/ Border#PART_BorderElement">
+        <Setter Property="BoxShadow" Value="{DynamicResource ForkShadowComposerHover}" />
     </Style>
     <Style Selector="ComboBox.pill">
         <Setter Property="CornerRadius" Value="20" />
@@ -354,16 +367,8 @@
         <Setter Property="IsHitTestVisible" Value="False" />
         <Setter Property="Transitions">
             <Transitions>
-                <ThicknessTransition Property="Margin" Duration="0:0:0.42">
-                    <ThicknessTransition.Easing>
-                        <SpringEasing Mass="1" Stiffness="380" Damping="28" />
-                    </ThicknessTransition.Easing>
-                </ThicknessTransition>
-                <DoubleTransition Property="Width" Duration="0:0:0.42">
-                    <DoubleTransition.Easing>
-                        <SpringEasing Mass="1" Stiffness="380" Damping="28" />
-                    </DoubleTransition.Easing>
-                </DoubleTransition>
+                <ThicknessTransition Easing="{StaticResource CdsSpringSnappy}" Property="Margin" Duration="0:0:0.32" />
+                <DoubleTransition Easing="{StaticResource CdsSpringSnappy}" Property="Width" Duration="0:0:0.32" />
             </Transitions>
         </Setter>
     </Style>
@@ -390,7 +395,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Transitions">
             <Transitions>
-                <BrushTransition Easing="ExponentialEaseOut" Property="Background" Duration="0:0:0.15" />
+                <BrushTransition Easing="{StaticResource CdsEaseSwift}" Property="Background" Duration="0:0:0.15" />
             </Transitions>
         </Setter>
     </Style>
@@ -431,11 +436,7 @@
     <Style Selector="ToggleSwitch">
         <Setter Property="KnobTransitions">
             <Transitions>
-                <DoubleTransition Property="Canvas.Left" Duration="0:0:0.4">
-                    <DoubleTransition.Easing>
-                        <SpringEasing Mass="1" Stiffness="500" Damping="30" />
-                    </DoubleTransition.Easing>
-                </DoubleTransition>
+                <DoubleTransition Easing="{StaticResource CdsSpringBouncy}" Property="Canvas.Left" Duration="0:0:0.5" />
             </Transitions>
         </Setter>
     </Style>
@@ -452,7 +453,7 @@
     <!-- Popups fade in and rise 8 px (RenderTransform is not rendered by the popup host and keyframed RenderTransform crashes this build, so the template Border margin is animated). -->
     <Style Selector="ContextMenu /template/ Border, MenuFlyoutPresenter /template/ Border">
         <Style.Animations>
-            <Animation Duration="0:0:0.18" Easing="ExponentialEaseOut" FillMode="Both">
+            <Animation Duration="0:0:0.2" Easing="{StaticResource CdsEaseEnter}" FillMode="Both">
                 <KeyFrame Cue="0%">
                     <Setter Property="Opacity" Value="0" />
                     <Setter Property="Margin" Value="0,8,0,0" />
@@ -460,6 +461,34 @@
                 <KeyFrame Cue="100%">
                     <Setter Property="Opacity" Value="1" />
                     <Setter Property="Margin" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <!-- Submenus and drop-downs enter the same way every time they open (the :open / :dropdownopen state restarts it). -->
+    <Style Selector="MenuItem:open /template/ Popup > Border">
+        <Style.Animations>
+            <Animation Duration="0:0:0.2" Easing="{StaticResource CdsEaseEnter}" FillMode="Both">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="0" />
+                    <Setter Property="Margin" Value="0,8,0,0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
+                    <Setter Property="Margin" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <!-- Drop-downs fade only: a margin change would resize the popup, and the upward ones are anchored at their bottom. -->
+    <Style Selector="ComboBox:dropdownopen /template/ Popup > Border">
+        <Style.Animations>
+            <Animation Duration="0:0:0.18" Easing="{StaticResource CdsEaseEnter}" FillMode="Both">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
                 </KeyFrame>
             </Animation>
         </Style.Animations>
@@ -510,5 +539,119 @@
     </Style>
     <Style Selector="Expander">
         <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+    </Style>
+    <!--
+        States (open-claude-ui empty / loading / error patterns). Use in any view:
+          Border.emptyState > StackPanel { Border.emptyBadge > PathIcon, TextBlock.emptyTitle, TextBlock.emptyHint, StackPanel.emptyActions }
+          Border.skeleton (pulsing placeholder bar), Ellipse.pulseDot (clay breathing dot), Border.errorBanner.
+        The empty state fades in and rises 12 px (animated on Padding, so a Margin set by the view is kept) each time it becomes visible.
+    -->
+    <Style Selector="Border.emptyState">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="MaxWidth" Value="380" />
+    </Style>
+    <Style Selector="Border.emptyState[IsVisible=True]">
+        <Style.Animations>
+            <Animation Duration="0:0:0.42" Easing="{StaticResource CdsEaseEnter}" FillMode="Both">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="0" />
+                    <Setter Property="Padding" Value="24,36,24,12" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
+                    <Setter Property="Padding" Value="24" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <Style Selector="Border.emptyState > StackPanel">
+        <Setter Property="Spacing" Value="6" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.emptyBadge">
+        <Setter Property="Width" Value="44" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadius}" />
+        <Setter Property="Background" Value="{DynamicResource ForkClayLight}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+    <Style Selector="Border.emptyBadge > PathIcon">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="Foreground" Value="{DynamicResource ForkClay}" />
+    </Style>
+    <Style Selector="Border.emptyBadge.danger">
+        <Setter Property="Background" Value="{DynamicResource ForkDangerSoft}" />
+    </Style>
+    <Style Selector="Border.emptyBadge.danger > PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource ForkDanger}" />
+    </Style>
+    <Style Selector="TextBlock.emptyTitle">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBlock.emptyHint">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{DynamicResource SemiColorText2}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="LineHeight" Value="18" />
+    </Style>
+    <Style Selector="StackPanel.emptyActions">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="Spacing" Value="8" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,12,0,0" />
+    </Style>
+    <Style Selector="Border.skeleton">
+        <Setter Property="Background" Value="{DynamicResource ForkSkeleton}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusSm}" />
+        <Setter Property="Height" Value="10" />
+        <Style.Animations>
+            <Animation Duration="0:0:1.4" Easing="{StaticResource CdsEasePulse}" IterationCount="INFINITE" PlaybackDirection="Alternate">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="0.45" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <Style Selector="Ellipse.pulseDot">
+        <Setter Property="Width" Value="6" />
+        <Setter Property="Height" Value="6" />
+        <Setter Property="Fill" Value="{DynamicResource ForkClay}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Animations>
+            <Animation Duration="0:0:1.9" Easing="{StaticResource CdsEasePulse}" IterationCount="INFINITE" PlaybackDirection="Alternate">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="0.3" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <Style Selector="Border.errorBanner">
+        <Setter Property="Background" Value="{DynamicResource ForkDangerSoft}" />
+        <Setter Property="CornerRadius" Value="{StaticResource ForkRadiusMd}" />
+        <Setter Property="Padding" Value="12,8" />
+    </Style>
+    <Style Selector="Border.errorBanner TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource ForkDanger}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <!-- Numbers that change in place (latency, speed, traffic) use tabular digits so columns never jitter. -->
+    <Style Selector="TextBlock.num, DataGridCell TextBlock">
+        <Setter Property="FontFeatures" Value="+tnum" />
     </Style>
 </Styles>

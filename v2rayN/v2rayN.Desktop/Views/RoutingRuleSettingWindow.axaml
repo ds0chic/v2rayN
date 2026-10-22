@@ -2,6 +2,7 @@
     x:Class="v2rayN.Desktop.Views.RoutingRuleSettingWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -146,6 +147,7 @@
 
         <TabControl>
             <TabItem HorizontalAlignment="Left" Header="{x:Static resx:ResUI.menuRuleList}">
+                <Grid>
                 <DataGrid
                     x:Name="lstRules"
                     AutoGenerateColumns="False"
@@ -229,6 +231,21 @@
                             Header="domain / ip / process" />
                     </DataGrid.Columns>
                 </DataGrid>
+                    <!-- fork: empty state while the rule set has no rules; see CdsStates -->
+                    <Border x:Name="emptyRules" Classes="emptyState">
+                        <StackPanel>
+                            <Border Classes="emptyBadge">
+                                <PathIcon Data="{StaticResource SemiIconFilter}" />
+                            </Border>
+                            <TextBlock Classes="emptyTitle" Text="{x:Static common:ForkText.EmptyRulesTitle}" />
+                            <TextBlock Classes="emptyHint" Text="{x:Static common:ForkText.EmptyRulesHint}" />
+                            <StackPanel Classes="emptyActions">
+                                <Button x:Name="btnEmptyRuleAdd" Classes="Primary" Content="{x:Static resx:ResUI.menuRuleAdd}" Theme="{DynamicResource SolidButton}" />
+                                <Button x:Name="btnEmptyRuleImportClipboard" Content="{x:Static resx:ResUI.menuImportRulesFromClipboard}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </TabItem>
         </TabControl>
     </DockPanel>

@@ -2,6 +2,7 @@
     x:Class="v2rayN.Desktop.Views.SubSettingWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
     xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
@@ -29,6 +30,7 @@
                 <MenuItem x:Name="menuClose" Header="{x:Static resx:ResUI.menuClose}" />
             </Menu>
 
+            <Grid>
             <DataGrid
                 x:Name="lstSubscription"
                 AutoGenerateColumns="False"
@@ -76,6 +78,20 @@
                         Header="{x:Static resx:ResUI.LvSort}" />
                 </DataGrid.Columns>
             </DataGrid>
+                <!-- fork: empty state while there are no subscriptions; see CdsStates -->
+                <Border x:Name="emptySubs" Classes="emptyState">
+                    <StackPanel>
+                        <Border Classes="emptyBadge">
+                            <PathIcon Data="{StaticResource SemiIconLink}" />
+                        </Border>
+                        <TextBlock Classes="emptyTitle" Text="{x:Static common:ForkText.EmptySubsTitle}" />
+                        <TextBlock Classes="emptyHint" Text="{x:Static common:ForkText.EmptySubsHint}" />
+                        <StackPanel Classes="emptyActions">
+                            <Button x:Name="btnEmptySubAdd" Classes="Primary" Content="{x:Static common:ForkText.EmptyAddSub}" Theme="{DynamicResource SolidButton}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </DockPanel>
     </dialogHost:DialogHost>
 </Window>

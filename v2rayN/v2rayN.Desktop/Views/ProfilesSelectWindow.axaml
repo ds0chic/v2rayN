@@ -2,6 +2,7 @@
     x:Class="v2rayN.Desktop.Views.ProfilesSelectWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:conv="using:v2rayN.Desktop.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
@@ -83,6 +84,7 @@
                 </WrapPanel>
 
                 <!--  Profiles grid  -->
+                <Grid>
                 <DataGrid
                     x:Name="lstProfiles"
                     AutoGenerateColumns="False"
@@ -155,6 +157,20 @@
                             Tag="Speed" />
                     </DataGrid.Columns>
                 </DataGrid>
+                    <!-- fork: empty state (no servers in this group, or the filter matches nothing); see CdsStates -->
+                    <Border x:Name="emptyProfiles" Classes="emptyState">
+                        <StackPanel>
+                            <Border Classes="emptyBadge">
+                                <PathIcon x:Name="iconEmptyProfiles" Data="{StaticResource SemiIconServerStroked}" />
+                            </Border>
+                            <TextBlock x:Name="txtEmptyProfilesTitle" Classes="emptyTitle" Text="{x:Static common:ForkText.EmptyServersTitle}" />
+                            <TextBlock x:Name="txtEmptyProfilesHint" Classes="emptyHint" Text="{x:Static common:ForkText.EmptySelectServersHint}" />
+                            <StackPanel Classes="emptyActions">
+                                <Button x:Name="btnEmptyClearFilter" Content="{x:Static common:ForkText.ClearFilter}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </DockPanel>
         </Grid>
     </DockPanel>

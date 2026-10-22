@@ -20,6 +20,7 @@
             DockPanel.Dock="Bottom"
             Theme="{DynamicResource CardBorder}">
 
+            <Grid>
             <StackPanel
                 Margin="{StaticResource Margin4}"
                 HorizontalAlignment="Center"
@@ -47,6 +48,14 @@
                     Margin="{StaticResource Margin4}"
                     Content="{x:Static resx:ResUI.menuCheckAndUpdate}" />
             </StackPanel>
+                <!-- fork: loading state while a check / update is running; see CheckUpdateView.axaml.cs -->
+                <ProgressBar
+                    x:Name="barChecking"
+                    Height="2"
+                    VerticalAlignment="Bottom"
+                    IsIndeterminate="True"
+                    IsVisible="False" />
+            </Grid>
         </Border>
 
         <Border

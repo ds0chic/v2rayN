@@ -2,6 +2,7 @@
     x:Class="v2rayN.Desktop.Views.ClashConnectionsView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -57,6 +58,7 @@
                 HorizontalAlignment="Left" />
         </WrapPanel>
 
+        <Grid>
         <DataGrid
             x:Name="lstConnections"
             AutoGenerateColumns="False"
@@ -105,5 +107,16 @@
                     Tag="Elapsed" />
             </DataGrid.Columns>
         </DataGrid>
+            <!-- fork: empty state while there are no connections; see CdsStates -->
+            <Border x:Name="emptyConnections" Classes="emptyState">
+                <StackPanel>
+                    <Border Classes="emptyBadge">
+                        <PathIcon Data="{StaticResource SemiIconLink}" />
+                    </Border>
+                    <TextBlock Classes="emptyTitle" Text="{x:Static common:ForkText.EmptyConnectionsTitle}" />
+                    <TextBlock Classes="emptyHint" Text="{x:Static common:ForkText.EmptyConnectionsHint}" />
+                </StackPanel>
+            </Border>
+        </Grid>
     </DockPanel>
 </UserControl>

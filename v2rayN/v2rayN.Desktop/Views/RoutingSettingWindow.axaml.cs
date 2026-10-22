@@ -21,6 +21,12 @@ public partial class RoutingSettingWindow : WindowBase<RoutingSettingViewModel>
         this.WhenActivated(disposables =>
         {
             this.OneWayBind(ViewModel, vm => vm.RoutingItems, v => v.lstRoutings.ItemsSource).DisposeWith(disposables);
+            if (ViewModel is { } vmEmpty)
+            {
+                CdsStates.BindEmpty(emptyRoutings, vmEmpty.RoutingItems).DisposeWith(disposables);
+            }
+            this.BindCommand(ViewModel, vm => vm.RoutingAdvancedAddCmd, v => v.btnEmptyRoutingAdd).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.RoutingAdvancedImportRulesCmd, v => v.btnEmptyRoutingImport).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SelectedSource, v => v.lstRoutings.SelectedItem).DisposeWith(disposables);
 
             this.Bind(ViewModel, vm => vm.DomainStrategy, v => v.cmbdomainStrategy.SelectedValue).DisposeWith(disposables);

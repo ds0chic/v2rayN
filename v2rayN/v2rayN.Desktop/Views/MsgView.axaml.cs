@@ -16,6 +16,8 @@ public partial class MsgView : ReactiveUserControl<MsgViewModel>
                 CdsMotion.AttachScrollFade(sv, txtMsg);
             }
         };
+        txtMsg.TextChanged += (_, _) => UpdateEmptyLog();
+        UpdateEmptyLog();
 
         this.WhenActivated(disposables =>
         {
@@ -56,6 +58,11 @@ public partial class MsgView : ReactiveUserControl<MsgViewModel>
                 }
             }, DispatcherPriority.Background);
         }
+    }
+
+    private void UpdateEmptyLog()
+    {
+        emptyLog.IsVisible = txtMsg.Document.TextLength == 0;
     }
 
     public void ClearMsg()

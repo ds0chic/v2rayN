@@ -477,6 +477,37 @@ public static class ForkText
         "MASQUE 類型節點使用的核心（Xray 或 sing-box）。",
         "Core (Xray or sing-box) that runs MASQUE nodes.");
 
+    // Empty, loading and error states
+    public static string EmptyServersTitle => Pick("这里还没有节点", "這裡還沒有節點", "No servers yet");
+    public static string EmptyServersHint => Pick(
+        "复制节点分享链接后从剪贴板导入，或在订阅分组里添加订阅并更新。",
+        "複製節點分享連結後從剪貼簿匯入，或在訂閱分組中新增訂閱並更新。",
+        "Copy a share link and import it from the clipboard, or add a subscription and update it.");
+    public static string EmptyImportClipboard => Pick("从剪贴板导入", "從剪貼簿匯入", "Import from clipboard");
+    public static string EmptyAddSub => Pick("添加订阅", "新增訂閱", "Add subscription");
+    public static string NoMatchTitle => Pick("没有匹配的节点", "沒有符合的節點", "No matching servers");
+    public static string NoMatchHint => Pick("换个关键词试试，或清除过滤条件。", "換個關鍵字試試，或清除篩選條件。", "Try another keyword, or clear the filter.");
+    public static string ClearFilter => Pick("清除过滤", "清除篩選", "Clear filter");
+    public static string EmptyLogTitle => Pick("暂无日志", "暫無日誌", "No logs yet");
+    public static string EmptyLogHint => Pick("连接与核心的运行日志会显示在这里。", "連線與核心的執行日誌會顯示在這裡。", "Connection and core logs will appear here.");
+    public static string EmptyProxiesTitle => Pick("暂无代理组", "暫無代理組", "No proxy groups");
+    public static string EmptyProxiesHint => Pick(
+        "使用 mihomo (Clash) 内核运行时，代理组会显示在这里。",
+        "使用 mihomo (Clash) 核心執行時，代理組會顯示在這裡。",
+        "Proxy groups appear here while the mihomo (Clash) core is running.");
+    public static string EmptyConnectionsTitle => Pick("暂无连接", "暫無連線", "No connections");
+    public static string EmptyConnectionsHint => Pick(
+        "使用 mihomo (Clash) 内核运行时，活动连接会显示在这里。",
+        "使用 mihomo (Clash) 核心執行時，活動連線會顯示在這裡。",
+        "Active connections appear here while the mihomo (Clash) core is running.");
+    public static string EmptySubsTitle => Pick("还没有订阅", "還沒有訂閱", "No subscriptions yet");
+    public static string EmptySubsHint => Pick("添加订阅地址后，即可在主界面更新获取节点。", "新增訂閱地址後，即可在主介面更新取得節點。", "Add a subscription URL, then update it from the main window to get servers.");
+    public static string EmptyRoutingsTitle => Pick("还没有路由规则集", "還沒有路由規則集", "No routing rule sets");
+    public static string EmptyRoutingsHint => Pick("添加一个规则集，或导入内置的高级规则。", "新增一個規則集，或匯入內建的進階規則。", "Add a rule set, or import the built-in advanced rules.");
+    public static string EmptyRulesTitle => Pick("这里还没有规则", "這裡還沒有規則", "No rules yet");
+    public static string EmptyRulesHint => Pick("添加一条规则，或从文件、剪贴板、URL 导入。", "新增一條規則，或從檔案、剪貼簿、URL 匯入。", "Add a rule, or import rules from a file, the clipboard or a URL.");
+    public static string EmptySelectServersHint => Pick("当前分组没有可选的节点，请切换分组或先在主界面添加节点。", "目前分組沒有可選的節點，請切換分組或先在主介面新增節點。", "This group has no servers to pick. Switch groups, or add servers in the main window first.");
+
     private static string Resolve(CultureInfo culture)
     {
         var name = culture.Name;

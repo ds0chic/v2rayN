@@ -35,6 +35,18 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         btnAutofitColumnWidth.Click += BtnAutofitColumnWidth_Click;
         menuShowTrafficColumns.Click += MenuShowTrafficColumns_Click;
         txtServerFilter.KeyDown += TxtServerFilter_KeyDown;
+        btnEmptyImport.Click += async (_, _) =>
+        {
+            if (TopLevel.GetTopLevel(this) is MainWindow main)
+            {
+                await main.AddServerViaClipboardAsync();
+            }
+        };
+        btnEmptyClearFilter.Click += (_, _) =>
+        {
+            txtServerFilter.Text = string.Empty;
+            ViewModel?.RefreshServers();
+        };
         lstProfiles.KeyDown += LstProfiles_KeyDown;
         lstProfiles.SelectionChanged += lstProfiles_SelectionChanged;
         lstProfiles.DoubleTapped += LstProfiles_DoubleTapped;
@@ -66,6 +78,11 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
             this.Bind(ViewModel, vm => vm.SelectedSub, v => v.lstGroup.SelectedItem).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.ServerFilter, v => v.txtServerFilter.Text).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.AddSubCmd, v => v.btnAddSub).DisposeWith(disposables);
+            this.BindCommand(ViewModel, vm => vm.AddSubCmd, v => v.btnEmptyAddSub).DisposeWith(disposables);
+            if (ViewModel is { } vmEmpty)
+            {
+                CdsStates.BindEmpty(emptyProfiles, vmEmpty.ProfileItems, UpdateEmptyProfiles).DisposeWith(disposables);
+            }
             this.BindCommand(ViewModel, vm => vm.EditSubCmd, v => v.btnEditSub).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.EditSubCmd, v => v.menuSubEdit).DisposeWith(disposables);
             this.BindCommand(ViewModel, vm => vm.AddSubCmd, v => v.menuSubAdd).DisposeWith(disposables);
@@ -395,6 +412,18 @@ public partial class ProfilesView : ReactiveUserControl<ProfilesViewModel>
         {
             Logging.SaveLog(_tag, ex);
         }
+    }
+
+    // fork: an empty group offers import actions; an empty result of the filter offers to clear it.
+    private void UpdateEmptyProfiles()
+    {
+        var filtered = !string.IsNullOrWhiteSpace(ViewModel?.ServerFilter);
+        iconEmptyProfiles.Data = this.FindResource(filtered ? "SemiIconSearchStroked" : "SemiIconServerStroked") as Geometry;
+        txtEmptyProfilesTitle.Text = filtered ? ForkText.NoMatchTitle : ForkText.EmptyServersTitle;
+        txtEmptyProfilesHint.Text = filtered ? ForkText.NoMatchHint : ForkText.EmptyServersHint;
+        btnEmptyImport.IsVisible = !filtered;
+        btnEmptyAddSub.IsVisible = !filtered;
+        btnEmptyClearFilter.IsVisible = filtered;
     }
 
     private void TxtServerFilter_KeyDown(object? sender, KeyEventArgs e)

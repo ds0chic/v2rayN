@@ -48,7 +48,7 @@
                     chrome:WindowDecorationProperties.ElementRole="User"
                     Margin="12,0,0,0"
                     VerticalAlignment="Center">
-                    <MenuItem Classes="mainMenu" ToolTip.Tip="{x:Static resx:ResUI.menuSetting}">
+                    <MenuItem x:Name="menuMain" Classes="mainMenu" ToolTip.Tip="{x:Static resx:ResUI.menuSetting}">
                         <MenuItem.Header>
                             <PathIcon Width="16" Height="16" Data="M4 6h16v2H4z M4 11h16v2H4z M4 16h16v2H4z" />
                         </MenuItem.Header>

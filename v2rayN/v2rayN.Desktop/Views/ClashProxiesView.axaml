@@ -2,6 +2,7 @@
     x:Class="v2rayN.Desktop.Views.ClashProxiesView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:v2rayN.Desktop.Common"
     xmlns:conv="using:v2rayN.Desktop.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="clr-namespace:v2rayN.Desktop.DesignData"
@@ -81,6 +82,7 @@
                 Margin="{StaticResource MarginLr8}"
                 HorizontalAlignment="Left" />
         </WrapPanel>
+        <Grid>
         <DockPanel>
             <ListBox
                 x:Name="lstProxyGroups"
@@ -156,5 +158,16 @@
                 </ItemsControl.ItemTemplate>
             </ListBox>
         </DockPanel>
+            <!-- fork: empty state while there are no proxy groups; see CdsStates -->
+            <Border x:Name="emptyProxies" Classes="emptyState">
+                <StackPanel>
+                    <Border Classes="emptyBadge">
+                        <PathIcon Data="{StaticResource SemiIconGlobeStroked}" />
+                    </Border>
+                    <TextBlock Classes="emptyTitle" Text="{x:Static common:ForkText.EmptyProxiesTitle}" />
+                    <TextBlock Classes="emptyHint" Text="{x:Static common:ForkText.EmptyProxiesHint}" />
+                </StackPanel>
+            </Border>
+        </Grid>
     </DockPanel>
 </UserControl>

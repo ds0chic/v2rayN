@@ -96,9 +96,9 @@ public static class CdsMotion
             return;
         }
 
-        // 7-stop non-linear ramp (ease-out) at each active edge
-        double[] pos = { 0, 0.16, 0.34, 0.54, 0.74, 0.9, 1 };
-        double[] alpha = { 0, 0.06, 0.22, 0.5, 0.78, 0.94, 1 };
+        // open-claude-ui 7-stop perceptual mask over the 28 px fade (cds-theme.css, --cds-scroll-fade-size)
+        double[] pos = { 0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.87, 1 };
+        double[] alpha = { 0, 0.05, 0.15, 0.3, 0.5, 0.7, 0.85, 1 };
         var brush = new LinearGradientBrush
         {
             StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),

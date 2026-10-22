@@ -348,6 +348,21 @@
                         Tag="TotalDown" />
                 </DataGrid.Columns>
             </DataGrid>
+            <!-- fork: empty state (no servers in this group, or the filter matches nothing); see CdsStates -->
+            <Border x:Name="emptyProfiles" Margin="0,32,0,0" Classes="emptyState">
+                <StackPanel>
+                    <Border Classes="emptyBadge">
+                        <PathIcon x:Name="iconEmptyProfiles" Data="{StaticResource SemiIconServerStroked}" />
+                    </Border>
+                    <TextBlock x:Name="txtEmptyProfilesTitle" Classes="emptyTitle" Text="{x:Static common:ForkText.EmptyServersTitle}" />
+                    <TextBlock x:Name="txtEmptyProfilesHint" Classes="emptyHint" Text="{x:Static common:ForkText.EmptyServersHint}" />
+                    <StackPanel Classes="emptyActions">
+                        <Button x:Name="btnEmptyImport" Classes="Primary" Content="{x:Static common:ForkText.EmptyImportClipboard}" Theme="{DynamicResource SolidButton}" />
+                        <Button x:Name="btnEmptyAddSub" Content="{x:Static common:ForkText.EmptyAddSub}" />
+                        <Button x:Name="btnEmptyClearFilter" Content="{x:Static common:ForkText.ClearFilter}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
             </Grid>
         </DockPanel>
     </Border>

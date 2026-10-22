@@ -22,6 +22,11 @@ public partial class SubSettingWindow : WindowBase<SubSettingViewModel>
         this.WhenActivated(disposables =>
         {
             this.OneWayBind(ViewModel, vm => vm.SubItems, v => v.lstSubscription.ItemsSource).DisposeWith(disposables);
+            if (ViewModel is { } vmEmpty)
+            {
+                CdsStates.BindEmpty(emptySubs, vmEmpty.SubItems).DisposeWith(disposables);
+            }
+            this.BindCommand(ViewModel, vm => vm.SubAddCmd, v => v.btnEmptySubAdd).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.SelectedSource, v => v.lstSubscription.SelectedItem).DisposeWith(disposables);
 
             this.BindCommand(ViewModel, vm => vm.SubAddCmd, v => v.menuSubAdd).DisposeWith(disposables);

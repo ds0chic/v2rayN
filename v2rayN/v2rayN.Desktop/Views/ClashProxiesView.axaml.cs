@@ -1,3 +1,5 @@
+using v2rayN.Desktop.Common;
+
 namespace v2rayN.Desktop.Views;
 
 public partial class ClashProxiesView : ReactiveUserControl<ClashProxiesViewModel>
@@ -11,6 +13,10 @@ public partial class ClashProxiesView : ReactiveUserControl<ClashProxiesViewMode
         this.WhenActivated(disposables =>
         {
             this.OneWayBind(ViewModel, vm => vm.ProxyGroups, v => v.lstProxyGroups.ItemsSource).DisposeWith(disposables);
+            if (ViewModel is { } vmEmpty)
+            {
+                CdsStates.BindEmpty(emptyProxies, vmEmpty.ProxyGroups).DisposeWith(disposables);
+            }
             this.Bind(ViewModel, vm => vm.SelectedGroup, v => v.lstProxyGroups.SelectedItem).DisposeWith(disposables);
 
             this.OneWayBind(ViewModel, vm => vm.ProxyDetails, v => v.lstProxyDetails.ItemsSource).DisposeWith(disposables);

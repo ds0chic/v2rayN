@@ -23,14 +23,22 @@
                 ClipToBounds="True"
                 Margin="0,0,8,0"
                 VerticalAlignment="Center">
-                <TextBlock
-                    x:Name="txtRunningServerDisplay"
-                    FontWeight="Medium"
-                    TextTrimming="CharacterEllipsis"
-                    ToolTip.Tip="{Binding $self.Text}" />
+                <!-- fork: a clay dot breathes beside the running node (open-claude-ui quiet pulse, 1.9 s) -->
+                <DockPanel>
+                    <Ellipse
+                        Margin="0,0,7,0"
+                        Classes="pulseDot"
+                        DockPanel.Dock="Left"
+                        IsVisible="{Binding #txtRunningServerDisplay.Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                    <TextBlock
+                        x:Name="txtRunningServerDisplay"
+                        FontWeight="Medium"
+                        TextTrimming="CharacterEllipsis"
+                        ToolTip.Tip="{Binding $self.Text}" />
+                </DockPanel>
                 <TextBlock
                     x:Name="txtRunningInfoDisplay"
-                    Margin="0,2,0,0"
+                    Margin="13,2,0,0"
                     Classes="secondary"
                     TextTrimming="CharacterEllipsis"
                     ToolTip.Tip="{Binding $self.Text}" />
