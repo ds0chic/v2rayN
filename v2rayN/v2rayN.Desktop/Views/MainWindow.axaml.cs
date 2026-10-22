@@ -31,6 +31,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
                 _iconLife?.Celebrate();
             }
 
+            _iconLife?.SetMode(type);
             _titleIconType = type;
         }
         catch (Exception ex)

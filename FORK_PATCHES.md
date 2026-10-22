@@ -84,6 +84,7 @@ Opt-in test-only pipe that lets scripts open windows, click controls, read text 
   - `dismiss [title text]`: closes open in-window overlays (DialogHost sessions such as backup or check update).
   - `key <x:Name> <Key>`: raises KeyDown/KeyUp with an Avalonia key name (for example Enter) on a control; deny list applies.
   - `open <x:Name> [close]`: opens or closes a MenuItem submenu, a ComboBox drop-down or the control's ContextMenu.
+  - `iconmode <0-3>`: shows the title-bar icon and motion of a system proxy mode without changing the proxy.
   - Name lookup also searches the visual tree, so controls inside DialogHost overlays are found.
   - `exit`: replies, then `Environment.Exit(0)`. Bypasses `AppExitAsync`, so cores and the tray icon may not be cleaned up; use only on test instances.
 - Tokenizing: whitespace separates tokens; double quotes group words. Backslashes are literal. `set` joins the remaining tokens with single spaces.

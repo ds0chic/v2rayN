@@ -101,6 +101,7 @@ internal static class AiAutomationCommands
             "dismiss" => Dismiss(tokens),
             "key" => KeyPress(tokens),
             "open" => OpenPopup(tokens),
+            "iconmode" => IconMode(tokens),
             _ => Error($"unknown command: {cmd}"),
         };
     }
@@ -459,6 +460,23 @@ internal static class AiAutomationCommands
         }
 
         return Ok(new JsonObject { ["name"] = tokens[1], ["open"] = open });
+    }
+
+    // iconmode <0-3>: shows the title-bar icon (and its motion) of a system proxy mode without changing the proxy.
+    private static JsonObject IconMode(List<string> tokens)
+    {
+        if (tokens.Count != 2 || !int.TryParse(tokens[1], out var mode) || !Enum.IsDefined(typeof(ESysProxyType), mode))
+        {
+            return Error("usage: iconmode <0 clear | 1 set | 2 unchanged | 3 pac>");
+        }
+
+        if (Lifetime()?.MainWindow is not v2rayN.Desktop.Views.MainWindow main)
+        {
+            return Error("main window not found");
+        }
+
+        main.SetTitleIcon((ESysProxyType)mode);
+        return Ok(new JsonObject { ["mode"] = ((ESysProxyType)mode).ToString() });
     }
 
     private static JsonObject Text(List<string> tokens)
