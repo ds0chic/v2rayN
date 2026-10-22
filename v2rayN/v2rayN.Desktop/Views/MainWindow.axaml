@@ -141,12 +141,11 @@
                     IsHitTestVisible="False"
                     Orientation="Horizontal"
                     Spacing="10">
-                    <!-- fork: the app icon alone (no title text); it hops now and then, see Image.appIcon in ForkTheme.axaml -->
+                    <!-- fork: the app icon alone (no title text); AppIconLife makes it breathe, hop, shake and lean -->
                     <Image
                         x:Name="imgAppIcon"
                         Width="30"
                         Height="30"
-                        Classes="appIcon"
                         VerticalAlignment="Center" />
                 </StackPanel>
                 <Button

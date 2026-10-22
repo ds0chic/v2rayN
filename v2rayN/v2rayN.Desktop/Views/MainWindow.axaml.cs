@@ -17,6 +17,8 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
     private CheckUpdateView? _checkUpdateView;
     private BackupAndRestoreView? _backupAndRestoreView;
     private bool _blCloseByUser = false;
+    private AppIconLife? _iconLife;
+    private ESysProxyType? _titleIconType;
 
     /// <summary>Shows the current proxy state icon beside the menu in the toolbar.</summary>
     public void SetTitleIcon(ESysProxyType type)
@@ -24,6 +26,12 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         try
         {
             imgAppIcon.Source = AvaUtils.GetAppIconBitmap(type);
+            if (_titleIconType is { } previous && previous != type)
+            {
+                _iconLife?.Celebrate();
+            }
+
+            _titleIconType = type;
         }
         catch (Exception ex)
         {
@@ -34,6 +42,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
     public MainWindow()
     {
         InitializeComponent();
+        _iconLife = AppIconLife.Attach(imgAppIcon);
 
         // The unified toolbar replaces the native title bar on Windows only; macOS/Linux keep their native frame.
         ExtendClientAreaToDecorationsHint = Utils.IsWindows();
