@@ -353,6 +353,9 @@ internal static class AiAutomationCommands
             case TextBox textBox:
                 textBox.Text = value;
                 break;
+            case AvaloniaEdit.TextEditor editor:
+                editor.Text = value;
+                break;
             case ToggleButton toggle:
                 if (!TryParseBool(value, out var checkedValue))
                 {
@@ -871,6 +874,9 @@ internal static class AiAutomationCommands
         var masked = IsMaskedControl(control);
         switch (control)
         {
+            case AvaloniaEdit.TextEditor editor:
+                node["text"] = editor.Text ?? string.Empty;
+                break;
             case TextBox textBox:
                 node["text"] = masked ? "***" : textBox.Text ?? string.Empty;
                 break;
@@ -1055,6 +1061,16 @@ internal static class AiAutomationCommands
 
             // In-window overlays (DialogHost sessions) are reached only through the visual tree.
             found = root.GetVisualDescendants().OfType<Control>().FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+            if (found is not null)
+            {
+                return found;
+            }
+
+            // Items of context menus that are not open (the first visible owner wins).
+            found = root.GetVisualDescendants().OfType<Control>()
+                .Where(c => c.ContextMenu is not null && c.IsEffectivelyVisible)
+                .SelectMany(c => c.ContextMenu!.Items.OfType<Control>().SelectMany(i => i.GetLogicalDescendants().OfType<Control>().Prepend(i)))
+                .FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
             if (found is not null)
             {
                 return found;

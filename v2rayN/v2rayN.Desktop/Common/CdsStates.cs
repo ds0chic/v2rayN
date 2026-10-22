@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Specialized;
+using ReactiveUI.Primitives.Disposables;
 
 namespace v2rayN.Desktop.Common;
 
@@ -57,21 +58,10 @@ public static class CdsStates
         collection.CollectionChanged += OnChanged;
         Update();
 
-        return new Unsubscriber(() =>
+        return new ActionDisposable(() =>
         {
             timer.Stop();
             collection.CollectionChanged -= OnChanged;
         });
-    }
-
-    private sealed class Unsubscriber(Action dispose) : IDisposable
-    {
-        private Action? _dispose = dispose;
-
-        public void Dispose()
-        {
-            _dispose?.Invoke();
-            _dispose = null;
-        }
     }
 }

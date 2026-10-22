@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Xml;
 using AvaloniaEdit.Highlighting;
 using AvaloniaEdit.Highlighting.Xshd;
+using v2rayN.Desktop.Common;
 
 namespace v2rayN.Desktop.Views;
 
@@ -85,14 +86,29 @@ public partial class JsonEditor : UserControl
 
     private void FormatJson_Click(object? sender, RoutedEventArgs e)
     {
+        // fork: only replace the text when it parses; a parse failure used to come back as null and wipe the editor
+        // (JsonUtils.ParseJson returns null on error and Serialize(null) returns ""), losing half-written input.
+        var text = Editor.Text;
+        if (string.IsNullOrWhiteSpace(text) || text.Trim() == "null")
+        {
+            return;
+        }
+
         try
         {
-            var obj = JsonUtils.ParseJson(Editor.Text);
-            Editor.Text = JsonUtils.Serialize(obj, SIndentedOptions);
+            var obj = JsonUtils.ParseJson(text);
+            var formatted = obj is null ? string.Empty : JsonUtils.Serialize(obj, SIndentedOptions);
+            if (formatted.IsNullOrEmpty())
+            {
+                NoticeManager.Instance.Enqueue(ForkText.JsonFormatFailed);
+                return;
+            }
+
+            Editor.Text = formatted;
         }
         catch
         {
-            // ignored
+            NoticeManager.Instance.Enqueue(ForkText.JsonFormatFailed);
         }
     }
 

@@ -15,7 +15,7 @@
         ShowLineNumbers="True">
         <ae:TextEditor.ContextMenu>
             <ContextMenu>
-                <MenuItem Click="FormatJson_Click" Header="{x:Static resx:ResUI.menuEditFormat}" />
+                <MenuItem x:Name="menuFormatJson" Click="FormatJson_Click" Header="{x:Static resx:ResUI.menuEditFormat}" />
                 <Separator />
                 <MenuItem Click="Copy_Click" Header="{x:Static resx:ResUI.menuEditCopy}" />
                 <MenuItem Click="Paste_Click" Header="{x:Static resx:ResUI.menuEditPaste}" />

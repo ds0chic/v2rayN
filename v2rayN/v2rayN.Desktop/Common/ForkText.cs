@@ -487,6 +487,7 @@ public static class ForkText
     public static string EmptyAddSub => Pick("添加订阅", "新增訂閱", "Add subscription");
     public static string NoMatchTitle => Pick("没有匹配的节点", "沒有符合的節點", "No matching servers");
     public static string NoMatchHint => Pick("换个关键词试试，或清除过滤条件。", "換個關鍵字試試，或清除篩選條件。", "Try another keyword, or clear the filter.");
+    public static string JsonFormatFailed => Pick("JSON 格式有误，内容未改动", "JSON 格式有誤，內容未變更", "Invalid JSON; the text was left unchanged");
     public static string ClearFilter => Pick("清除过滤", "清除篩選", "Clear filter");
     public static string EmptyLogTitle => Pick("暂无日志", "暫無日誌", "No logs yet");
     public static string EmptyLogHint => Pick("连接与核心的运行日志会显示在这里。", "連線與核心的執行日誌會顯示在這裡。", "Connection and core logs will appear here.");
