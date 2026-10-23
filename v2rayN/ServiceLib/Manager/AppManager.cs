@@ -12,6 +12,9 @@ public sealed class AppManager
     public Config Config => _config;
     public IWindowDialog WindowDialog { get; set; } = null!;
 
+    /// <summary>Set once <see cref="AppExitAsync"/> has started, so a later shutdown path does not clean up twice.</summary>
+    public bool IsExiting { get; private set; }
+
     public int StatePort
     {
         get
@@ -121,23 +124,29 @@ public sealed class AppManager
 
     public async Task AppExitAsync(bool needShutdown)
     {
+        IsExiting = true;
         try
         {
-            Logging.SaveLog("AppExitAsync Begin");
+            Logging.SaveLog($"AppExitAsync Begin (needShutdown={needShutdown}){Environment.NewLine}{Environment.StackTrace}");
 
             await SysProxyHandler.UpdateSysProxy(_config, true);
+            Logging.SaveLog("[diag] AppExitAsync: sys proxy reset");
             AppEvents.AppExitRequested.Publish();
             await Task.Delay(50); //Wait for AppExitRequested to be processed
 
             await ConfigHandler.SaveConfig(_config);
             await ProfileExManager.Instance.SaveTo();
             await StatisticsManager.Instance.SaveTo();
+            Logging.SaveLog("[diag] AppExitAsync: saved, stopping core");
             await CoreManager.Instance.CoreStop();
             StatisticsManager.Instance.Close();
 
             Logging.SaveLog("AppExitAsync End");
         }
-        catch { }
+        catch (Exception ex)
+        {
+            Logging.SaveLog("AppExitAsync", ex);
+        }
         finally
         {
             if (needShutdown)
@@ -149,6 +158,7 @@ public sealed class AppManager
 
     public void Shutdown(bool byUser)
     {
+        Logging.SaveLog($"[diag] Shutdown requested (byUser={byUser}){Environment.NewLine}{Environment.StackTrace}");
         AppEvents.ShutdownRequested.Publish(byUser);
     }
 

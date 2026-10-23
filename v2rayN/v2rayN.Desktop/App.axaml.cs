@@ -90,6 +90,11 @@ public partial class App : Application
             var mainWindow = (MainWindow)viewLocator.Build(mainWindowViewModel);
             mainWindow.ViewModel = mainWindowViewModel;
             desktop.MainWindow = mainWindow;
+            // fork diag: who ends the app (TUN crash hunt)
+            desktop.ShutdownRequested += (_, e) => Logging.SaveLog($"[diag] lifetime ShutdownRequested{Environment.NewLine}{Environment.StackTrace}");
+            desktop.Exit += (_, e) => Logging.SaveLog($"[diag] lifetime Exit, code={e.ApplicationExitCode}");
+            AppDomain.CurrentDomain.ProcessExit += (_, _) => Logging.SaveLog("[diag] ProcessExit");
+            Dispatcher.UIThread.UnhandledException += (_, e) => Logging.SaveLog("[diag] UIThread.UnhandledException", e.Exception);
             StartupTiming.Mark("MainWindowCreated");
             Dispatcher.UIThread.Post(StartupTiming.Flush, DispatcherPriority.ApplicationIdle);
             AiAutomation.Start();

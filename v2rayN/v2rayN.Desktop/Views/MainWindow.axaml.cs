@@ -234,14 +234,15 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         }
     }
 
-    protected override async void OnClosing(WindowClosingEventArgs e)
+    protected override void OnClosing(WindowClosingEventArgs e)
     {
         if (_blCloseByUser)
         {
             return;
         }
 
-        Logging.SaveLog("OnClosing -> " + e.CloseReason.ToString());
+        Logging.SaveLog("OnClosing -> " + e.CloseReason.ToString()
+            + (e.CloseReason is WindowCloseReason.ApplicationShutdown or WindowCloseReason.OSShutdown ? Environment.NewLine + Environment.StackTrace : ""));
 
         switch (e.CloseReason)
         {
@@ -251,11 +252,28 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
                 break;
 
             case WindowCloseReason.ApplicationShutdown or WindowCloseReason.OSShutdown:
-                await AppManager.Instance.AppExitAsync(false);
+                if (!AppManager.Instance.IsExiting)
+                {
+                    RunExitCleanupBlocking();
+                }
                 break;
         }
 
         base.OnClosing(e);
+    }
+
+    /// <summary>
+    /// fork: the lifetime shuts the dispatcher down right after the windows close, so an awaited cleanup here never finished
+    /// (system proxy left set, TUN adapter left behind). Pump a nested loop until it is done, capped at 8 s.
+    /// </summary>
+    private static void RunExitCleanupBlocking()
+    {
+        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(8));
+        _ = AppManager.Instance.AppExitAsync(false).ContinueWith(_ =>
+        {
+            try { cts.Cancel(); } catch { }
+        });
+        Dispatcher.UIThread.MainLoop(cts.Token);
     }
 
     private async void MainWindow_KeyDown(object? sender, KeyEventArgs e)
@@ -391,6 +409,7 @@ public partial class MainWindow : WindowBase<MainWindowViewModel>
         {
             _blCloseByUser = b;
         }
+        Logging.SaveLog($"[diag] MainWindow.Shutdown(byUser={obj})");
         StorageUI();
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

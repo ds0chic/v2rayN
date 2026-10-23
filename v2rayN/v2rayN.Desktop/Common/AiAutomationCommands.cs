@@ -102,6 +102,7 @@ internal static class AiAutomationCommands
             "key" => KeyPress(tokens),
             "open" => OpenPopup(tokens),
             "iconmode" => IconMode(tokens),
+            "quit" => Quit(),
             _ => Error($"unknown command: {cmd}"),
         };
     }
@@ -567,6 +568,13 @@ internal static class AiAutomationCommands
         window.Width = width;
         window.Height = height;
         return Ok(new JsonObject { ["width"] = width, ["height"] = height, ["minWidth"] = window.MinWidth, ["minHeight"] = window.MinHeight });
+    }
+
+    // quit: ends the app through the lifetime directly (no prior AppExitAsync), like an outside shutdown request.
+    private static JsonObject Quit()
+    {
+        Dispatcher.UIThread.Post(() => (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.Shutdown());
+        return Ok();
     }
 
     // dismiss [window title text]: closes open in-window overlays (DialogHost sessions such as backup or check update).

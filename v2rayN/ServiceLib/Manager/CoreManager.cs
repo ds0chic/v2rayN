@@ -87,18 +87,22 @@ public class CoreManager
         await Task.Delay(100);
 
         var tunRequested = mainContext?.IsTunEnabled == true || preContext?.IsTunEnabled == true;
+        Logging.SaveLog($"[diag] LoadCore: tun={tunRequested}, core={mainContext?.RunCoreType}, pre={preContext?.RunCoreType}");
         if (Utils.IsWindows() && tunRequested)
         {
             await Task.Delay(100);
             await WindowsUtils.RemoveTunDevice();
+            Logging.SaveLog("[diag] LoadCore: old TUN device removed");
         }
 
         // Set before starting so that CoreStop cleans up even if a start fails halfway
         _tunStarted = tunRequested;
 
         await CoreStart(mainContext);
+        Logging.SaveLog($"[diag] LoadCore: core started, pid={_processService?.Id}");
         if (!await WaitForProxyPort(preContext))
         {
+            Logging.SaveLog("[diag] LoadCore: proxy port not ready");
             // The proxy core is running but the TUN front end was not started against a dead upstream
             AppManager.Instance.RunningCoreType = mainContext.RunCoreType;
             await UpdateFunc(true, ResUI.MsgTunProxyPortNotReady);
@@ -107,6 +111,7 @@ public class CoreManager
         await CoreStartPreService(preContext);
 
         AppManager.Instance.RunningCoreType = preContext?.RunCoreType ?? mainContext.RunCoreType;
+        Logging.SaveLog($"[diag] LoadCore: done, pre pid={_processPreService?.Id}");
 
         if (_processService != null)
         {
@@ -159,6 +164,7 @@ public class CoreManager
     {
         try
         {
+            Logging.SaveLog($"[diag] CoreStop: main={_processService?.Id}, pre={_processPreService?.Id}, tun={_tunStarted}");
             if (_linuxSudo)
             {
                 await CoreAdminManager.Instance.KillProcessAsLinuxSudo();
@@ -185,6 +191,7 @@ public class CoreManager
                 await WindowsUtils.RemoveTunDevice();
                 _tunStarted = false;
             }
+            Logging.SaveLog("[diag] CoreStop: done");
         }
         catch (Exception ex)
         {

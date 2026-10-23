@@ -433,6 +433,7 @@ public partial class StatusBarViewModel : MyReactiveObject
         }
 
         _config.TunModeItem.EnableTun = EnableTun;
+        Logging.SaveLog($"[diag] DoEnableTun -> {EnableTun}, admin={Utils.IsAdministrator()}");
 
         if (EnableTun && AllowEnableTun() == false)
         {
@@ -443,6 +444,7 @@ public partial class StatusBarViewModel : MyReactiveObject
                 _config.TunModeItem.EnableTun = false;
                 _config.TunModeItem.LastEnableTun = true;
                 await ConfigHandler.SaveConfig(_config);
+                Logging.SaveLog("[diag] DoEnableTun: not admin, rebooting as admin");
                 if (!await AppManager.Instance.RebootAsAdmin())
                 {
                     // Elevation was declined: keep running and put the toggle back
@@ -467,6 +469,7 @@ public partial class StatusBarViewModel : MyReactiveObject
 
         _config.TunModeItem.LastEnableTun = EnableTun;
         await ConfigHandler.SaveConfig(_config);
+        Logging.SaveLog("[diag] DoEnableTun: reload requested");
         ReloadRequested.Publish();
     }
 

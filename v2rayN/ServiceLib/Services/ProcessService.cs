@@ -133,6 +133,13 @@ public class ProcessService : IDisposable
         {
             try
             {
+                Logging.SaveLog($"[diag] process exited: {Path.GetFileName(_process.StartInfo.FileName)} pid={_process.Id} code={_process.ExitCode}");
+            }
+            catch
+            {
+            }
+            try
+            {
                 _process.OutputDataReceived -= dataHandler;
                 _process.ErrorDataReceived -= dataHandler;
             }
